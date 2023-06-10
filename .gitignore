@@ -3,13 +3,6 @@
 #======================================
 
 # Exclude everything from these folders. Keep the folders.
-dist/.cache/*
-dist/.cache/.gitkeep
-dist/.log/*
-dist/.log/.gitkeep
-dist/vendor/*
-dist/vendor/.gitkeep
-
 
 #============================
 # LINUX - FILES TO BE IGNORED
