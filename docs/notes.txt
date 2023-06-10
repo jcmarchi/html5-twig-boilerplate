@@ -13,7 +13,7 @@ BOILERPLATE
 AUTORENDER
 
 
-Constant Overriders
+Constant Overrides
 ----------------------
 $APP
 $ROOT
