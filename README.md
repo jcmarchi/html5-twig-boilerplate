@@ -1,9 +1,8 @@
 # [HTML5 Twig Boilerplate](#)
 
-[![Build status](https://github.com/h5bp/html5-boilerplate/workflows/Build%20status/badge.svg)](https://github.com/jcmarchi/html5-twig-boilerplate/actions?query=workflow%3A%22Build+status%22+branch%3Amain)
-[![LICENSE](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/jcmarchi/html5-twig-boilerplate/blob/main/LICENSE)
-[![github-stars-image](https://img.shields.io/github/stars/h5bp/html5-boilerplate.svg?label=github%20stars)](https://github.com/jcmarchi/html5-twig-boilerplate)
-[![NPM Downloads](https://img.shields.io/npm/dt/html5-boilerplate.svg)](https://github.com/jcmarchi/html5-twig-boilerplate)
+[![LICENSE](https://img.shields.io/badge/license-MIT-lightblue.svg)](https://github.com/jcmarchi/html5-twig-boilerplate/blob/main/LICENSE)
+[![github-stars-image](https://img.shields.io/github/stars/jcmarchi/html5-twig-boilerplate.svg?label=GitHub%20Stars)](https://github.com/jcmarchi/html5-twig-boilerplate)
+[![NPM Downloads](https://img.shields.io/npm/dt/html5-twig-boilerplate.svg)](https://github.com/jcmarchi/html5-twig-boilerplate)
 
 # html5-twig-boilerplate
 A Smart and professional **HTML5 Boilerplate** built for **Twig** and **PHP**, but that can also be used for non-Twig projects. Compliant with most modern HTML5 requirements and PHP 7.4+/8+.
