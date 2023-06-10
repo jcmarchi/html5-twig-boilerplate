@@ -1,0 +1,23 @@
+
+    <!-- 
+        Bootstrap 4.3.1 - Optional JavaScript
+        This is to be placed immediately before the </body> tag (can also be in the top of the <head> tag).    
+  
+        IMPORTANT:
+        Bootstrap implementation requires jQuery to be loaded first, then Popper, then Bootstrap (in this order).
+        If jQuery is not set to be loaded in the configuration file, it will be forcefully loaded here.
+    -->  
+
+{% if (not config.jquery.install) %} {{ include('extras/jquery.twig') }} {% endif %}
+    
+    <!-- popper.js -->
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/{{config.bootstrap.popper_version}}/umd/popper.min.js" 
+        integrity="{{config.bootstrap.popper_integrity}}"
+        crossorigin="anonymous"></script>
+
+    <!-- bootstrap.js -->
+    <script 
+        src="https://stackpath.bootstrapcdn.com/bootstrap/{{config.bootstrap.version}}/js/bootstrap.min.js" 
+        integrity="{{config.bootstrap.integrity}}"
+        crossorigin="anonymous"></script>

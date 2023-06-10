@@ -1,0 +1,37 @@
+Constants
+----------------
+DS
+APP
+ROOT
+DEBUG
+CONFIG
+AUTORENDER
+COMPOSER
+TWIG
+MAINTENANCE
+BOILERPLATE
+AUTORENDER
+
+
+Constant Overriders
+----------------------
+$APP
+$ROOT
+$DEBUG
+$CONFIG
+$AUTORENDER
+
+
+Quick Vars
+--------------
+$_set
+$_app
+
+
+
+Errors
+--------------
+Error 4000: Impossible condition.
+Error 4001: COMPOSER not initialized.
+Error 4002: BOILERPLATE not initialized.
+Error 4004: When everything fails, FALLBACK pages are rendered.

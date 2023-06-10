@@ -1,0 +1,42 @@
+{
+    "sitename": "The Name of Your Site",
+    "product": {
+        "name": "The Name of Your Product",
+        "domain": "domain.com",
+        "version": "1.0.00a",
+        "release": "Beta",
+        "description": "www.site.com",
+        "license": "The license of the product.",
+        "notes": "Any notes relevant to the product.",
+        "copyright": "Copyright Notice",
+        "publisher": "www.website.com",
+        "email": "contact@email.com",
+        "devteam": {
+            "pmo": "Project Manager",
+            "dev": [
+                {
+                    "name": "Developer's Name",
+                    "Position": "Lead Developer",
+                    "email": "contact@developer.com"
+                }
+            ]
+        }
+    },
+
+    "disclaimer": [
+        ":: LEGAL DISCLAIMER ::\n",
+        ":: The entire content of this website is property of the 'COmpany Name''.\n",
+        "::\n",
+        ":: No portion of this product may be copied or reproduced in any form without permission from the publisher,\n",
+        ":: exception to any existing open source products as per their individual regulations, policies and licenses,\n",
+        ":: and/or whereas permitting is granted by U.S. Copyright Laws.\n",
+        "\n",
+        "  Designed, Developed and Published by: 'Project Owner's Name'\n"
+    ],
+    "CopyrightScript": [
+        "     <!-- Console Annotation: 'All your base are belong to us!' (https://en.wikipedia.org/wiki/All_your_base_are_belong_to_us) -->\n",
+        "     <script>\n",
+        "        if (document.childNodes[1].nodeType === 8) console.warn(document.childNodes[1].nodeValue);\n",
+        "     </script>\n"
+    ]
+}

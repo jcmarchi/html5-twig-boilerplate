@@ -1,0 +1,39 @@
+{% extends "base/main.twig" %}
+
+{% block title %}Welcome to Your Website{% endblock %}
+
+{% block styles %}
+{{ parent() }}
+    <!--  Welcome Page Custom Styles -->
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+    <!-- Welcome Page Custom JS -->
+{% endblock %}
+
+{% block bodytop %}
+    <!-- Top Content goes here. It will be added to the main.twig block named "bodybottom" -->
+{{ parent() }}
+
+<p><br /></p>
+
+{% endblock %}
+
+{% block bodycontent %}
+    <div class="container" id="bodycontent">
+        <h1>Welcome!</h1>
+        <h3>This is a HTML page rendered via Twig Templating System. </h3>
+        <p>You are seeing this message because <b>Twig</b> and <b>Composer</b> are properly set and enabled in the <i>configuration file</i>.</p>
+        <p>You can find the Twig file for this page (<b>welcome.twig</b>) in the <b>"template/boilerplate/"</b> folder of your site.<br>
+           This Twig file is loaded and renderd by the <b>welcome.php</b> file located in the <b>"app/pages/common/"</b> folder.</p>
+        <p>You can modify this page as needed and use it as the official Welcome Page for your site, but you can also adjust your <i>configuration file</i> to point your Welcome Page to a different file, if needed.</p>
+        <p>For more details and suggestions about coding practices and how to take advantage of this Boilerplate structure please refer to the documentation.</p>
+    </div>
+{% endblock %}
+
+{% block bodybottom %}
+    <!-- Bottom Content goes here. It will be added to the main.twig block named "bodybottom" -->
+{{ parent() }}
+{% endblock %}
+

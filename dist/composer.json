@@ -1,0 +1,11 @@
+{
+    "config": {
+        "vendor-dir": "vendor",
+        "optimize-autoloader": true
+    },
+
+    "require": {
+        "twig/twig": "^3.0"
+    }
+
+}

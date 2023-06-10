@@ -1,0 +1,15 @@
+{% extends "base/main.twig" %}
+
+{% block title %}Error Page{% endblock %}
+
+{% block bodycontent %}
+    <p><br/></p>
+    
+    <div class="container" id="bodycontent">
+      <h2>Oh, no... Looks like you've tripped on something!</h2>
+      <h3>Status Code ({{ErrorCode}})</h3>
+      <p>
+          But, don't worry! You didn't break anything... It is just a simple error page.
+      </p>
+    </div>
+{% endblock %}

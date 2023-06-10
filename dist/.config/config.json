@@ -1,0 +1,40 @@
+{
+    "environment": "DEV",
+    "maintenance": false,
+    "composer": true,
+    "static": {
+        "maintenance": "maintenance.html",
+        "welcome": "welcome.html",
+        "error": "error.html"
+    },
+    "twig": {
+        "install": true,
+        "fullpath": false,
+        "template": "boilerplate",
+        "maintenance": "maintenance.php",
+        "welcome": "welcome.php",
+        "error": "error.php"
+    },
+    "debug": {
+        "enabled": true,
+        "output": "log"
+    },
+    "cache": {
+        "enabled": true,
+        "folder": ".cache"
+    },
+    "log": {
+        "enabled": true,
+        "folder": ".log"
+    },
+    "timezone": "America/Detroit",
+    "country": "US",
+    "language": "en",
+    "charset": "utf-8",
+    "extensions": {
+        "allowed": ["", "php"],
+        "blocked": [ ],
+        "default": "php",
+        "empty": true
+    }
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% set TheEnvironment = 'PRODUCTION' %}
+
+{% if config.environment == TheEnvironment %}
+<!--
+{{ config.disclaimer|join|raw }}
+-->
+{% endif %}
+
+{% if config.quirksmode.conditionals == true %}
+<!-- Quirks Mode for IE browsers is active. See more at https://www.quirksmode.org/compatibility.html -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{config.language}}-{{config.country}}"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="{{config.language}}-{{config.country}}"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="{{config.language}}-{{config.country}}"> <![endif]-->
+<!--[if gt IE 8]> <html class="no-js" lang="{{config.language}}-{{config.country}}">  <![endif]-->
+<!--[if !IE]> -->
+{% endif %}
+<html
+    class="no-js"
+    lang="{{config.language}}-{{config.country}}"
+    itemscope = "1"
+    itemref="MOODFIRED Boilerplate Version 1.28a - By: Julio Marchi">
+{% if config.quirksmode.conditionals == true %}
+<!-- <![endif]-->
+{% endif %}
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+
+{{ include('custom/favicon.twig') }}
+
+{% if config.environment == TheEnvironment %} {{ config.CopyrightScript|join|raw }} {% endif %}
+
+    <!-- META Tags -->
+{% for index, variable in config.meta %}
+{%  if variable is iterable %}
+{%    for key, value in variable %}
+{%      if value is iterable %}
+{%        for group, content in value %}
+{%          if (not content == "" ) %}
+    <meta property="{{ key }}:{{ group }}" content="{{ content|e }}"/>
+{%          endif %}
+{%        endfor %}
+{%      else %}
+{%        if (not value == "" ) %}
+    <meta {{index}}="{{ key }}" content="{{ value|e }}"/>
+{%        endif %}
+{%      endif %}
+{%    endfor %}
+{%  else %}
+{%    if (not variable == "" ) %}
+    <meta {{index}}="{{variable}}"/>
+{%    endif %}
+{%  endif %}
+{% endfor %}
+
+    <!-- Microdata Reference - http://schema.org -->
+    <link rel="home" href="//{{config.product.domain}}/" title="Home" />
+    <link rel="canonical" href="{{config.product.description}}/" />
+    <link rel="publisher" href="{{config.product.publisher}}" />
+    <link rel="author" href="{{url}}/humans.txt" type="text/plain" />
+
+    <!-- Directives that simulate HTTP response header - https://www.keycdn.com/support/http-equiv -->
+{% for key, value in config.http_equiv %}
+    <meta http-equiv="{{ key }}" content="{{ value|e }}"/>
+{% endfor %}
+
+<!-- START: STYLES -->
+{% block styles %}
+
+{% if config.bootstrap.install %} {{ include('extras/bootstrap-css.twig') }} {% endif %}
+{% if (not config.bootstrap.install) and config.normalize.install %}
+
+    <!-- CSS Normalizer -->
+    <link href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css" />
+{% endif %}
+
+    <!-- Include STYLE files -->
+    {{ include('custom/css.twig') }}
+
+{% endblock %}
+<!-- END: STYLES -->
+
+<!-- START: SCRIPTS -->
+{% block scripts %}
+{% if config.jquery.install == true %} {{ include('extras/jquery.twig') }} {% endif %}
+{% if config.bootstrap.install == true %} {{ include('extras/bootstrap-js.twig') }} {% endif %}
+
+    <!-- jQuery Additional Features & Plugins -->
+    <script src="{{js}}/jquery.wait.js"></script>
+
+    <!-- Include JAVASCRIPT files -->
+    {{ include('custom/js.twig') }}
+
+{% endblock %}
+<!-- END: SCRIPTS -->
+
+<!-- START: FONTS -->
+{% block fonts %}
+    <!-- Web Fonts
+         Use any linkks from https://fonts.google.com/, https://thomaspark.co/projects/fontcdn/ or https://edgewebfonts.adobe.com/fonts#
+         For additional Web Font power: https://github.com/typekit/webfontloader#adobe-edge-web-fonts
+    -->
+{% for font in config.webfonts %}
+    <link rel="stylesheet" href="{{ font }}" />
+{% endfor %}
+{% endblock %}
+<!-- END: FONTS -->
+
+{% if config.quirksmode.mediaqueries == true %}
+    <!-- HTML5 shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" type="text/javascript"></script>
+      <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js" type="text/javascript"></script>
+    <![endif]-->
+{% endif %}
+</head>
+
+
+<body>
+{% if config.quirksmode.anscient == true %}
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Please, upgrade to a different browser</a>.</p><![endif]-->
+{% endif %}
+
+{{ include('base/main-header.twig') }}
+
+
+<!-- BODY OF THE PAGE -->
+
+    <div id="bodytop">
+        {% block bodytop %}{% endblock %}
+    </div>
+
+    {% block bodycontent %}{% endblock %}
+
+    <div id="bodybottom">
+        {% block bodybottom %}{% endblock %}
+    </div>
+
+    <div id="back-to-top"></div>
+
+
+{{ include('base/main-footer.twig') }}
+
+
+{% if config.analytics.install == true %} {{ include('extras/google-analytics.twig') }} {% endif %}
+
+</body>
+
+</html>
+
+{% if config.environment == TheEnvironment %}
+<!--
+{{ config.disclaimer|join|raw }}
+-->
+{% endif %}

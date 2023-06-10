@@ -1,0 +1,26 @@
+# humanstxt.org
+# The humans responsible & technology colophon
+
+# TEAM:
+	Project Leader: Julio Marchi
+	Contact: contact [at] juliomarchi.com
+	Twitter: @MrMarchi
+	From: Royal Oak, Michigan, USA
+
+	Web and UI developer: Julio Marchi
+	From: Royal Oak, Michigan, USA
+
+# THANKS TO:
+	Supporter: Eliazer Kosciuk
+	Location: Brazil
+
+# SITE PROJECT:
+	Created: 2021
+	Last update: 2023
+	Doctype: HTML5
+
+# BASE TECHNOLOGY:
+	IDE: Visual Studio Code
+	Compliant: HTML5, CSS3, Vanilla JS and jQuery
+    Using: Apache Server Configs, Composer, Twig, jQuery, Bootstrap
+    inspired by: https://github.com/h5bp/html5-boilerplate

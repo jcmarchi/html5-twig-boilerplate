@@ -1,0 +1,232 @@
+######################################################################
+## GENERAL HTACCESS FILE - COMPATIBLE WITH APACHE 2.4+
+## -------------------------------------------------------------------
+## This file should be compatible with LightHTTP and most Apache
+## derivatives. However, it may not work out of the box for suEXEC
+## installations. Check your suEXEC configuration for correct
+## permissions and rules. If using NGINX, try converting this file
+## using the follow service: http://winginx.com/en/htaccess
+
+#######################################
+## 1. GENERAL APACHE CONFIGURATION
+#######################################
+
+Options +FollowSymlinks
+Options -MultiViews
+Options All -Indexes
+IndexIgnore *
+ServerSignature Off
+LimitRequestBody 10240000
+
+#######################################
+## 2. PRIMARY MOD_REWRITE SETTINGS
+#######################################
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    SetEnvIf Request_URI "\.php$" base_folder /bp4/
+    SetEnv base_folder /bp4/
+
+    # Enable HTTPS by default
+    # RewriteCond %{HTTPS} !on
+    # RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    ########################################
+    ## Add your custom rewrite rules here:
+    ## -------------------------------------
+
+    ## -------------------------------------
+    ## End of your custom rewrite rules.
+    ########################################
+
+
+    # Specific Redirect Rules:
+    # ------------------------
+    # You can protect individual folder and/or files from being directly
+    # accessed via URL using those rules. You may want to disable it
+    # if you decide to use "Enrouter Enforcer" (see below).
+    RewriteRule ^pages/.+$ index.php [L,NE,QSA]
+    # RewriteRule ^pages/boilerplate/.+$ index.php [L,NE,QSA]
+    RewriteRule ^pages/(common|private|boilerplate)/.+$ index.php [L,NE,QSA]
+    # RewriteRule ^pages/common/.+$ index.php [L,NE,QSA]
+    RewriteRule ^templates/.+$ index.php [L,NE,QSA]
+    RewriteRule ^libraries/.+$ index.php [L,NE,QSA]
+    RewriteRule ^functions/.+$ index.php [L,NE,QSA]
+    RewriteRule ^\.userdata/.+$ index.php [L,NE,QSA]
+    RewriteRule ^\.config/.+$ index.php [L,NE,QSA]
+    RewriteRule ^\_cache/.+$ index.php [L,NE,QSA]
+    RewriteRule ^\_log/.+$ index.php [L,NE,QSA]
+
+    # Conditional Redirect Rules:
+    # ---------------------------
+    # Will check if file or folder exist (excludding listed exceptions).
+    # If all checks fail, the RewriteRule(s) after it will be triggered.
+    # Disable these rules to use "Enrouter Enforcer" (see below).
+    RewriteCond $1 !^(index\.php|assets|robots\.txt|favicon\.ico)
+    RewriteCond $1 !(\.png|\.jpg|\.gif|\.jpeg)$
+    RewriteCond $1 !(\.pdf|\.zip)$
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # RewriteCond %{REQUEST_FILENAME} !-f
+    # RewriteCond %{REQUEST_FILENAME} !-d
+
+    # To redirect (Enrouter Enforcer) despite of conditions, disable
+    # the above "Conditional" and "Specific" Redirect Rules and
+    # enables only the line below. It will force ALL requests
+    # to be sent to the index.php on the root of your site.
+    RewriteRule ^.+$ %{base_folder} [L,NE,QSA]
+
+</IfModule>
+
+
+#######################################
+## 3. SECURITY & PERFORMANCE TRICKS
+#######################################
+# http://htaccesscheatsheet.com/
+
+# Block common injections via HEADER
+<IfModule mod_rewrite.c>
+    ## proc/self/environ? no way!
+    RewriteCond %{QUERY_STRING} proc/self/environ [OR]
+    ## Block out any script trying to set a mosConfig value through the URL
+    RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
+    ## Block out any script trying to base64_encode crap to send via URL
+    RewriteCond %{QUERY_STRING} base64_encode.*(.*) [OR]
+    ## Block out any script that includes a <script> tag in URL
+    RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+    ## Block out any script trying to set a PHP GLOBALS variable via URL
+    RewriteCond %{QUERY_STRING} GLOBALS(=|[|\%[0-9A-Z]{0,2}) [OR]
+    ## Block out any script trying to modify a _REQUEST variable via URL
+    RewriteCond %{QUERY_STRING} _REQUEST(=|[|\%[0-9A-Z]{0,2})
+    ## Send all blocked request to homepage with 403 Forbidden error!
+    RewriteRule ^(.*)$  - [R=404,F,L]
+    ## Protect important files in the root of your site
+    RewriteRule ^(composer.lock|composer.json|\.htaccess|\.htpasswd|\.git)$ - [R=404,L]
+</ifModule>
+
+## Block visitors referred from indicated domains
+<IfModule mod_rewrite.c>
+    SetEnvIfNoCase ^User-Agent$ .*(craftbot|download|extract|stripper|sucker|ninja|clshttp|webspider|leacher|collector|grabber|webpictures) HTTP_SAFE_BADBOT
+    SetEnvIfNoCase ^User-Agent$ .*(libwww-perl|aesop_com_spiderman) HTTP_SAFE_BADBOT
+    Deny from env=HTTP_SAFE_BADBOT
+</ifModule>
+
+## Enable GZIP via Apache
+<IfModule mod_gzip.c>
+    mod_gzip_on       Yes
+    mod_gzip_dechunk  Yes
+    mod_gzip_item_include file      \.(html?|txt|css|js|php|pl)$
+    mod_gzip_item_include handler   ^cgi-script$
+    mod_gzip_item_include mime      ^text/.*
+    mod_gzip_item_include mime      ^application/x-javascript.*
+    mod_gzip_item_exclude mime      ^image/.*
+    mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</IfModule>
+
+## Tweak HEADERS for better caching control
+<IfModule headers_module>
+
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    <FilesMatch "\.(flv|gif|jpg|jpeg|png|ico)$">
+        Header set Cache-Control "max-age=2592000"
+    </FilesMatch>
+
+    <FilesMatch "\.(js|css|pdf|swf)$">
+        Header set Cache-Control "max-age=604800"
+    </FilesMatch>
+
+    <FilesMatch "\.(html|htm|txt)$">
+        Header set Cache-Control "max-age=600"
+    </FilesMatch>
+
+    <FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+        Header unset Cache-Control
+    </FilesMatch>
+
+    <IfModule mod_expires.c>
+        ## ALTERNATE EXPIRES CACHING
+        ExpiresActive On
+        ExpiresDefault A604800
+        ExpiresByType image/x-icon A2592000
+        ExpiresByType application/x-javascript A2592000
+        ExpiresByType text/css A2592000
+        ExpiresByType text/html A300
+
+        <FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+            ExpiresActive Off
+        </FilesMatch>
+    </IfModule>
+
+    ## META HTTP-EQUIV REPLACEMENTS
+    <FilesMatch "\.(html|htm|php)$">
+        Header set imagetoolbar "no"
+    </FilesMatch>
+
+    ## Header edit is not compatible with Apache versions lower than 2.2.4.
+    ## For Apache version 2.2.4 and newer you can use:
+    # Header always edit Set-Cookie "^(.*)$" "$1;HttpOnly;Secure"
+
+    ## or (for more crytical systems):
+    Header always edit Set-Cookie "(?i)^((?:(?!;\s?HttpOnly).)+)$ " "$1; HttpOnly"
+    Header always edit Set-Cookie "(?i)^((?:(?!;\s?secure).)+)$" "$1; secure"
+
+    ## For Apache versions lower than 2.2.4
+    ## You can use following to set HttpOnly and Secure flag in lower
+    # Header set Set-Cookie "HttpOnly;Secure"
+
+</IfModule>
+
+
+#######################################
+## 4. APACHE ERROR HANDLERS
+#######################################
+# 4xx: Client Error - The request contains bad syntax or cannot be fulfilled
+# Not implemented in Apache: 418 (I'm a teapot), 451 (Unavailable For Legal Reasons) and
+# 499 (Client Closed Request)
+
+# ErrorDocument 400 /pages/common/error.php
+
+
+#######################################
+## 5. EXTRA IMPORTANT PHP TWEAKS
+#######################################
+
+# If using Moodfired error handling modules those configurations may be overridden.
+# For Production Environment these options should NEVER be used.
+# php_value  display_errors 1
+# php_value  error_reporting E_ALL
+
+# Common PHP configuration flags
+# The desired values may vary per site and server configuration.
+# Most servers are set to accept modifications in those flags via php.ini and/or .htaccess.
+# If it doesn't work in your server, check your system settings for alternative options.
+# php_value  default_charset UTF-8
+# php_value  memory_limit 2048M
+# php_value  max_execution_time 250
+# php_value  max_input_time 120
+# php_value  session.cache_expire 60
+# php_value  session.gc_maxlifetime 3600
+# php_value  session.use_cookies On
+# php_value  session.use_only_cookies On
+# php_value  session.use_trans_sid 0
+# php_value  session.cookie_httponly On
+
+# Extra PHP configuration flags
+# The desired values may vary per site and server configuration.
+# Please, notice most of these values may not have any effect on your server.
+# Check your system settings for alternative options in this case.
+# php_value  upload_max_filesize 10M
+# php_value  post_max_size 20M
+# php_value  safe_mode Off
+# php_value  mysql.connect_timeout 20
+# php_value  session.auto_start Off
+# php_value  allow_url_fopen On
+# php_value  expose_php Off
+
+# Deprecated PHP configuration flags (v. 5.6+ and 7+)
+# Listed here only for reference
+# php_value  magic_quotes_gpc Off
+# php_value  register_globals Off

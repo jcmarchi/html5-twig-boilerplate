@@ -1,0 +1,39 @@
+{% extends "base/main.twig" %}
+
+{% block title %}The Website is in Maintenance{% endblock %}
+
+{% block styles %}
+    {{ parent() }}
+<!--  Welcome Page Custom Styles -->
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+<!-- Welcome Page Custom JS -->
+{% endblock %}
+
+{% block bodytop %}
+    <!-- Top Content goes here. It will be added to the main.twig block named "bodybottom" -->
+    {{ parent() }}
+    
+<p><br /></p>
+
+{% endblock %}
+
+{% block bodycontent %}
+    <div class="container" id="bodycontent">
+        <h1>This Website is in Maintenance Mode!</h1>
+        <h3>This is the Maintenance Page rendered by the Twig Templating System.</h3>
+        <p>If you are seeing this message your <b>Twig</b> and <b>Composer</b> are properly enabled in the <i>configuration file</i>, and you have the <b><u>Maintencance Mode</u></b> set to <b>ON</b>.</p>
+        <p>You don't need to use any template system, Composer or even MOODFIRED to build your site using this Boilerplate.</p>
+        <p>For more details and suggestions about coding practices and how to take advantage of this Boilerplate structure please refer to the documentation.</p>
+        <p>You can find the Twig file for this page (<b>maintenance.twig</b>) in the <b>"templates/boilerplate/"</b> folder of your site. It is renderd by the file <b>maintenance.php</b> located in the <b>"pages/boilerplate/common/"</b> folder.</p>
+        <p>Feel free to modify this page as needed. However, it would be much better to adjust your <i>configuration file</i> to point your Maintenance Page to a different file, if needed.</p>
+    </div>
+{% endblock %}
+
+{% block bodybottom %}
+    <!-- Bottom Content goes here. It will be added to the main.twig block named "bodybottom" -->
+{{ parent() }}
+{% endblock %}
+
