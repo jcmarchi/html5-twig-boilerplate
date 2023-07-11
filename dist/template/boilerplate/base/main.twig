@@ -90,7 +90,7 @@
     <script src="{{js}}/jquery.wait.js"></script>
 
     <!-- Include JAVASCRIPT files -->
-    {{ include('custom/js.twig') }}
+    {{ include('custom/js-header.twig') }}
 
 {% endblock %}
 <!-- END: SCRIPTS -->
@@ -144,6 +144,9 @@
 
 
 {% if config.analytics.install == true %} {{ include('extras/google-analytics.twig') }} {% endif %}
+
+<!-- Include JAVASCRIPT files -->
+{{ include('custom/js-header.twig') }}
 
 </body>
 

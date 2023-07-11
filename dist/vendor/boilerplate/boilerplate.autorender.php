@@ -1,36 +1,23 @@
 <?php
 /**
- * THE MULTI-PURPOSE WEBSITE BOILERPLATE - SITEAUTORENDER.PHP : Boilerplate Module.
- * @since      July, 2019.
- * @category   Starter
- * @version    1.0.01-RC.1+Alpha:1
- * PHP version 5.6+ (preferable 7.x)
+ * THE MULTI-PURPOSE WEBSITE BOILERPLATE WITH TWIG SUPPORT
+ * Boilerplate Module :: AUTO RENDER
  *
  * This file carries a piece of code that wil try to auto-load either the default
  * Welcome page, Error page or Maintenance page. It is only used if the constant
- * AUTORENDER exists and is set to true.
+ * "AUTORENDER" exists and is set to true.
  *
- * @copyright  MOODFIRED is a SUNALEI Technologies brand and project.
- *             Built in association with Global COMPEL, LLC.
- * @link       moodfired.org | moodfired.com | sunalei.org | globalcompel.com
+ * For complete description and further information, @see MANUAL at docs/TOC.md.
  *
- * @author     Julio Marchi <jmarchi@moodfired.org> - Twitter: @MrMarchi
- * @support    Viktor Bludov <vbludov@moodfired.org>
- * @assistant  Elton Branch <ebranch@moodfired.org>
- * @thanksto   Special Thanks to Eliazer Kosciuk (KLAXMSX).
+ * @since      April, 2019.
+ * @category   Operational Support
+ * @version    1.1.0-beta 2
  *
- * LICENSED UNDER THE MIT LICENSE.
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included
- * in all copies or substantial portions of the Software.
+ * @author     Julio Marchi <contact@juliomarchi.com> | Twitter: @MrMarchi
+ * @copyright  See Full Header Comment Blocks at "dist/index.php"
  * @license    https://opensource.org/licenses/MIT
  */
+
 
 /** Check if page from requested URL exists */
 $page = checkPage();
@@ -76,7 +63,7 @@ elseif (isset(siteClass::$config['static'][$index]) && file_exists(siteClass::$e
 
 else:
     echo "<h1>Fallback $string Page!</h1>";
-    echo "<h3>This $string Page is being rendered by the AUTORENDER System.</h3>";
+    echo "<h3>This $string Page is being rendered by the \"AUTO RENDER\" System.</h3>";
     echo "<p>This is an issue! You <i>configuration file</i> may be missing, or the <b>Twig</b> system is not correctly set.</p>";
     echo "<p>Please, refer to the documentation for <b>ERROR 4004</b> and how to fix it.</p>";
 endif;

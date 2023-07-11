@@ -1,4 +1,21 @@
 <?php
+/**
+ * THE MULTI-PURPOSE WEBSITE BOILERPLATE WITH TWIG SUPPORT
+ * Boilerplate Module :: FUNCTIONS
+ *
+ * This file holds a collection of supporting functions for a multitude of usages.
+ *
+ * For complete description and further information, @see MANUAL at docs/TOC.md.
+ *
+ * @since      May, 2022.
+ * @category   Supporting Functions
+ * @version    2.1.2-beta 2
+ *
+ * @author     Julio Marchi <contact@juliomarchi.com> | Twitter: @MrMarchi
+ * @copyright  See Full Header Comment Blocks at "dist/index.php"
+ * @license    https://opensource.org/licenses/MIT
+ */
+
 
 /**
  * Checks if the string is an e-mail

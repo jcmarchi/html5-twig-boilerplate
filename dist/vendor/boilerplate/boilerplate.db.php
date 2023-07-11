@@ -1,4 +1,21 @@
 <?php
+/**
+ * THE MULTI-PURPOSE WEBSITE BOILERPLATE WITH TWIG SUPPORT
+ * Boilerplate Module :: DATABASE
+ *
+ * This file holds a collection of supporting functions for a multitude of
+ * Database Operations and Data Handling / Manipulation needs.
+ *
+ * For complete description and further information, @see MANUAL at docs/TOC.md.
+ *
+ * @since      July, 2022.
+ * @category   Database (MySQL : PDO) Functions
+ * @version    1.1.2-beta 1
+ *
+ * @author     Julio Marchi <contact@juliomarchi.com> | Twitter: @MrMarchi
+ * @copyright  See Full Header Comment Blocks at "dist/index.php"
+ * @license    https://opensource.org/licenses/MIT
+ */
 
 /**
  * Connections Global Options
@@ -17,7 +34,7 @@ $pdo_options = [
  */
 function buildDSN($host, $db, $charset = false)
 {
-    global $charset;
+    global $pdo_charset;
 
     /** Validate Parameters */
     if ( empty($host) || !is_string($host) ) return false;
@@ -34,6 +51,7 @@ function buildDSN($host, $db, $charset = false)
  */
 function connectDB($dsn, $usr, $pwd, $options = false)
 {
+    global $pdo_options;
 
     /** Validate SQL Query is a non-empty string */
     if ( empty($dsn) || !is_string($dsn) ) return false;
@@ -52,6 +70,7 @@ function connectDB($dsn, $usr, $pwd, $options = false)
 }
 
 
+
 /**
  * HELPER FUNCTION
  * Simply executes a call to the  Database
@@ -64,16 +83,15 @@ function connectDB($dsn, $usr, $pwd, $options = false)
  * @return  Mixed         Either returns an Array with the result of the SQL Query execution
  *                        or FALSE if something failed.
  */
-function queryHelper($sql, $raw = false)
+function queryDB($db, $sql, $raw = false)
 {
-    global $database_db;
+    // global $database_db;
 
     /** Validate SQL Query is a non-empty string */
     if ( empty($sql) || !is_string($sql) ) return false;
 
     /** Prepare and execute the SQL Call */
-    // insight($sql);
-    $request = $database_db->prepare($sql);
+    $request  = $db->prepare($sql);
     $response = $request->execute();
 
     /** If $raw is null, return query execution response only, not data */

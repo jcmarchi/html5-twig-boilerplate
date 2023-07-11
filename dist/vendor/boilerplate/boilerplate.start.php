@@ -1,4 +1,31 @@
 <?php
+/**
+ * THE MULTI-PURPOSE WEBSITE BOILERPLATE WITH TWIG SUPPORT
+ * Boilerplate Module :: STARTER
+ *
+ * This initialize the entire Boilerplate System and auto-instantiates the main
+ * siteClass as "$app". May auto-instantiates Twig Template System as "$twig"
+ * (if Twig is installed and enabled).
+ *
+ * - Sets the following constants: DS, APP, ROOT, DEBUG, CONFIG, AUTORENDER,
+ *   ENVIRONMENT, COMPOSER, TWIG, MAINTENANCE, and BOILERPLATE.
+ *
+ * - Sets the following global variables: $env, $app, and $twig.
+ *
+ * - Checks for the existence of the following temporary variables: $_set,
+ *   $_app, $DEBUG, $CONFIG, and $AUTORENDER.
+ *
+ * For complete description and further information, @see MANUAL at docs/TOC.md.
+ *
+ * @since      July, 2019.
+ * @category   Class
+ * @version    1.1.0-beta 2
+ *
+ * @author     Julio Marchi <contact@juliomarchi.com> | Twitter: @MrMarchi
+ * @copyright  See Full Header Comment Blocks at "dist/index.php"
+ * @license    https://opensource.org/licenses/MIT
+ */
+
 
 /**
  * Build Primary Constants.
@@ -40,7 +67,7 @@ define('AUTORENDER', isset($AUTORENDER) ? $AUTORENDER : true);
 require_once $env['path']['boilerplate'] . "boilerplate.class.php";
 require_once $env['path']['boilerplate'] . "boilerplate.functions.php";
 require_once $env['path']['boilerplate'] . "boilerplate.helpers.php";
-require_once $env['path']['boilerplate'] . "boilerplate.db.helpers.php";
+require_once $env['path']['boilerplate'] . "boilerplate.db.php";
 
 /**
  * Instantiate siteClass in the $app object

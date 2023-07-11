@@ -1,41 +1,22 @@
 <?php
 /**
- * THE MULTI-PURPOSE WEBSITE BOILERPLATE - SITECLASS.PHP : Boilerplate Class.
- * @since      July, 2019.
- * @category   Starter
- * @version    1.0.01-RC.1+Alpha:1
- * PHP version 5.6+ (preferable 7.x)
+ * THE MULTI-PURPOSE WEBSITE BOILERPLATE WITH TWIG SUPPORT
+ * Boilerplate Module :: MAIN CLASS
  *
  * This Static Class Object holds the Boilerplate Core.
  *
- * It is based on a simple Class that requires custom initialization (see below)
- * and must receive the address referent to the "root location" (path) where the
- * website resides in the server.
+ * Requires custom initialization (see below) and must receive the address
+ * referent to the "root location" (physical path) of the website root folder
+ * in the server filesystem.
  *
- * This function is auto-initialized in the siteLoader.php as the object "$app".
+ * This CLASS is auto-instantiated by "boilerplate.start.php" as "$app".
  *
- * This class can also initialize the Twig template system if it is enabled in the
- * configuration file (also auto-initialized in the siteLoader.php, if set).
+ * @since      March, 2019.
+ * @category   Class
+ * @version    1.8.0-beta 5
  *
- * @copyright  MOODFIRED is a SUNALEI Technologies brand and project.
- *             Built in association with Global COMPEL, LLC.
- * @link       moodfired.org | moodfired.com | sunalei.org | globalcompel.com
- *
- * @author     Julio Marchi <jmarchi@moodfired.org> - Twitter: @MrMarchi
- * @support    Viktor Bludov <vbludov@moodfired.org>
- * @assistant  Elton Branch <ebranch@moodfired.org>
- * @thanksto   Special Thanks to Eliazer Kosciuk (KLAXMSX).
- *
- * LICENSED UNDER THE MIT LICENSE.
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included
- * in all copies or substantial portions of the Software.
+ * @author     Julio Marchi <contact@juliomarchi.com> | Twitter: @MrMarchi
+ * @copyright  See Full Header Comment Blocks at "dist/index.php"
  * @license    https://opensource.org/licenses/MIT
  */
 
@@ -164,7 +145,7 @@ class siteClass {
      * @param  String   $templateName  A string with the name of the template.
      *                                 The variable only passed on to "setTemplate()".
      *
-     * @return Boolean  true   if file Twig is installed and initalization is complete
+     * @return Boolean  true   if file Twig is installed and initialization is complete
      *                  false  if file Twig is not exist installed ad initialization failed
      */
     public static function initializeTemplate($templateName = false) {
@@ -196,12 +177,13 @@ class siteClass {
             'font'      => $path . "assets/" . 'font',
             'audio'     => $path . "assets/" . 'audio',
             'video'     => $path . "assets/" . 'video',
+            'plugins'   => $path . "assets/" . 'plugins',
             'resources' => $path . "assets/" . 'resources',
             'config'    => &self::$config
         ];
 
         /**
-         * Call funtion to complete Twig implementation
+         * Call function to complete Twig implementation
          */
         return self::setTemplate($templateName);
     }

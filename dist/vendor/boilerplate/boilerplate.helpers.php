@@ -1,33 +1,19 @@
 <?php
 /**
- * THE MULTI-PURPOSE WEBSITE BOILERPLATE - SITEHELPERS.PHP : Boilerplate Helpers.
- * @since      July, 2019.
- * @category   Starter
- * @version    1.0.01-RC.1+Alpha:1
- * PHP version 5.6+ (preferable 7.x)
+ * THE MULTI-PURPOSE WEBSITE BOILERPLATE WITH TWIG SUPPORT
+ * Boilerplate Module :: HELPER
  *
  * This file holds some quick functions that can be accessed from the global scope
  * to facilitate the utilization of the Boilerplate installed resources.
  *
- * @copyright  MOODFIRED is a SUNALEI Technologies brand and project.
- *             Built in association with Global COMPEL, LLC.
- * @link       moodfired.org | moodfired.com | sunalei.org | globalcompel.com
+ * For complete description and further information, @see MANUAL at docs/TOC.md.
  *
- * @author     Julio Marchi <jmarchi@moodfired.org> - Twitter: @MrMarchi
- * @support    Viktor Bludov <vbludov@moodfired.org>
- * @assistant  Elton Branch <ebranch@moodfired.org>
- * @thanksto   Special Thanks to Eliazer Kosciuk (KLAXMSX).
+ * @since      December, 2021.
+ * @category   Helper
+ * @version    1.0.0-beta 1
  *
- * LICENSED UNDER THE MIT LICENSE.
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included
- * in all copies or substantial portions of the Software.
+ * @author     Julio Marchi <contact@juliomarchi.com> | Twitter: @MrMarchi
+ * @copyright  See Full Header Comment Blocks at "dist/index.php"
  * @license    https://opensource.org/licenses/MIT
  */
 
@@ -47,7 +33,6 @@ function renderPage($page, $vars = [])
         $twig_vars = array_merge(siteClass::$template['vars'], $vars);
         $twig_fext = pathinfo($page, PATHINFO_EXTENSION);
         $twig_file = ($twig_fext == "" || $twig_fext == NULL) ? $page . ".twig" : $page;
-
         print siteClass::$twig->render($twig_file, $twig_vars);
     endif;
 
