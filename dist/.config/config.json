@@ -1,5 +1,6 @@
 {
     "environment": "DEV",
+    "environment_simulated": "",
     "maintenance": false,
     "composer": true,
     "static": {

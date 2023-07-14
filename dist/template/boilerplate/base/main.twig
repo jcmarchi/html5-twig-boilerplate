@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-{% set TheEnvironment = 'PRODUCTION' %}
+{% if config.environment_simulated is not null and config.environment_simulated is not empty %}
+    {% set TheEnvironment = config.environment_simulated %}
+{% else %}
+    {% set TheEnvironment = config.environment %}
+{% endif %}
 
-{% if config.environment == TheEnvironment %}
+{% if TheEnvironment == "PRODUCTION" %}
 <!--
 {{ config.disclaimer|join|raw }}
 -->
@@ -13,6 +17,11 @@
 <!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="{{config.language}}-{{config.country}}"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="{{config.language}}-{{config.country}}"> <![endif]-->
 <!--[if gt IE 8]> <html class="no-js" lang="{{config.language}}-{{config.country}}">  <![endif]-->
+<!--[if lt IE 9]> <script src="../assets/js/ie8-responsive-file-warning.js"></script> <![endif]-->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
 <!--[if !IE]> -->
 {% endif %}
 <html
@@ -29,7 +38,7 @@
 
 {{ include('custom/favicon.twig') }}
 
-{% if config.environment == TheEnvironment %} {{ config.CopyrightScript|join|raw }} {% endif %}
+{% if TheEnvironment == "PRODUCTION" %} {{ config.CopyrightScript|join|raw }} {% endif %}
 
     <!-- META Tags -->
 {% for index, variable in config.meta %}
@@ -146,13 +155,13 @@
 {% if config.analytics.install == true %} {{ include('extras/google-analytics.twig') }} {% endif %}
 
 <!-- Include JAVASCRIPT files -->
-{{ include('custom/js-header.twig') }}
+{{ include('custom/js-footer.twig') }}
 
 </body>
 
 </html>
 
-{% if config.environment == TheEnvironment %}
+{% if TheEnvironment == "PRODUCTION" %}
 <!--
 {{ config.disclaimer|join|raw }}
 -->
