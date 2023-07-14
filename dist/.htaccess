@@ -48,10 +48,10 @@ LimitRequestBody 10240000
     # if you decide to use "Enrouter Enforcer" (see below).
     RewriteRule ^pages/.+$ index.php [L,NE,QSA]
     # RewriteRule ^pages/boilerplate/.+$ index.php [L,NE,QSA]
-    RewriteRule ^pages/(common|private)/.+$ index.php [L,NE,QSA]
+    RewriteRule ^pages/(common|private|public)/.+$ index.php [L,NE,QSA]
     # RewriteRule ^pages/common/.+$ index.php [L,NE,QSA]
     RewriteRule ^template/.+$ index.php [L,NE,QSA]
-    RewriteRule ^vendor/.+$ index.php [L,NE,QSA]
+    # RewriteRule ^vendor/.+$ index.php [L,NE,QSA]
     RewriteRule ^app/.+$ index.php [L,NE,QSA]
     RewriteRule ^\.accessible/.+$ index.php [L,NE,QSA]
     RewriteRule ^\.config/.+$ index.php [L,NE,QSA]

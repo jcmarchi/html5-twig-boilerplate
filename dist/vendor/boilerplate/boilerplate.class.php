@@ -13,7 +13,7 @@
  *
  * @since      March, 2019.
  * @category   Class
- * @version    1.8.0-beta 5
+ * @version    1.8.1-beta 5
  *
  * @author     Julio Marchi <contact@juliomarchi.com> | Twitter: @MrMarchi
  * @copyright  See Full Header Comment Blocks at "dist/index.php"
@@ -170,6 +170,7 @@ class siteClass {
         self::$template['vars'] = [
             'url'       => &self::$url,
             'uri'       => &self::$uri,
+            'vendor'    => $path . "vendor",
             'assets'    => $path . "assets",
             'js'        => $path . "assets/" . 'js',
             'css'       => $path . "assets/" . 'css',
@@ -227,12 +228,12 @@ class siteClass {
 
         /**
          * Check if Twig is physically installed.
-         * Terminate and return FALSR if not.
+         * Terminate and return FALSE if not.
          */
         if (!is_dir(self::$env['path']['vendor'] . "twig")) return false;
 
         /**
-         * Initialize (or overrride) Twig Template Core.
+         * Initialize (or override) Twig Template Core.
          * Based on NEW TWIG 3.0.
          */
         self::$twig = new \Twig\Environment(
@@ -240,7 +241,7 @@ class siteClass {
                     );
 
         /**
-         * Return TRUE to inwdicate Twig is installed and set
+         * Return TRUE to indicate Twig is installed and set
          */
         return true;
     }

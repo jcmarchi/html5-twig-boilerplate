@@ -71,8 +71,10 @@ require_once $env['path']['boilerplate'] . "boilerplate.db.php";
 
 /**
  * Instantiate siteClass in the $app object
+ * and set Config Data mirror in $env['config']
  */
 $app = new siteClass(ROOT);
+$env['config'] = &siteClass::$config;
 
 /**
  * Check defined ENVIRONMENT option from Config File

@@ -30,23 +30,42 @@
  * : Example :
  */
 if (DEBUG):
-    echo "<pre><hr>DEBUGGING EXAMPLE INITIATED!<hr>";
+    echo "<div style='margin:15px'><hr>DEBUGGING EXAMPLE INITIATED!<hr>";
+    if (defined('INSIGHT') && INSIGHT):
+        insight($_SESSION);
+        insight($env);
+        insight($twig);
+    else:
+        echo "<pre>";
 
-    echo 'DS = ' . DS . "<br>";
-    echo 'APP = ' . APP . "<br>";
-    echo 'ROOT = ' . ROOT . "<br>";
-    echo 'DEBUG = ' . DEBUG . "<br>";
-    echo 'CONFIG = ' . CONFIG . "<br>";
-    echo 'AUTORENDER = ' . AUTORENDER . "<br>";
+        echo 'DS = ' . DS . "<br>";
+        echo 'APP = ' . APP . "<br>";
+        echo 'ROOT = ' . ROOT . "<br>";
+        echo 'DEBUG = ' . DEBUG . "<br>";
+        echo 'CONFIG = ' . CONFIG . "<br>";
+        echo 'AUTORENDER = ' . AUTORENDER . "<br>";
 
-    echo 'ENVIRONMENT = ' . ENVIRONMENT . "<br>";
-    echo 'COMPOSER = ' . COMPOSER . "<br>";
-    echo 'TWIG = ' . TWIG . "<br>";
-    echo 'MAINTENANCE = ' . MAINTENANCE . "<br>";
-    echo 'BOILERPLATE = ' . BOILERPLATE . "<br>";
+        echo 'ENVIRONMENT = ' . ENVIRONMENT . "<br>";
+        echo 'COMPOSER = ' . COMPOSER . "<br>";
+        echo 'TWIG = ' . TWIG . "<br>";
+        echo 'MAINTENANCE = ' . MAINTENANCE . "<br>";
+        echo 'BOILERPLATE = ' . BOILERPLATE . "<br>";
 
-    echo 'siteClass::$config = ';
-    print_r(siteClass::$config);
+        if (isset($_SESSION)):
+            echo '<br>$_SESSION = ';
+            print_r($_SESSION);
+        endif;
 
-    echo "<hr>DEBUGGING COMPLETED!<hr></pre>";
+        if (isset($_SERVER)):
+            echo '<br>$_SERVER = ';
+            print_r($_SERVER);
+        endif;
+
+        echo '<br>siteClass::$config = ';
+        print_r($env);
+        // print_r($twig);
+        echo "</pre>";
+
+    endif;
+    echo "<hr>DEBUGGING COMPLETED!<hr>";
 endif;

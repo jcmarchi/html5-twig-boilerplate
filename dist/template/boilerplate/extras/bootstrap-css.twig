@@ -2,14 +2,28 @@
 
     <!-- Required <meta> Tags:
          If not already set in your META tags configuration, uncomment the two <meta> lines below: -->
-         
+
     <!-- <meta charset="utf-8"> -->
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
 
-    <!-- Bootstrap's CSS file (via CDN)-->
-    <link 
-        href="https://stackpath.bootstrapcdn.com/bootstrap/{{config.bootstrap.version}}/css/bootstrap.min.css" 
-        integrity="{{config.bootstrap.css_integrity}}" 
-        crossorigin="anonymous" 
-        rel="stylesheet">
+    {#
 
+    <!--
+        If you prefer using the CDN Version of Bootstrap, simply disable it
+        in the "composer.json" file, uncomment this block, and comment out
+        the "via COMPOSER" block below.
+
+        Keep it enabkle in the configuration file, and make proper adjustments
+        for versions and other requirements.
+    -->
+
+    <!-- Bootstrap's CSS file (via CDN)-->
+    <link
+        href="https://stackpath.bootstrapcdn.com/bootstrap/{{config.bootstrap.version}}/css/bootstrap.min.css"
+        integrity="{{config.bootstrap.css_integrity}}"
+        crossorigin="anonymous"
+        rel="stylesheet">
+    #}
+
+    <!-- Bootstrap Local (via COMPOSER) -->
+    <link href="{{vendor}}/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">

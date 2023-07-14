@@ -1,23 +1,38 @@
 
-    <!-- 
+    <!--
         Bootstrap 4.3.1 - Optional JavaScript
-        This is to be placed immediately before the </body> tag (can also be in the top of the <head> tag).    
-  
+        This is to be placed immediately before the </body> tag (can also be in the top of the <head> tag).
+
         IMPORTANT:
         Bootstrap implementation requires jQuery to be loaded first, then Popper, then Bootstrap (in this order).
         If jQuery is not set to be loaded in the configuration file, it will be forcefully loaded here.
-    -->  
+    -->
 
 {% if (not config.jquery.install) %} {{ include('extras/jquery.twig') }} {% endif %}
-    
+
+    {#
+
+    <!--
+        If you prefer using the CDN Version of Bootstrap, simply disable it
+        in the "composer.json" file, uncomment this block, and comment out
+        the "via COMPOSER" block below.
+
+        Keep it enabkle in the configuration file, and make proper adjustments
+        for versions and other requirements.
+    -->
+
     <!-- popper.js -->
-    <script 
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/{{config.bootstrap.popper_version}}/umd/popper.min.js" 
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/{{config.bootstrap.popper_version}}/umd/popper.min.js"
         integrity="{{config.bootstrap.popper_integrity}}"
         crossorigin="anonymous"></script>
 
     <!-- bootstrap.js -->
-    <script 
-        src="https://stackpath.bootstrapcdn.com/bootstrap/{{config.bootstrap.version}}/js/bootstrap.min.js" 
+    <script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/{{config.bootstrap.version}}/js/bootstrap.min.js"
         integrity="{{config.bootstrap.integrity}}"
         crossorigin="anonymous"></script>
+    #}
+
+    <!-- Bootstrap Local (via COMPOSER) -->
+    <script src="{{vendor}}/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

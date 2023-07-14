@@ -1,1 +1,9 @@
 <!-- Custom Global JAVASCRIPT files meant to run in the FOOTER -->
+
+<!-- LOG DATA -->
+{% if config.environment == "DEV" %}
+<script>
+    console.log('Session Data', {{ session|json_encode|raw }} );
+    console.log('Config Data',  {{ config|json_encode|raw }} );
+</script>
+{% endif %}
