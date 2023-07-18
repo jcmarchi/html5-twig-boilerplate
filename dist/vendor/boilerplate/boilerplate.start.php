@@ -135,9 +135,40 @@ else:
 endif;
 
 /**
- * Set flag indicating site has been loaded
+ * Create the constant BOILERPLATE and set it as TRUE
+ * indicating the Boilerplate Core has been loaded,
+ * and create the variable $_BOILERPLATE to house
+ * important collected data (some redundant, we know!).
+ * TIP: The variable "$_" can be used as an alias.
  */
+// Define Constant
 define('BOILERPLATE', true);
+
+// Set and populate Global Variable
+$_BOILERPLATE = siteClass::$template['vars'];
+unset($_BOILERPLATE['config']);
+$_BOILERPLATE['root'] = siteClass::$root;
+$_BOILERPLATE['drive'] = siteClass::$drive;
+$_BOILERPLATE['environment'] = ENVIRONMENT;
+$_BOILERPLATE['maintenance'] = MAINTENANCE;
+$_BOILERPLATE['config']['environment'] = siteClass::$template['vars']['config']['environment'];
+$_BOILERPLATE['config']['maintenance'] = siteClass::$template['vars']['config']['maintenance'];
+$_BOILERPLATE['config']['composer'] = siteClass::$template['vars']['config']['composer'];
+$_BOILERPLATE['config']['twig'] = siteClass::$template['vars']['config']['twig'];
+$_BOILERPLATE['config']['debug'] = siteClass::$template['vars']['config']['debug'];
+$_BOILERPLATE['config']['cache'] = siteClass::$template['vars']['config']['cache'];
+$_BOILERPLATE['config']['log'] = siteClass::$template['vars']['config']['log'];
+$_BOILERPLATE['config']['timezone'] = siteClass::$template['vars']['config']['timezone'];
+$_BOILERPLATE['config']['country'] = siteClass::$template['vars']['config']['country'];
+$_BOILERPLATE['config']['language'] = siteClass::$template['vars']['config']['language'];
+$_BOILERPLATE['config']['charset'] = siteClass::$template['vars']['config']['charset'];
+$_BOILERPLATE['config']['extensions'] = siteClass::$template['vars']['config']['extensions'];
+$_BOILERPLATE['vars'] = siteClass::$template['vars']['config'];
+$_BOILERPLATE['app'] = siteClass::$template;
+unset($_BOILERPLATE['app']['vars']['config']);
+
+// Create the "alias" (pointer)
+$_ = &$_BOILERPLATE;
 
 /**
  * Load APP
