@@ -52,25 +52,63 @@ function renderPage($page, $vars = [])
 /**
  * Helper function to check if the page from URL actually exist in the filesystem.
  *
- * This function uses a "default model" to confirm the page in the physical URL is
- * present in the file system. It does not consider "virtualization" of the file system.
+ * The URL request is based on $_SERVER['DOCUMENT_ROOT'] +  $_SERVER['REQUEST_URI'].
  *
- * This function is ideal to be used when called pages are publicly available (no login,
- * no security) or when you simply want to display a non-twig page (PHP or HTML).
+ * This function uses a "default model" to confirm the requested URL points to a usable
+ * folder and file in the physical directory tree.
  *
- * @return Boolean  true   if file exist
- *                  false  if file does not exist
+ * If a parameter is sent, the function will check the provided String instead of the
+ * URL contents.
+ *
+ * While you can use this function to implement a many levels of "path virtualization",
+ * the single purpose of this function it to add to the traditional URL -> File System
+ * reference some of the features Boilerplate provides for "path virtualization", such
+ * as Maintenance Mode and Error Page Handling, while yet allowing the developer to
+ * handle and manage the flow in front of the server, having full control of everything.
+ *
+ * This function is simple enough but extremely helpful when you want to convert a basic
+ * HTML/BOOTSTRAP template into a functional website, yet in pure HTML, but fully powered
+ * by PHP and TWIG. Even when not using PHP ou TWIG (or COMPOSER) immediately, having the
+ * ability to dismantle a template and re-implement it in a full flagged system that will
+ * allow expansion of the site with no extra efforts is priceless. Besides, rarely any
+ * website nowadays exist without a few features in PHP or other server-side language.
+ *
+ * Furthermore, you can always combine this function with checkVirtualPage() - or vice-versa -
+ * and create amazing flows, even with the possibility to be unique and exclusive by page
+ * or group of pages. From simple direct public access without requiring much security or
+ * management to a massive path virtualization process, the sky is the limit.
+ *
+ * Regardless or how you will use this helper, it can be very powerful when combined
+ * with the other features of the Boilerplate.
+ *
+ * @param  String   $loc   A simple String containing the equivalent to this concatenation:
+ *                         $_SERVER['DOCUMENT_ROOT'] + $_SERVER['REQUEST_URI']
+ * @return Boolean  true   if $loc represents a "file location + file" that can be loaded.
+ *                  false  if $loc points to an inexistent "file location + file".
  *                  null   if maintenance page is on (regardless if file exists or not)
  */
-function checkPage()
+function checkPage($loc = "")
 {
     if (defined('MAINTENANCE') && MAINTENANCE) return NULL;
 
-    $localFile = str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI']);
+    /**
+     * Check for empty user input
+     */
+    $request = (empty($loc))
+             ? siteClass::$template['access']['requested']['url']
+             : $loc;
 
-    if (file_exists($localFile)) return true;
+    $theURL = pathinfo($request);
 
-    return false;
+    if (!isset($theURL['extension'])):
+        // $theURL['index']   = empty($theURL['basename']) ? "index.php" : $theURL['basename'];
+        $theURL['request'] = fixSlashes( $request . DS . siteClass::$template['access']['requested']['index'] );
+    else:
+        // $theURL['index']   = empty($theURL['basename']) ? "index.php" : $theURL['basename'];
+        $theURL['request'] = fixSlashes( $request );
+    endif;
+
+    return file_exists( $theURL['request'] );
 }
 
 /**
@@ -113,7 +151,7 @@ function checkVirtualPage($loc, $ext = [])
     $isExtension = in_array($requestType, $ext_f);
     $request = pathinfo($request, PATHINFO_FILENAME);  // Get value of $request without the extension
 
-    /** SubPaths are NOT allowed */
+    /** SubPaths are NOT allowed ( why not? :/ ) */
     // array_shift($middle);
     // array_pop($middle);
     // $middle = implode('/', $middle);
@@ -144,8 +182,6 @@ function checkVirtualPage($loc, $ext = [])
             // $localFile = $_APP::$drive . $_APP::$uri . $path . '/' . $request . $extension;
             // $localFile = $_APP::$root . '/' . $path . '/' . $request . $extension;
             $localFile = fixSlashes(siteClass::$settings['location']['app'] . '/' . $path . '/' . $request . $extension);
-            // insight();
-            // insight($localFile);
             /** Check if file truly exists. Return the full file path plus file name and extension if it does */
             if (file_exists($localFile)) return $localFile;
         endforeach;

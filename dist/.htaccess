@@ -25,8 +25,8 @@ LimitRequestBody 10240000
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    SetEnvIf Request_URI "\.php$" base_folder /bp4/
-    SetEnv base_folder /bp4/
+    SetEnvIf Request_URI "\.php$" base_folder /dist/
+    SetEnv base_folder /dist/
 
     # Enable HTTPS by default
     # RewriteCond %{HTTPS} !on

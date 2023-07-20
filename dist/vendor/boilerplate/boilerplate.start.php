@@ -37,8 +37,9 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . "boilerplate.db.php";
 /**
  * Set Default variables for customization
  */
-$DEFAULT_ROOT_FOLDER = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
-$DEFAULT_ROOT_FOLDER = fixSlashes( (is_dir($DEFAULT_ROOT_FOLDER)) ? $DEFAULT_ROOT_FOLDER: dirname(dirname(realpath(__DIR__))) . DIRECTORY_SEPARATOR );
+// $DEFAULT_ROOT_FOLDER = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
+// $DEFAULT_ROOT_FOLDER = fixSlashes( (is_dir($DEFAULT_ROOT_FOLDER)) ? $DEFAULT_ROOT_FOLDER: dirname(dirname(realpath(__DIR__))) . DIRECTORY_SEPARATOR );
+$DEFAULT_ROOT_FOLDER = fixSlashes(dirname(dirname(realpath(__DIR__))) . DIRECTORY_SEPARATOR);
 /** If ROOT FOLDER is not valid, fail and terminate! */
 if (!is_dir($DEFAULT_ROOT_FOLDER)) die('<b>ABORTING!</b> ROOT Folder is invalid or misconfigured. Please check Boilerplate documentation.');
 
@@ -63,7 +64,7 @@ $_BOILERPLATE['location']['set']       = fixSlashes( (!empty($SET_FOLDER) && is_
 $_BOILERPLATE['location']['vendor']    = fixSlashes( (!empty($VENDOR)     && is_dir($VENDOR))     ? $VENDOR     : $DEFAULT_VENDOR_FOLDER );
 $_BOILERPLATE['location']['config']    = fixSlashes( (!empty($CONFIG)     && is_dir($CONFIG))     ? $CONFIG     : $DEFAULT_CONFIG_FOLDER);
 $_BOILERPLATE['location']['template']  = fixSlashes( (!empty($TEMPLATE)   && is_dir($TEMPLATE))   ? $TEMPLATE   : $DEFAULT_TEMPLATE_FOLDER );
- // Relative Path for the Template's folder
+// Relative Path for the Template's folder
 $_BOILERPLATE['location']['templ_rel'] = fixSlashes( (!empty($TEMPLATE_RELATIVE)) ? $TEMPLATE_RELATIVE : $DEFAULT_TEMPL_REL );
 // Temporary SETUP and APPLICATION files
 $setup_file = (!empty($SET_FILE) && file_exists($SET_FOLDER . $SET_FILE)) ? $SET_FILE : "set.php";
@@ -83,7 +84,6 @@ define('CONFIG'     , $_BOILERPLATE['location']['config']);
 define('SETUP'      , $_BOILERPLATE['location']['set'] . $setup_file);
 define('APPLICATION', $_BOILERPLATE['location']['app'] . $application_file);
 define('AUTORENDER' , isset($AUTORENDER) ?? $DEFAULT_AUTORENDER);
-// define('DEBUG'      , isset($DEBUG) ?? $DEFAULT_DEBUG);
 
 /**
  * Instantiate siteClass in the $_APP object.
@@ -194,6 +194,7 @@ siteClass::$settings['config']['timezone']    = &siteClass::$config['config']['t
 siteClass::$settings['config']['country']     = &siteClass::$config['config']['country'];
 siteClass::$settings['config']['language']    = &siteClass::$config['config']['language'];
 siteClass::$settings['config']['charset']     = &siteClass::$config['config']['charset'];
+siteClass::$settings['config']['index']       = &siteClass::$config['config']['index'];
 siteClass::$settings['config']['extensions']  = &siteClass::$config['config']['extensions'];
 siteClass::$settings['settings']              = &siteClass::$config;
 siteClass::$settings['CONSTANTS']             = &get_defined_constants(true)['user'];
@@ -211,8 +212,8 @@ $_ = $_BOILERPLATE = &siteClass::$settings;
  * Both variables are "aliases" and access the contents of
  * the $_APP and $_TWIG respectively via reference (pointer).
  */
-$app = &$_APP;
-$twig = &$_TWIG;
+// $app = &$_APP;
+// $twig = &$_TWIG;
 
 // insight($_);
 // insight($_APP);
