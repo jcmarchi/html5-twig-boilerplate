@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+{# START: Environment Tweaks #}
+{% if boilerplate.environment.simulated is not null and boilerplate.environment.simulated is not empty %}
+    {% set TheEnvironment = boilerplate.environment.simulated %}
+{% else %}
+    {% set TheEnvironment = boilerplate.environment.current %}
+{% endif %}
+
+{% if TheEnvironment == "PRODUCTION" %}
+<!--
+{{ boilerplate.settings.software.disclaimer|join|raw }}
+-->
+{% endif %}
+{# END: Environment Tweaks #}
+
+{% if boilerplate.settings.extras.quirksmode.conditionals == true %}
+<!-- Quirks Mode for IE browsers is active. See more at https://www.quirksmode.org/compatibility.html -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{boilerplate.config.language}}-{{boilerplate.config.country}}"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="{{boilerplate.config.language}}-{{boilerplate.config.country}}"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="{{boilerplate.config.language}}-{{boilerplate.config.country}}"> <![endif]-->
+<!--[if gt IE 8]> <html class="no-js" lang="{{boilerplate.config.language}}-{{boilerplate.config.country}}">  <![endif]-->
+<!--[if lt IE 9]> <script src="../assets/js/ie8-responsive-file-warning.js"></script> <![endif]-->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<!--[if !IE]> -->
+{% endif %}
+<html
+    class="no-js"
+    lang="{{boilerplate.config.language}}-{{boilerplate.config.country}}"
+    itemscope = "1"
+    itemref="MOODFIRED Boilerplate Version 1.28a - By: Julio Marchi">
+{% if boilerplate.settings.extras.quirksmode.conditionals == true %}
+<!-- <![endif]-->
+{% endif %}
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+
+{% include 'snippets/favicon.twig' ignore missing %}
+
+{% if TheEnvironment == "PRODUCTION" %} {{ boilerplate.settings.software.CopyrightScript|join|raw }} {% endif %}
+
+    <!-- META Tags -->
+{% for index, variable in boilerplate.settings.extras.meta %}
+{%  if variable is iterable %}
+{%    for key, value in variable %}
+{%      if value is iterable %}
+{%        for group, content in value %}
+{%          if (not content == "" ) %}
+    <meta property="{{ key }}:{{ group }}" content="{{ content|e }}">
+{%          endif %}
+{%        endfor %}
+{%      else %}
+{%        if (not value == "" ) %}
+    <meta {{index}}="{{ key }}" content="{{ value|e }}">
+{%        endif %}
+{%      endif %}
+{%    endfor %}
+{%  else %}
+{%    if (not variable == "" ) %}
+    <meta {{index}}="{{variable}}">
+{%    endif %}
+{%  endif %}
+{% endfor %}
+
+    <!-- Microdata Reference - http://schema.org -->
+    <link rel="home" href="//{{boilerplate.settings.software.product.domain}}/" title="Home" >
+    <link rel="canonical" href="{{boilerplate.settings.software.product.description}}/" >
+    <link rel="publisher" href="{{boilerplate.settings.software.product.publisher}}" >
+    <link rel="author" href="{{url}}/humans.txt" type="text/plain" >
+
+    <!-- Directives that simulate HTTP response header - https://www.keycdn.com/support/http-equiv -->
+{% for key, value in boilerplate.settings.extras.http_equiv %}
+    <meta http-equiv="{{ key }}" content="{{ value|e }}">
+{% endfor %}
+
+<!-- START: STYLES -->
+{% block styles %}
+    {% if boilerplate.settings.extras.bootstrap.install %} {{ include("snippets/bootstrap-css.twig") }} {% endif %}
+    {% if (not boilerplate.settings.extras.bootstrap.install) and boilerplate.settings.extras.normalize.install %}
+    <!-- CSS Normalizer -->
+    <link href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css" rel="stylesheet">
+    {% endif %}
+
+{% include 'snippets/css.twig' ignore missing %}
+
+{% endblock %}
+<!-- END: STYLES -->
+
+<!-- START: FONTS -->
+{% block fonts %}
+    <!-- Web Fonts
+         Use any linkks from https://fonts.google.com/, https://thomaspark.co/projects/fontcdn/ or https://edgewebfonts.adobe.com/fonts#
+         For additional Web Font power: https://github.com/typekit/webfontloader#adobe-edge-web-fonts
+    -->
+{% for font in boilerplate.settings.extras.webfonts %}
+    <link rel="stylesheet" href="{{ font }}" >
+{% endfor %}
+{% endblock %}
+<!-- END: FONTS -->
+
+{% if boilerplate.settings.extras.quirksmode.mediaqueries == true %}
+    <!-- HTML5 shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" type="text/javascript"></script>
+      <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js" type="text/javascript"></script>
+    <![endif]-->
+{% endif %}
+</head>
+
+
+<body>
+{% if boilerplate.settings.extras.quirksmode.anscient == true %}
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Please, upgrade to a different browser</a>.</p><![endif]-->
+{% endif %}
+
+<!-- START: BODY HEADER -->
+{% block header %}{% endblock %}
+<!-- END: BODY HEADER -->
+
+<!-- START: NAVIGATION MENU -->
+{% block nav %}{% endblock %}
+<!-- END: NAVIGATION MENU -->
+
+<!-- START: SIDEBARS -->
+{% block leftbar %}{% endblock %}
+{% block rightbar %}{% endblock %}
+<!-- END: SIDEBARS -->
+
+<!-- START: BODY CONTENT -->
+  <div id="bodytop">
+    {% block bodytop %}{% endblock %}
+  </div>
+  <div id="bodycontent">
+    {% block bodycontent %}{% endblock %}
+  </div>
+  <div id="bodybottom">
+    {% block bodybottom %}{% endblock %}
+  </div>
+<!-- END: BODY OF THE PAGE -->
+
+<!-- START: FOOTER -->
+{% block footer %}{% endblock %}
+<!-- END: FOOTER -->
+
+{% if boilerplate.settings.extras.analytics.install == true %} {{ include('snippets/google-analytics.twig') }} {% endif %}
+
+<!-- Include JAVASCRIPT files -->
+
+    {% if boilerplate.settings.extras.jquery.install == true %} {{ include('snippets/jquery.twig') }} {% endif %}
+    {% if boilerplate.settings.extras.bootstrap.install == true %} {{ include('snippets/bootstrap-js.twig') }} {% endif %}
+
+    {% block scripts %}
+    <!-- jQuery Additional Features & Plugins -->
+        {% include 'snippets/js.twig' ignore missing %}
+    {% endblock %}
+
+    <!-- LOG DATA INTO CONSOLE FOR DEBUGGING PURPOSES-->
+    {% if boilerplate.environment.current == "DEV" %}
+    <script>
+        console.log('Boilerplate', {{ boilerplate|json_encode|raw }} );
+    </script>
+    {% endif %}
+<!-- END: JAVASCRIPT files -->
+
+</body>
+
+</html>
+
+{# START: Environment Tweaks #}
+{% if TheEnvironment == "PRODUCTION" %}
+<!--
+{{ boilerplate.settings.software.disclaimer|join|raw }}
+-->
+{% endif %}
+{# END: Environment Tweaks #}

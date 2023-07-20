@@ -3,12 +3,22 @@
 #======================================
 
 # Exclude everything from these folders. Keep the folders.
+# exclude everything from the folder but NOT the folder itself
+dist/.cache/*
+!dist/.cache/.gitkeep
+dist/.log/*
+!dist/.log/.gitkeep
+dist/vendor/*
+!dist/vendor/.gitkeep
+!dist/vendor/boilerplate/
 
 #============================
 # LINUX - FILES TO BE IGNORED
 #============================
 *~
 
+# Let's Encrypt local controller folder
+.well-known*
 # temporary files which can be created if a process still has a handle open of a deleted file
 .fuse_hidden*
 

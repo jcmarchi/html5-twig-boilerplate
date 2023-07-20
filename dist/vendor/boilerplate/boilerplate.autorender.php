@@ -56,7 +56,7 @@ endif;
 * message below should NEVER be displayed. It only exists as a safeguard.
 */
 if (defined('TWIG') && TWIG):
-    require_once(siteClass::$BOILERPLATE['location']['app'] . "pages". DS . $folder . DS . siteClass::$config['twig'][$index]);
+    require_once(siteClass::$BOILERPLATE['location']['app'] . "pages". DS . $folder . DS . siteClass::$config['config']['twig'][$index]);
 
 elseif (isset(siteClass::$config['static'][$index]) && file_exists(siteClass::$BOILERPLATE['location']['app'] . "pages" .  DS . "static" . DS . siteClass::$config['static'][$index])):
     echo file_get_contents(siteClass::$BOILERPLATE['location']['app'] . "pages" . DS . "static" . DS . siteClass::$config['static'][$index]);

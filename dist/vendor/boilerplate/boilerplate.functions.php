@@ -400,6 +400,11 @@ function hashfy($string, $action = 'encrypt')
  *
  * @return N/A This function terminates the execution after sending JSON to caller.
  */
+
+/** The Global Variable used by the terminateAjax function */
+$responseData = [];
+
+/** The terminateAjax function */
 function terminateAjax($status = 0) {
     global $responseData;
 
@@ -415,6 +420,21 @@ function terminateAjax($status = 0) {
     exit;
 }
 
-/** Global Variable used by the terminateAjax function */
-$responseData = [];
-
+/**
+ * Quick HELPER function to fix slashes in crazy paths.
+ *
+ * This function will replace backslashes (\) by normal slashes (/),
+ * then it will search for duplicates (in any quantity) and make it
+ * only one.
+ *
+ * We use "/" instead of DIRECTORY_SEPARATOR because the current standard
+ * for slashes across systems is normal the slashes (/), and PHP can use
+ * it for local paths AND for web addresses without distinction, in all
+ * platforms (Linux/Windows/Mac), despite defined "path separator".
+ *
+ * So, why complicate it? As much as we appreciate the DIRECTORY_SEPARATOR,
+ * it no longer offer any advantage if we can simply use SLASH, regardless.
+ */
+function fixSlashes($str) {
+    return preg_replace('~/+~', '/', str_replace("\\", "/", $str) );
+}

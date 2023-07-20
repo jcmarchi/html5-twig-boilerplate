@@ -1,15 +1,65 @@
-{% extends "base/main.twig" %}
+{% extends "layout/page.twig" %}
 
+{# Don't forget to set the <title> of your page. #}
 {% block title %}Error Page{% endblock %}
 
+{# This is the BODY CONTENT of your page. #}
 {% block bodycontent %}
-    <p><br/></p>
-    
-    <div class="container" id="bodycontent">
-      <h2>Oh, no... Looks like you've tripped on something!</h2>
-      <h3>Status Code ({{ErrorCode}})</h3>
-      <p>
-          But, don't worry! You didn't break anything... It is just a simple error page.
-      </p>
-    </div>
+    <!-- The body of the page goes here -->
+    <h2>Oh, no... Looks like you've tripped on something!</h2>
+    <h3>Status Code ({{ErrorCode}})</h3>
+    <p>
+        But, don't worry! You didn't break anything... It is just a simple error page.
+    </p>
+{% endblock %}
+
+{########################################################################################
+ These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
+ You can also 'include' files here and they will be added to the page in the right block.
+-----------------------------------------------------------------------------------------
+#}
+{% block bodytop %}
+{# If you need to add a content inside the BODY, between the HEADER and the BODY CONTENT #}
+{{ parent() }}
+    {% include 'snippets/snippet-example.twig' ignore missing %}
+{% endblock %}
+
+{% block bodybottom %}
+{# If you need to add a content inside the BODY, between the BODY CONTENT and the FOOTER #}
+{{ parent() }}
+{% endblock %}
+
+{###################
+ Additional Blocks
+ -------------------
+#}
+{% block header %}
+{# The HEADER inside the BODY tag can go here #}
+{% endblock %}
+
+{% block nav %}
+{# The NAV tag or menu code can go here #}
+{% endblock %}
+
+{# Here we have a couple of SIDEBARS #}
+{% block leftbar %}
+{# The LEFT Sidebar Content can go here #}
+{% endblock %}
+
+{% block rightbar %}
+{# The RIGHT  Sidebar Content can go here #}
+{% endblock %}
+
+{###################
+ Service Blocks
+ -------------------
+#}
+{% block styles %}
+{{ parent() }}
+{# Add custom Styles here. It wiill be inserted at the top of the page, in the <HEAD> section #}
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+{# Add custom Scripts and Javascript Snippets here. It wiill be inserted at the bottom of the page, aftger the <BODY> tag #}
 {% endblock %}

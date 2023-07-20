@@ -1,39 +1,66 @@
-{% extends "base/main.twig" %}
+{% extends "layout/page.twig" %}
 
-{% block title %}The Website is in Maintenance{% endblock %}
+{# Don't forget to set the <title> of your page. #}
+{% block title %}Maintenance Page{% endblock %}
 
-{% block styles %}
-    {{ parent() }}
-<!--  Welcome Page Custom Styles -->
-{% endblock %}
-
-{% block scripts %}
-    {{ parent() }}
-<!-- Welcome Page Custom JS -->
-{% endblock %}
-
-{% block bodytop %}
-    <!-- Top Content goes here. It will be added to the main.twig block named "bodybottom" -->
-    {{ parent() }}
-    
-<p><br /></p>
-
-{% endblock %}
-
+{# This is the BODY CONTENT of your page. #}
 {% block bodycontent %}
-    <div class="container" id="bodycontent">
-        <h1>This Website is in Maintenance Mode!</h1>
-        <h3>This is the Maintenance Page rendered by the Twig Templating System.</h3>
-        <p>If you are seeing this message your <b>Twig</b> and <b>Composer</b> are properly enabled in the <i>configuration file</i>, and you have the <b><u>Maintencance Mode</u></b> set to <b>ON</b>.</p>
-        <p>You don't need to use any template system, Composer or even MOODFIRED to build your site using this Boilerplate.</p>
-        <p>For more details and suggestions about coding practices and how to take advantage of this Boilerplate structure please refer to the documentation.</p>
-        <p>You can find the Twig file for this page (<b>maintenance.twig</b>) in the <b>"templates/boilerplate/"</b> folder of your site. It is renderd by the file <b>maintenance.php</b> located in the <b>"pages/boilerplate/common/"</b> folder.</p>
-        <p>Feel free to modify this page as needed. However, it would be much better to adjust your <i>configuration file</i> to point your Maintenance Page to a different file, if needed.</p>
-    </div>
+    <h3>This Website is in Maintenance Mode!</h3>
+    <h6>This is the Maintenance Page rendered by the Twig Templating System.</h6>
+    <p>If you are seeing this message your <b>Twig</b> and <b>Composer</b> are properly enabled in the <i>configuration file</i>, and you have the <b><u>Maintencance Mode</u></b> set to <b>ON</b>.</p>
+    <p>You don't need to use any template system, Composer or even MOODFIRED to build your site using this Boilerplate.</p>
+    <p>For more details and suggestions about coding practices and how to take advantage of this Boilerplate structure please refer to the documentation.</p>
+    <p>You can find the Twig file for this page (<b>maintenance.twig</b>) in the <b>"templates/boilerplate/"</b> folder of your site. It is renderd by the file <b>maintenance.php</b> located in the <b>"pages/boilerplate/common/"</b> folder.</p>
+    <p>Feel free to modify this page as needed. However, it would be much better to adjust your <i>configuration file</i> to point your Maintenance Page to a different file, if needed.</p>
+{% endblock %}
+
+{########################################################################################
+ These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
+ You can also 'include' files here and they will be added to the page in the right block.
+-----------------------------------------------------------------------------------------
+#}
+{% block bodytop %}
+{# If you need to add a content inside the BODY, between the HEADER and the BODY CONTENT #}
+{{ parent() }}
+    {% include 'snippets/snippet-example.twig' ignore missing %}
 {% endblock %}
 
 {% block bodybottom %}
-    <!-- Bottom Content goes here. It will be added to the main.twig block named "bodybottom" -->
+{# If you need to add a content inside the BODY, between the BODY CONTENT and the FOOTER #}
 {{ parent() }}
 {% endblock %}
 
+{###################
+ Additional Blocks
+ -------------------
+#}
+{% block header %}
+{# The HEADER inside the BODY tag can go here #}
+{% endblock %}
+
+{% block nav %}
+{# The NAV tag or menu code can go here #}
+{% endblock %}
+
+{# Here we have a couple of SIDEBARS #}
+{% block leftbar %}
+{# The LEFT Sidebar Content can go here #}
+{% endblock %}
+
+{% block rightbar %}
+{# The RIGHT  Sidebar Content can go here #}
+{% endblock %}
+
+{###################
+ Service Blocks
+ -------------------
+#}
+{% block styles %}
+{{ parent() }}
+{# Add custom Styles here. It wiill be inserted at the top of the page, in the <HEAD> section #}
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+{# Add custom Scripts and Javascript Snippets here. It wiill be inserted at the bottom of the page, aftger the <BODY> tag #}
+{% endblock %}

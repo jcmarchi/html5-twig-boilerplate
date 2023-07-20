@@ -6,7 +6,6 @@
     <!-- <meta charset="utf-8"> -->
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
 
-    {#
 
     <!--
         If you prefer using the CDN Version of Bootstrap, simply disable it
@@ -17,13 +16,14 @@
         for versions and other requirements.
     -->
 
+    {% if boilerplate.settings.extras.bootstrap.cdn %}
     <!-- Bootstrap's CSS file (via CDN)-->
     <link
-        href="https://stackpath.bootstrapcdn.com/bootstrap/{{config.bootstrap.version}}/css/bootstrap.min.css"
-        integrity="{{config.bootstrap.css_integrity}}"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/{{boilerplate.settings.extras.bootstrap.version}}/css/bootstrap.min.css"
+        integrity="{{boilerplate.settings.extras.bootstrap.css_integrity}}"
         crossorigin="anonymous"
         rel="stylesheet">
-    #}
-
+    {% else %}
     <!-- Bootstrap Local (via COMPOSER) -->
     <link href="{{vendor}}/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% endif %}

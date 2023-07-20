@@ -29,43 +29,24 @@
  * Quick Debug
  * : Example :
  */
-if (DEBUG):
+if ($_['config']['debug']['enabled']):
     echo "<div style='margin:15px'><hr>DEBUGGING EXAMPLE INITIATED!<hr>";
     if (defined('INSIGHT') && INSIGHT):
         insight($_);
+        if (isset($_SESSION)) insight($_SESSION);
         insight($_SERVER);
-        insight($_SESSION);
 
     else:
         echo "<pre>";
-
-        echo 'DS = ' . DS . "<br>";
-        echo 'APP = ' . APP . "<br>";
-        echo 'ROOT = ' . ROOT . "<br>";
-        echo 'DEBUG = ' . DEBUG . "<br>";
-        echo 'CONFIG = ' . CONFIG . "<br>";
-        echo 'AUTORENDER = ' . AUTORENDER . "<br>";
-
-        echo 'ENVIRONMENT = ' . ENVIRONMENT . "<br>";
-        echo 'COMPOSER = ' . COMPOSER . "<br>";
-        echo 'TWIG = ' . TWIG . "<br>";
-        echo 'MAINTENANCE = ' . MAINTENANCE . "<br>";
-        echo 'BOILERPLATE = ' . BOILERPLATE . "<br>";
-
+        echo '<br>$_BOILERPLATE ($_) = ';
+        print_r($_);
         if (isset($_SESSION)):
             echo '<br>$_SESSION = ';
             print_r($_SESSION);
         endif;
-
-        if (isset($_SERVER)):
-            echo '<br>$_SERVER = ';
-            print_r($_SERVER);
-        endif;
-
-        echo '<br>$_BOILERPLATE ($_) = ';
-        print_r($_);
+        echo '<br>$_SERVER = ';
+        print_r($_SERVER);
         echo "</pre>";
-
     endif;
     echo "<hr>DEBUGGING COMPLETED!<hr>";
 endif;

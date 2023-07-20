@@ -21,7 +21,7 @@
     },
     "debug": {
         "error_reporting": 32767,
-        "enabled": true,
+        "enabled": false,
         "output": "log"
     },
     "cache": {
@@ -37,7 +37,7 @@
     "language": "en",
     "charset": "utf-8",
     "extensions": {
-        "allowed": ["", "php"],
+        "allowed": ["html", "php"],
         "blocked": [ ],
         "default": "php",
         "empty": true
