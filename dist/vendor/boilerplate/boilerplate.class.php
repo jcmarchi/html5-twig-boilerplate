@@ -110,16 +110,6 @@ class siteClass {
         /**
          * Recursively loads all .json files from the /.config folder
          */
-        // $RDI = new \RegexIterator(
-        //          new \RecursiveIteratorIterator(
-        //            new \RecursiveDirectoryIterator(CONFIG)
-        //          ), '/^((.+?)(\.)(json))$/i'
-        //        );
-        // foreach ($RDI as $CFG) self::$config = array_merge(self::$config, json_decode(file_get_contents($CFG), true));
-
-        // insight(self::$config);
-        // die;
-
         $RDI = new \RegexIterator(
                  new \RecursiveIteratorIterator(
                    new \RecursiveDirectoryIterator(CONFIG)
@@ -127,9 +117,6 @@ class siteClass {
               );
         $test = [];
         foreach ($RDI as $CFG) self::$config[pathinfo(basename($CFG), PATHINFO_FILENAME)] = json_decode(file_get_contents($CFG), true);
-
-        // insight(self::$config);
-        // die;
 
         /**
          * Identify parts of the URL/URI to compose reference links for the template
@@ -214,9 +201,6 @@ class siteClass {
      *                  false  if file Twig is not exist installed ad initialization failed
      */
     public static function setTemplate($templateName = false) {
-
-        // global $_BOILERPLATE;
-
         /**
          * Properly discover and set template physical path
          */
@@ -240,6 +224,10 @@ class siteClass {
                 'domain' => $_SERVER['SERVER_NAME'],
                 'url'    => &self::$url,
                 'uri'    => &self::$uri
+            ],
+            'requested' => [
+                'url'    => fixSlashes( str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'] ) ),
+                'index'  => &self::$config['config']['index']
             ]
         ];
 

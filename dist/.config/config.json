@@ -41,5 +41,6 @@
         "blocked": [ ],
         "default": "php",
         "empty": true
-    }
+    },
+    "index": "index.php"
 }
