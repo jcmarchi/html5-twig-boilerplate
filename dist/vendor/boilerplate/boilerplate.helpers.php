@@ -19,7 +19,7 @@
 
 
 /**
- * Helper function to quickly call $twig->render
+ * Helper function to quickly call $_TWIG->render
  * with pre-set global variables from siteClass::$template
  *
  * @param  String  $page  A string with the name of the TWIG file to render (no extension required)
@@ -27,19 +27,23 @@
  */
 function renderPage($page, $vars = [])
 {
-    global $app, $twig;
+    global $_APP, $_TWIG;
 
     if (TWIG):
-        /** Bring the contents of the Array siteClass::$config to $twig_vars['config'] */
-        $app_config['config'] = siteClass::$config;
+        /** Bring the contents of the Array siteClass::$settings to $_TWIG_vars['boilerplate'] */
+        $vars['boilerplate'] = siteClass::$settings;
+        /** Bring the contents of the Array $_SERVER to $_TWIG_vars['server'] */
+        $vars['boilerplate']['server'] = !empty($_SERVER) ? $_SERVER : [];
+        /** Bring the contents of the Array $_SESSION (if it exists) to $_TWIG_vars['session'] */
+        $vars['boilerplate']['session'] = !empty($_SESSION) ? $_SESSION : [];
         /** Merge Dynamic Paths Array with Config Data Array and custom sent $vars Array/variable */
-        $twig_vars = array_merge(siteClass::$template['path'], $app_config, $vars);
+        $_TWIG_vars = array_merge(siteClass::$template['path'], $vars);
         /** Check if $page has been sent with an extension (I.e. 'page.twig') */
-        $twig_fext = pathinfo($page, PATHINFO_EXTENSION);
+        $_TWIG_fext = pathinfo($page, PATHINFO_EXTENSION);
         /** If no extension is defined, add it to the filename */
-        $twig_file = ($twig_fext == "" || $twig_fext == NULL) ? $page . ".twig" : $page;
+        $_TWIG_file = ($_TWIG_fext == "" || $_TWIG_fext == NULL) ? $page . ".twig" : $page;
         /** Render requested page with merged variables added */
-        print siteClass::$twig->render($twig_file, $twig_vars);
+        print siteClass::$twig->render($_TWIG_file, $_TWIG_vars);
     endif;
 
     return TWIG;
@@ -48,14 +52,18 @@ function renderPage($page, $vars = [])
 /**
  * Helper function to check if the page from URL actually exist in the filesystem.
  *
+ * This function uses a "default model" to confirm the page in the physical URL is
+ * present in the file system. It does not consider "virtualization" of the file system.
+ *
+ * This function is ideal to be used when called pages are publicly available (no login,
+ * no security) or when you simply want to display a non-twig page (PHP or HTML).
+ *
  * @return Boolean  true   if file exist
  *                  false  if file does not exist
  *                  null   if maintenance page is on (regardless if file exists or not)
  */
 function checkPage()
 {
-    global $app;
-
     if (defined('MAINTENANCE') && MAINTENANCE) return NULL;
 
     $localFile = str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI']);
@@ -68,6 +76,12 @@ function checkPage()
 /**
  * Helper function to check if the page from URL actually exist in the filesystem.
  *
+ * This function operates under the condition there is an array predefining available
+ * paths (locations) pages can be loaded from, while other locations, even if they
+ * exists, aren't allowed. It is perfect for sites that require credentials to access
+ * back-end or special contents, or if you want to have full control of your site's
+ * navigation.
+ *
  * @param  Array    $loc  A simple Array containing the possible paths to be investigated
  * @param  Array    $__EXTension (Optional) A simple Array with extensions to be observed.
  * @return Boolean  true   if file is "index"
@@ -77,7 +91,7 @@ function checkPage()
  */
 function checkVirtualPage($loc, $ext = [])
 {
-    global $app;
+    global $_APP;
 
     /** If maintenance mode is active, return NULL */
     if (defined('MAINTENANCE') && MAINTENANCE) return NULL;
@@ -85,10 +99,10 @@ function checkVirtualPage($loc, $ext = [])
     if (empty($loc)) return false;
 
     /** Merge provided $ext Array with default verifiable extensions. */
-    $cnf_e  = siteClass::$config['extensions']['allowed']; // Allowed extensions
-    $emp_e = siteClass::$config['extensions']['empty'] ? [''] : []; // Can we accept empty extension for files?
+    $cnf_e  = siteClass::$config['config']['extensions']['allowed']; // Allowed extensions
+    $emp_e = siteClass::$config['config']['extensions']['empty'] ? [''] : []; // Can we accept empty extension for files? :/
     $ext_f = array_merge($cnf_e, $ext, $emp_e); // Merge everything
-    $def_n = siteClass::$config['extensions']['default']; // Set default extension in case no extension exists in the request
+    $def_n = siteClass::$config['config']['extensions']['default']; // Set default extension in case no extension exists in the request
 
     /** Breakdown requested URI to find $request */
     $request = $unqueried = explode('?', $_SERVER['REQUEST_URI'])[0]; // Remove Query String from URL
@@ -100,10 +114,10 @@ function checkVirtualPage($loc, $ext = [])
     $request = pathinfo($request, PATHINFO_FILENAME);  // Get value of $request without the extension
 
     /** SubPaths are NOT allowed */
-    array_shift($middle);
-    array_pop($middle);
-    $middle = implode('/', $middle);
-    if (!empty($middle)) return false;
+    // array_shift($middle);
+    // array_pop($middle);
+    // $middle = implode('/', $middle);
+    // if (!empty($middle)) return false;
 
     /**
      * Safeguard to identify the index file in the root folder.
@@ -127,8 +141,11 @@ function checkVirtualPage($loc, $ext = [])
             /** Produce valid extension, if needed */
             $extension = empty($requestType) ? ".$def_n" : ".$requestType";
             /** Check files based on $loc + $request + possible extensions */
-            // $localFile = $app::$drive . $app::$uri . $path . '/' . $request . $extension;
-            $localFile = $app::$root . '/' . $path . '/' . $request . $extension;
+            // $localFile = $_APP::$drive . $_APP::$uri . $path . '/' . $request . $extension;
+            // $localFile = $_APP::$root . '/' . $path . '/' . $request . $extension;
+            $localFile = fixSlashes(siteClass::$settings['location']['app'] . '/' . $path . '/' . $request . $extension);
+            // insight();
+            // insight($localFile);
             /** Check if file truly exists. Return the full file path plus file name and extension if it does */
             if (file_exists($localFile)) return $localFile;
         endforeach;

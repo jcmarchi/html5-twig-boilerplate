@@ -4,13 +4,13 @@
  * Boilerplate Module :: STARTER
  *
  * This initialize the entire Boilerplate System and auto-instantiates the main
- * siteClass as "$app". May auto-instantiates Twig Template System as "$twig"
+ * siteClass as "$_APP". May auto-instantiates Twig Template System as "$_TWIG"
  * (if Twig is installed and enabled).
  *
  * - Sets the following constants: DS, APP, ROOT, DEBUG, CONFIG, AUTORENDER,
  *   ENVIRONMENT, COMPOSER, TWIG, MAINTENANCE, and BOILERPLATE.
  *
- * - Sets the following global variables: $env, $app, and $twig.
+ * - Sets the following global variables: $env, $_APP, and $_TWIG.
  *
  * - Checks for the existence of the following temporary variables: $_set,
  *   $_app, $DEBUG, $CONFIG, and $AUTORENDER.
@@ -19,7 +19,7 @@
  *
  * @since      July, 2019.
  * @category   Class
- * @version    2.0.2-beta 1
+ * @version    2.0.4-beta 2
  *
  * @author     Julio Marchi <contact@juliomarchi.com> | Twitter: @MrMarchi
  * @copyright  See Full Header Comment Blocks at "dist/index.php"
@@ -27,98 +27,98 @@
  */
 
 /**
- * Quick HELPER function to fix slashes in crazy paths
+ * Load Core Modules
  */
-function fixSlashes($str) {
-    return preg_replace('~/+~', '/', str_replace("\\", "/", $str) );
-}
-
- /**
- * Set Default variables for customization
- */
-$DEFAULT_ROOT      = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
-$DEFAULT_ROOT      = fixSlashes( (is_dir($DEFAULT_ROOT)) ? $DEFAULT_ROOT : dirname(dirname(realpath(__DIR__))) . DIRECTORY_SEPARATOR );
-/** If ROOT FOLDER is not valid, fail and terminate! */
-if (!is_dir($DEFAULT_ROOT)) die('<b>ABORTING!</b> ROOT Folder is invalid or misconfigured. Please check Boilerplate documentation.');
-
-$DEFAULT_APP        = $DEFAULT_ROOT . DIRECTORY_SEPARATOR . "app"      . DIRECTORY_SEPARATOR;
-$DEFAULT_SET        = $DEFAULT_ROOT . DIRECTORY_SEPARATOR . "app"      . DIRECTORY_SEPARATOR;
-$DEFAULT_VENDOR     = $DEFAULT_ROOT . DIRECTORY_SEPARATOR . "vendor"   . DIRECTORY_SEPARATOR;
-$DEFAULT_TEMPLATE   = $DEFAULT_ROOT . DIRECTORY_SEPARATOR . "template" . DIRECTORY_SEPARATOR;
-$DEFAULT_CONFIG     = $DEFAULT_ROOT . DIRECTORY_SEPARATOR . ".config" . DIRECTORY_SEPARATOR;
-$DEFAULT_TEMPL_REL  = "template"    . DIRECTORY_SEPARATOR;
-$DEFAULT_APP_FILE   = "app.php";
-$DEFAULT_SET_FILE   = "set.php";
-$DEFAULT_DEBUG      = false;
-$DEFAULT_AUTORENDER = true;
+require_once __DIR__ . DIRECTORY_SEPARATOR . "boilerplate.class.php";
+require_once __DIR__ . DIRECTORY_SEPARATOR . "boilerplate.functions.php";
+require_once __DIR__ . DIRECTORY_SEPARATOR . "boilerplate.helpers.php";
+require_once __DIR__ . DIRECTORY_SEPARATOR . "boilerplate.db.php";
 
 /**
- * Check User Customizations and if valid use it, otherwise, use pre-defined defaults above.
+ * Set Default variables for customization
  */
-$_BOILERPLATE['location']['root']         = fixSlashes( (!empty($ROOT) && is_dir($ROOT))         ? $ROOT              : $DEFAULT_ROOT );
-$_BOILERPLATE['location']['app']          = fixSlashes( (!empty($APP) && is_dir($APP))           ? $APP               : $DEFAULT_APP );
-$_BOILERPLATE['location']['set']          = fixSlashes( (!empty($SET) && is_dir($SET))           ? $SET               : $DEFAULT_SET );
-$_BOILERPLATE['location']['vendor']       = fixSlashes( (!empty($VENDOR) && is_dir($VENDOR))     ? $VENDOR            : $DEFAULT_VENDOR );
-$_BOILERPLATE['location']['config']       = fixSlashes( (!empty($CONFIG) && is_dir($CONFIG))     ? $CONFIG            : $DEFAULT_CONFIG );
-$_BOILERPLATE['location']['template']     = fixSlashes( (!empty($TEMPLATE) && is_dir($TEMPLATE)) ? $TEMPLATE          : $DEFAULT_TEMPLATE );
-$_BOILERPLATE['location']['template_rel'] = fixSlashes( (!empty($TEMPLATE_RELATIVE))             ? $TEMPLATE_RELATIVE : $DEFAULT_TEMPL_REL );  // Relative Path for the Template's folder
+$DEFAULT_ROOT_FOLDER = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
+$DEFAULT_ROOT_FOLDER = fixSlashes( (is_dir($DEFAULT_ROOT_FOLDER)) ? $DEFAULT_ROOT_FOLDER: dirname(dirname(realpath(__DIR__))) . DIRECTORY_SEPARATOR );
+/** If ROOT FOLDER is not valid, fail and terminate! */
+if (!is_dir($DEFAULT_ROOT_FOLDER)) die('<b>ABORTING!</b> ROOT Folder is invalid or misconfigured. Please check Boilerplate documentation.');
 
-$_BOILERPLATE['location']['app_file']     = (!empty($APP_FILE) && file_exists($APP . $APP_FILE)) ? $APP_FILE : "app.php";
-$_BOILERPLATE['location']['set_file']     = (!empty($SET_FILE) && file_exists($SET . $SET_FILE)) ? $SET_FILE : "set.php";
+$DEFAULT_APP_FOLDER      = $DEFAULT_ROOT_FOLDER. DIRECTORY_SEPARATOR . "app"      . DIRECTORY_SEPARATOR;
+$DEFAULT_SET_FOLDER      = $DEFAULT_ROOT_FOLDER. DIRECTORY_SEPARATOR . "app"      . DIRECTORY_SEPARATOR;
+$DEFAULT_CONFIG_FOLDER   = $DEFAULT_ROOT_FOLDER. DIRECTORY_SEPARATOR . ".config"  . DIRECTORY_SEPARATOR;
+$DEFAULT_VENDOR_FOLDER   = $DEFAULT_ROOT_FOLDER. DIRECTORY_SEPARATOR . "vendor"   . DIRECTORY_SEPARATOR;
+$DEFAULT_TEMPLATE_FOLDER = $DEFAULT_ROOT_FOLDER. DIRECTORY_SEPARATOR . "template" . DIRECTORY_SEPARATOR;
+$DEFAULT_TEMPL_REL       = "template" . DIRECTORY_SEPARATOR;
+$DEFAULT_APP_FILE        = "app.php";
+$DEFAULT_SET_FILE        = "set.php";
+$DEFAULT_DEBUG           = false;
+$DEFAULT_AUTORENDER      = true;
 
-$_BOILERPLATE['location']['boilerplate']  = fixSlashes( $_BOILERPLATE['location']['vendor'] . "boilerplate" . DIRECTORY_SEPARATOR );
+/**
+ * Build Boilerplate Global Variable and check if "developer's customizations" exist.
+ * Use it if it does. Otherwise, use pre-defined defaults.
+ */
+$_BOILERPLATE['location']['root']      = fixSlashes( (!empty($ROOT)       && is_dir($ROOT))       ? $ROOT       : $DEFAULT_ROOT_FOLDER);
+$_BOILERPLATE['location']['app']       = fixSlashes( (!empty($APP_FOLDER) && is_dir($APP_FOLDER)) ? $APP_FOLDER : $DEFAULT_APP_FOLDER );
+$_BOILERPLATE['location']['set']       = fixSlashes( (!empty($SET_FOLDER) && is_dir($SET_FOLDER)) ? $SET_FOLDER : $DEFAULT_SET_FOLDER );
+$_BOILERPLATE['location']['vendor']    = fixSlashes( (!empty($VENDOR)     && is_dir($VENDOR))     ? $VENDOR     : $DEFAULT_VENDOR_FOLDER );
+$_BOILERPLATE['location']['config']    = fixSlashes( (!empty($CONFIG)     && is_dir($CONFIG))     ? $CONFIG     : $DEFAULT_CONFIG_FOLDER);
+$_BOILERPLATE['location']['template']  = fixSlashes( (!empty($TEMPLATE)   && is_dir($TEMPLATE))   ? $TEMPLATE   : $DEFAULT_TEMPLATE_FOLDER );
+ // Relative Path for the Template's folder
+$_BOILERPLATE['location']['templ_rel'] = fixSlashes( (!empty($TEMPLATE_RELATIVE)) ? $TEMPLATE_RELATIVE : $DEFAULT_TEMPL_REL );
+// Temporary SETUP and APPLICATION files
+$setup_file = (!empty($SET_FILE) && file_exists($SET_FOLDER . $SET_FILE)) ? $SET_FILE : "set.php";
+$application_file = (!empty($APP_FILE) && file_exists($APP_FOLDER . $APP_FILE)) ? $APP_FILE : "app.php";
+// The Boilerplate vendor's folder
+$_BOILERPLATE['location']['boilerplate'] = fixSlashes( $_BOILERPLATE['location']['vendor'] . "boilerplate" . DIRECTORY_SEPARATOR );
 
 /**
  * Build Primary Constants.
  * User can custom-define those by using the following disposable variables:
  */
-define('DS', DIRECTORY_SEPARATOR);
-define('ROOT', $_BOILERPLATE['location']['root']);
-define('CONFIG', $_BOILERPLATE['location']['config']);
-define('APP', $_BOILERPLATE['location']['app'] . $_BOILERPLATE['location']['app_file']);
-define('SET', $_BOILERPLATE['location']['set'] . $_BOILERPLATE['location']['set_file']);
-define('DEBUG', isset($DEBUG) ?? $DEFAULT_DEBUG);
-define('AUTORENDER', isset($AUTORENDER) ?? $DEFAULT_AUTORENDER);
+define('DS'         , "/");  // We rather use the most modern global standard "/" instead of DIRECTORY_SEPARATOR
+define('APP'        , $_BOILERPLATE['location']['app']);
+define('SET'        , $_BOILERPLATE['location']['set']);
+define('ROOT'       , $_BOILERPLATE['location']['root']);
+define('CONFIG'     , $_BOILERPLATE['location']['config']);
+define('SETUP'      , $_BOILERPLATE['location']['set'] . $setup_file);
+define('APPLICATION', $_BOILERPLATE['location']['app'] . $application_file);
+define('AUTORENDER' , isset($AUTORENDER) ?? $DEFAULT_AUTORENDER);
+// define('DEBUG'      , isset($DEBUG) ?? $DEFAULT_DEBUG);
 
 /**
- * Load Custom Config set by APP
+ * Instantiate siteClass in the $_APP object.
  */
-if (file_exists(SET)) require_once SET;
+$_APP = new siteClass(ROOT);
 
 /**
- * Load Core Modules
+ * Now that we have loaded all the modules, instantiated the system core items,
+ * parsed all entries, and set all the constants we need, it is time to allow
+ * developers to load their own Custom Config Settings, which they can define
+ * by setting the the variablesLoad Custom Config set by specifying the path
+ * in $DEFAULT_SET_FOLDER and the file in $DEFAULT_SET_FILE, which are combined
+ * into the constant SETUP based on the variable evaluation and folder/file
+ * existence. Not required.
  */
-require_once $_BOILERPLATE['location']['boilerplate'] . "boilerplate.class.php";
-require_once $_BOILERPLATE['location']['boilerplate'] . "boilerplate.functions.php";
-require_once $_BOILERPLATE['location']['boilerplate'] . "boilerplate.helpers.php";
-require_once $_BOILERPLATE['location']['boilerplate'] . "boilerplate.db.php";
-
-/**
- * Instantiate siteClass in the $app object
- * and set Config Data mirror in $_BOILERPLATE['config']
- */
-$app = new siteClass(ROOT);
+if (file_exists(SETUP)) require_once SETUP;
 
 /**
  * Check defined ENVIRONMENT option from Config File
  * Use default ('TEST') if it is not defined or config file doesn't exit.
  */
-$possibleEnvironment = (isset(siteClass::$config['environment']['current']) && !empty(siteClass::$config['environment']['current']))
-                     ? strtoupper(siteClass::$config['environment']['current'])
+$possible_environment = (isset(siteClass::$config['config']['environment']['current']) && !empty(siteClass::$config['config']['environment']['current']))
+                     ? strtoupper(siteClass::$config['config']['environment']['current'])
                      : 'TEST';
-define('ENVIRONMENT', in_array($possibleEnvironment, siteClass::$config['environment']['types'])
-                     ? $possibleEnvironment
+define('ENVIRONMENT', in_array($possible_environment, siteClass::$config['config']['environment']['types'])
+                     ? $possible_environment
                      : 'TEST');
 
-error_reporting( ((ENVIRONMENT == 'PRODUCTION') ? 0 : siteClass::$config['debug']['error_reporting']));
-ini_set("error_reporting", ((ENVIRONMENT == 'PRODUCTION') ? 0 : siteClass::$config['debug']['error_reporting']));
+error_reporting( ((ENVIRONMENT == 'PRODUCTION') ? 0 : siteClass::$config['config']['debug']['error_reporting']));
+ini_set("error_reporting", ((ENVIRONMENT == 'PRODUCTION') ? 0 : siteClass::$config['config']['debug']['error_reporting']));
 
 /**
  * Initialize and load COMPOSER Objects
  */
-if (isset(siteClass::$config['composer']) && siteClass::$config['composer']):
-
-
+if (isset(siteClass::$config['config']['composer']) && siteClass::$config['config']['composer']):
     if (file_exists($_BOILERPLATE['location']['vendor'] . "autoload.php")) {
         include_once $_BOILERPLATE['location']['vendor'] . "autoload.php";
         define('COMPOSER', true);
@@ -126,19 +126,19 @@ if (isset(siteClass::$config['composer']) && siteClass::$config['composer']):
         print "<b>Error 4001</b>: COMPOSER not initialized.<br>";
         define('COMPOSER', false);
     }
-
 endif;
+If (!defined('COMPOSER')) define('COMPOSER', false);
 
 /**
  * Initialize Twig Template System
  * Will set the constant TWIG to TRUE if Twig is installed, or as FALSE otherwise.
- * If Twig is present and successfully initialized, also point $twig to the Twig Object.
+ * If Twig is present and successfully initialized, also point $_TWIG to the Twig Object.
  */
-if (isset(siteClass::$config['twig']['install']) && siteClass::$config['twig']['install'] && COMPOSER):
+if (isset(siteClass::$config['config']['twig']['install']) && siteClass::$config['config']['twig']['install'] && COMPOSER):
     /** Set initialize Twig and set status as a result of the initialization */
-    define('TWIG', $app::initializeTemplate() );
-    /** Point $twig to the Twig Object (pure convenience) */
-    $twig = &siteClass::$twig;
+    define('TWIG', $_APP::initializeTemplate() );
+    /** Point $_TWIG to the Twig Object (pure convenience) */
+    $_TWIG = &siteClass::$twig;
 
 else:
     /** Set Twig status */
@@ -149,8 +149,8 @@ endif;
 /**
  * Define Maintenance Mode
  */
-if (isset(siteClass::$config['maintenance'])):
-    define('MAINTENANCE', siteClass::$config['maintenance']);
+if (isset(siteClass::$config['config']['maintenance'])):
+    define('MAINTENANCE', siteClass::$config['config']['maintenance']);
 
 else:
     define('MAINTENANCE', false);
@@ -162,12 +162,6 @@ endif;
  * Boilerplate Core has been loaded
  */
 define('BOILERPLATE', true);
-
-/**
- * Create an variable named '$_' that will act as an "alias"
- * to reference (pointer) to the $_BOILERPLATE Global Variable.
- */
-$_ = &$_BOILERPLATE;
 
 /**
  * The $_BOILERPLATE Global Variable houses a series of important variables and collected
@@ -183,42 +177,70 @@ $_ = &$_BOILERPLATE;
  *
  * P.S.: Sorry for some redundancy in few of the sub-arrays (yeah, we know about that!).
  */
-$_BOILERPLATE['environment']           = &siteClass::$config['environment'];
-$_BOILERPLATE['template']              = &siteClass::$template;
-$_BOILERPLATE['access']                = &siteClass::$template['access'];
-$_BOILERPLATE['path']                  = &siteClass::$template['path'];
-$_BOILERPLATE['location']['root']      = &siteClass::$root;
-$_BOILERPLATE['location']['drive']     = &siteClass::$drive;
-$_BOILERPLATE['db']                    = &siteClass::$config['databases'];
-$_BOILERPLATE['config']['maintenance'] = &siteClass::$config['maintenance'];
-$_BOILERPLATE['config']['composer']    = &siteClass::$config['composer'];
-$_BOILERPLATE['config']['twig']        = &siteClass::$config['twig'];
-$_BOILERPLATE['config']['debug']       = &siteClass::$config['debug'];
-$_BOILERPLATE['config']['cache']       = &siteClass::$config['cache'];
-$_BOILERPLATE['config']['log']         = &siteClass::$config['log'];
-$_BOILERPLATE['config']['timezone']    = &siteClass::$config['timezone'];
-$_BOILERPLATE['config']['country']     = &siteClass::$config['country'];
-$_BOILERPLATE['config']['language']    = &siteClass::$config['language'];
-$_BOILERPLATE['config']['charset']     = &siteClass::$config['charset'];
-$_BOILERPLATE['config']['extensions']  = &siteClass::$config['extensions'];
-$_BOILERPLATE['CONSTANT']              = &get_defined_constants(true)['user'];
-$_BOILERPLATE['settings']              = &siteClass::$config;
-$_BOILERPLATE['app']                   = &$app;
-$_BOILERPLATE['twig']                  = &$twig;
+siteClass::$settings['environment']           = &siteClass::$config['config']['environment'];
+siteClass::$settings['template']              = &siteClass::$template;
+siteClass::$settings['access']                = &siteClass::$template['access'];
+siteClass::$settings['path']                  = &siteClass::$template['path'];
+siteClass::$settings['location']['root']      = &siteClass::$root;
+siteClass::$settings['location']['drive']     = &siteClass::$drive;
+siteClass::$settings['databases']             = &siteClass::$config['databases'];
+siteClass::$settings['config']['maintenance'] = &siteClass::$config['config']['maintenance'];
+siteClass::$settings['config']['composer']    = &siteClass::$config['config']['composer'];
+siteClass::$settings['config']['twig']        = &siteClass::$config['config']['twig'];
+siteClass::$settings['config']['debug']       = &siteClass::$config['config']['debug'];
+siteClass::$settings['config']['cache']       = &siteClass::$config['config']['cache'];
+siteClass::$settings['config']['log']         = &siteClass::$config['config']['log'];
+siteClass::$settings['config']['timezone']    = &siteClass::$config['config']['timezone'];
+siteClass::$settings['config']['country']     = &siteClass::$config['config']['country'];
+siteClass::$settings['config']['language']    = &siteClass::$config['config']['language'];
+siteClass::$settings['config']['charset']     = &siteClass::$config['config']['charset'];
+siteClass::$settings['config']['extensions']  = &siteClass::$config['config']['extensions'];
+siteClass::$settings['settings']              = &siteClass::$config;
+siteClass::$settings['CONSTANTS']             = &get_defined_constants(true)['user'];
+
+/**
+ * Create a Global Variable '$_' and overwrite '$_BOILERPLATE'.
+ * Both variables are set to be used as "aliases", via reference (pointer),
+ * for the contents of the (Static) siteClass::$settings Array Data.
+ */
+$_ = $_BOILERPLATE = &siteClass::$settings;
+
+/**
+ * TODO: DEPRECATED references. To be removed: $app and $twig.
+ * Create two additional Global Variables: '$app' and '$twig'.
+ * Both variables are "aliases" and access the contents of
+ * the $_APP and $_TWIG respectively via reference (pointer).
+ */
+$app = &$_APP;
+$twig = &$_TWIG;
+
+// insight($_);
+// insight($_APP);
+// insight($_TWIG);
+// insight($_BOILERPLATE);
+// insight(siteClass::$settings);
+// die;
 
 /**
  * And, in the spirit of preserving RAM and keeping the software "clean', we
  * disposable some of the variables we certainly don't need beyond this point.
  * Welcome to the most basic concept of "Garbage Collection".
  */
-unset($DEFAULT_ROOT, $DEFAULT_APP, $DEFAULT_SET, $DEFAULT_VENDOR, $DEFAULT_TEMPLATE, $DEFAULT_CONFIG, $DEFAULT_TEMPL_REL, $DEFAULT_APP_FILE, $DEFAULT_SET_FILE, $DEFAULT_DEBUG, $DEFAULT_AUTORENDER);
+// Unset $DEFAULTS_*
+unset($DEFAULT_ROOT_FOLDER, $DEFAULT_APP_FOLDER, $DEFAULT_SET_FOLDER, $DEFAULT_CONFIG_FOLDER, $DEFAULT_VENDOR_FOLDER);
+unset($DEFAULT_TEMPLATE_FOLDER, $DEFAULT_TEMPL_REL, $DEFAULT_APP_FILE, $DEFAULT_SET_FILE, $DEFAULT_DEBUG, $DEFAULT_AUTORENDER);
+// Unset Developer's Custom Variables
 unset($ROOT, $APP, $SET, $VENDOR, $CONFIG, $TEMPLATE, $TEMPLATE_RELATIVE, $APP_FILE, $SET_FILE);
-unset($possibleEnvironment, $_set, $_app);
+// Unset Temporary Variables
+unset($possible_environment, $setup_file, $application_fie);
 
 /**
- * Load the APP
+ * Time to load the APP. The path is defined in $DEFAULT_SET_FOLDER and the
+ * name defined in $DEFAULT_SET_FILE, which are combined into the constant
+ * APPLICATION.
+ * Required.
  */
-if (file_exists(APP)) require_once APP;
+if (file_exists(APPLICATION)) require_once APPLICATION;
 
 /**
  * Load AUTORENDER Object

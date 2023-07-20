@@ -1,8 +1,8 @@
 {
-    "sitename": "The Name of Your Site",
+    "sitename": "HTML5—Twig Boilerplate",
     "product": {
-        "name": "The Name of Your Product",
-        "domain": "domain.com",
+        "name": "html5-twig-boilerplate",
+        "domain": "https://github.com/jcmarchi/html5-twig-boilerplate",
         "version": "1.0.00a",
         "release": "Beta",
         "description": "www.site.com",
@@ -10,7 +10,7 @@
         "notes": "Any notes relevant to the product.",
         "copyright": "Copyright Notice",
         "publisher": "www.website.com",
-        "email": "contact@email.com",
+        "email": "contact@juliomarchi.com",
         "devteam": {
             "pmo": "Project Manager",
             "dev": [
@@ -25,7 +25,7 @@
 
     "disclaimer": [
         ":: LEGAL DISCLAIMER ::\n",
-        ":: The entire content of this website is property of the 'COmpany Name''.\n",
+        ":: The entire content of this website is property of the 'Company Name''.\n",
         "::\n",
         ":: No portion of this product may be copied or reproduced in any form without permission from the publisher,\n",
         ":: exception to any existing open source products as per their individual regulations, policies and licenses,\n",

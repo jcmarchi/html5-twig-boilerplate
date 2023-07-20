@@ -1,0 +1,9 @@
+
+    <!-- jQuery, via CDN + fallback to local copy if CDN fail -->
+    <script
+        src="https://code.jquery.com/jquery-{{boilerplate.settings.extras.jquery.version}}.min.js"
+        integrity="{{boilerplate.settings.extras.jquery.integrity}}"
+        crossorigin="anonymous"></script>
+
+    <!-- Failsafe jQuery Loader - Local copy -->
+    <script>window.jQuery || document.write('<script src="{{js}}/jquery-{{boilerplate.settings.extras.jquery.version}}.min.js" type="text/javascript">\x3C/script>')</script>

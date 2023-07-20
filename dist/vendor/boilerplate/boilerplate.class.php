@@ -9,7 +9,7 @@
  * referent to the "root location" (physical path) of the website root folder
  * in the server filesystem.
  *
- * This CLASS is auto-instantiated by "boilerplate.start.php" as "$app".
+ * This CLASS is auto-instantiated by "boilerplate.start.php" as "$_APP".
  *
  * @since      March, 2019.
  * @category   Class
@@ -31,16 +31,17 @@
  *    siteClass::startSite(__DIR__);
  *
  * Instantiated:
- *    $app = new siteClass(__DIR__);
+ *    $_APP = new siteClass(__DIR__);
  *
  */
 class siteClass {
+    const BOILERPLATE = '1.0.1-beta 18';
 
     /** Private Datasets */
     private static $mainClassInitialized = false;
 
     /** Public Datasets */
-    public static $settings = [],
+    public static $settings    = [],
                   $config      = [],
                   $template    = [],
                   $drive       = null,
@@ -109,23 +110,23 @@ class siteClass {
         /**
          * Recursively loads all .json files from the /.config folder
          */
-        $RDI = new \RegexIterator(
-                 new \RecursiveIteratorIterator(
-                   new \RecursiveDirectoryIterator(CONFIG)
-                 ), '/^((.+?)(\.)(json))$/i'
-               );
-        foreach ($RDI as $CFG) self::$config = array_merge(self::$config, json_decode(file_get_contents($CFG), true));
-
-        // insight(self::$config);
-        // die;
-
         // $RDI = new \RegexIterator(
         //          new \RecursiveIteratorIterator(
         //            new \RecursiveDirectoryIterator(CONFIG)
         //          ), '/^((.+?)(\.)(json))$/i'
-        //       );
-        // $test = [];
-        // foreach ($RDI as $CFG) self::$config[pathinfo(basename($CFG), PATHINFO_FILENAME)] = json_decode(file_get_contents($CFG), true);
+        //        );
+        // foreach ($RDI as $CFG) self::$config = array_merge(self::$config, json_decode(file_get_contents($CFG), true));
+
+        // insight(self::$config);
+        // die;
+
+        $RDI = new \RegexIterator(
+                 new \RecursiveIteratorIterator(
+                   new \RecursiveDirectoryIterator(CONFIG)
+                 ), '/^((.+?)(\.)(json))$/i'
+              );
+        $test = [];
+        foreach ($RDI as $CFG) self::$config[pathinfo(basename($CFG), PATHINFO_FILENAME)] = json_decode(file_get_contents($CFG), true);
 
         // insight(self::$config);
         // die;
@@ -137,7 +138,8 @@ class siteClass {
         /** Exposes custom Server PORT */
         $serverport = ($_SERVER["SERVER_PORT"] == 80 || $_SERVER["SERVER_PORT"] == 443) ? "" : ":" . $_SERVER["SERVER_PORT"];
         /** Build relative based (URI) on website root location (not URL page location). Correct slashes and clean double slashes. */
-        $pathinside = str_replace('\\', "/", str_replace(self::$base, "", self::$root)) . "/";
+        // $pathinside = str_replace('\\', "/", str_replace(self::$base, "", self::$root)) . "/";
+        $pathinside = self::$root;
         self::$uri  = ($_SERVER["SERVER_PORT"] == 80 || $_SERVER["SERVER_PORT"] == 443) ? "/" . $pathinside : str_replace('//', '/', $pathinside);
         self::$uri  = self::$uri == "" ? '/' : self::$uri;
         /** Windows protection for empty base URI that result in "double-slashes". */
@@ -168,9 +170,9 @@ class siteClass {
          * TWIG Environment Options defined in the site's configuration file.
          */
         self::$template['environment'] = array(
-          'cache'               => self::$config['cache']['enabled'] ? self::$root . DS . self::$config['cache']['folder'] : false,
-          'debug'               => self::$config['debug']['enabled'],
-          'charset'             => (!empty(self::$config['charset'])) ? self::$config['charset'] : "UTF-8", // Default = 'UTF-8'
+          'cache'               => fixSlashes(self::$config['config']['cache']['enabled'] ? self::$root . DS . self::$config['config']['cache']['folder'] : false),
+          'debug'               => self::$config['config']['debug']['enabled'],
+          'charset'             => (!empty(self::$config['config']['charset'])) ? self::$config['config']['charset'] : "UTF-8", // Default = 'UTF-8'
           'base_template_class' => 'Twig_Template',   // Default = 'Twig_Template'
           'strict_variables'    => false,             // Default = false
           'autoescape'          => 'html',            // Default = 'html'
@@ -180,20 +182,20 @@ class siteClass {
         /**
          * Set reference variables for templates in regards to important resources
          */
-        $path = self::$config['twig']['fullpath'] ? self::$url . "/" : self::$uri;
+        $path = self::$config['config']['twig']['fullpath'] ? self::$url . "/" : self::$uri;
         self::$template['path'] = [
             'url'       => &self::$url,
             'uri'       => &self::$uri,
-            'vendor'    => $path . "vendor",
-            'assets'    => $path . "assets",
-            'js'        => $path . "assets/" . 'js',
-            'css'       => $path . "assets/" . 'css',
-            'img'       => $path . "assets/" . 'img',
-            'font'      => $path . "assets/" . 'font',
-            'audio'     => $path . "assets/" . 'audio',
-            'video'     => $path . "assets/" . 'video',
-            'plugins'   => $path . "assets/" . 'plugins',
-            'resources' => $path . "assets/" . 'resources'
+            'vendor'    => fixSlashes($path . "vendor"),
+            'assets'    => fixSlashes($path . "assets"),
+            'js'        => fixSlashes($path . "assets" . DS . 'js'),
+            'css'       => fixSlashes($path . "assets" . DS . 'css'),
+            'img'       => fixSlashes($path . "assets" . DS . 'img'),
+            'font'      => fixSlashes($path . "assets" . DS . 'font'),
+            'audio'     => fixSlashes($path . "assets" . DS . 'audio'),
+            'video'     => fixSlashes($path . "assets" . DS . 'video'),
+            'plugins'   => fixSlashes($path . "assets" . DS . 'plugins'),
+            'resources' => fixSlashes($path . "assets" . DS . 'resources')
         ];
 
         /**
@@ -213,15 +215,17 @@ class siteClass {
      */
     public static function setTemplate($templateName = false) {
 
+        // global $_BOILERPLATE;
+
         /**
          * Properly discover and set template physical path
          */
         if ($templateName && file_exists(self::$settings['location']['template'] . $templateName)):
-            $direct   = self::$settings['location']['template'] . $templateName;
-            $relative = self::$settings['location']['template_rel'] . $templateName;
+            $direct   = fixSlashes(self::$settings['location']['template'] . $templateName);
+            $relative = fixSlashes(self::$settings['location']['templ_rel'] . $templateName);
         else:
-            $direct   = self::$settings['location']['template'] . self::$config['twig']['template'] . DS;
-            $relative = self::$settings['location']['template_rel'] . self::$config['twig']['template'] . DS;
+            $direct   = self::$settings['location']['template'] . self::$config['config']['twig']['template'] . DS;
+            $relative = self::$settings['location']['templ_rel'] . self::$config['config']['twig']['template'] . DS;
         endif;
 
         /**
@@ -250,7 +254,9 @@ class siteClass {
          * Based on NEW TWIG 3.0.
          */
         self::$twig = new \Twig\Environment(
-                      new \Twig\Loader\FilesystemLoader( self::$template['access']['local']['direct'] ), self::$template['environment']
+                        new \Twig\Loader\FilesystemLoader(
+                            self::$template['access']['local']['direct']
+                        ), self::$template['environment']
                     );
 
         /**
@@ -258,7 +264,6 @@ class siteClass {
          */
         return true;
     }
-
 
 }
 

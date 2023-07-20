@@ -47,6 +47,17 @@
  */
 $s = microtime(true);
 
+
+/**
+ * TO DO: TO BE DELETED
+ * Load Supporting Objects
+ */
+require_once "vendor/moodfired/insight/insight.php";
+define('INSIGHT', true);
+require_once "vendor/moodfired/sherlock/sherlock.php";
+define('SHERLOCK', true);
+
+
 /**
  * Initialize Boilerplate (REQUIRED)
  */
@@ -67,4 +78,4 @@ require "vendor/boilerplate/boilerplate.start.php";
  * Capture execution time ended and print complete execution time.
  */
 $e = microtime(true);
-printf("<span style='font-size:xx-small; margin-left: 20px; color:#8a8a8a;'>Page loaded in %f seconds.</span>", $e-$s);
+printf("<span style='font-size:xx-small; color:#8a8a8a;'>Page loaded in %f seconds.</span>", $e-$s);

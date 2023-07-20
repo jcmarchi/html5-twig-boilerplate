@@ -1,39 +1,68 @@
-{% extends "base/main.twig" %}
+{% extends "layout/page.twig" %}
 
-{% block title %}Welcome to Your Website{% endblock %}
+{# Don't forget to set the <title> of your page. #}
+{% block title %}{{boilerplate.settings.software.sitename}}{% endblock %}
 
+{# This is the BODY CONTENT of your page. #}
+{% block bodycontent %}
+    <!-- The body of the page goes here -->
+
+    <h3>This is a HTML page</h3>
+    <h5> It has been rendered via HTML5—Twig Boilerplate System.</h5>
+    <p>You are seeing this message because <b>Twig</b> and <b>Composer</b> are properly set and enabled in the <i>configuration file</i>.</p>
+    <p>You can find the Twig file for this page (<b>welcome.twig</b>) in the <b>"template/boilerplate/"</b> folder of your site.<br>
+        This Twig file is loaded and renderd by the <b>welcome.php</b> file located in the <b>"app/pages/common/"</b> folder.</p>
+    <p>You can modify this page as needed and use it as the official Welcome Page for your site, but you can also adjust your <i>configuration file</i> to point your Welcome Page to a different file, if needed.</p>
+    <p>For more details and suggestions about coding practices and how to take advantage of this Boilerplate structure please refer to the documentation.</p>
+{% endblock %}
+
+{########################################################################################
+ These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
+ You can also 'include' files here and they will be added to the page in the right block.
+-----------------------------------------------------------------------------------------
+#}
+{% block bodytop %}
+{# If you need to add a content inside the BODY, between the HEADER and the BODY CONTENT #}
+{{ parent() }}
+    {% include 'snippets/snippet-example.twig' ignore missing %}
+{% endblock %}
+
+{% block bodybottom %}
+{# If you need to add a content inside the BODY, between the BODY CONTENT and the FOOTER #}
+{{ parent() }}
+{% endblock %}
+
+{###################
+ Additional Blocks
+ -------------------
+#}
+{% block header %}
+{# The HEADER inside the BODY tag can go here #}
+{% endblock %}
+
+{% block nav %}
+{# The NAV tag or menu code can go here #}
+{% endblock %}
+
+{# Here we have a couple of SIDEBARS #}
+{% block leftbar %}
+{# The LEFT Sidebar Content can go here #}
+{% endblock %}
+
+{% block rightbar %}
+{# The RIGHT  Sidebar Content can go here #}
+{% endblock %}
+
+{###################
+ Service Blocks
+ -------------------
+#}
 {% block styles %}
 {{ parent() }}
-    <!--  Welcome Page Custom Styles -->
+{# Add custom Styles here. It wiill be inserted at the top of the page, in the <HEAD> section #}
 {% endblock %}
 
 {% block scripts %}
 {{ parent() }}
-    <!-- Welcome Page Custom JS -->
+{# Add custom Scripts and Javascript Snippets here. It wiill be inserted at the bottom of the page, aftger the <BODY> tag #}
 {% endblock %}
-
-{% block bodytop %}
-    <!-- Top Content goes here. It will be added to the main.twig block named "bodybottom" -->
-{{ parent() }}
-
-<p><br /></p>
-
-{% endblock %}
-
-{% block bodycontent %}
-    <div class="container" id="bodycontent">
-        <h1>Welcome!</h1>
-        <h3>This is a HTML page rendered via Twig Templating System. </h3>
-        <p>You are seeing this message because <b>Twig</b> and <b>Composer</b> are properly set and enabled in the <i>configuration file</i>.</p>
-        <p>You can find the Twig file for this page (<b>welcome.twig</b>) in the <b>"template/boilerplate/"</b> folder of your site.<br>
-           This Twig file is loaded and renderd by the <b>welcome.php</b> file located in the <b>"app/pages/common/"</b> folder.</p>
-        <p>You can modify this page as needed and use it as the official Welcome Page for your site, but you can also adjust your <i>configuration file</i> to point your Welcome Page to a different file, if needed.</p>
-        <p>For more details and suggestions about coding practices and how to take advantage of this Boilerplate structure please refer to the documentation.</p>
-    </div>
-{% endblock %}
-
-{% block bodybottom %}
-    <!-- Bottom Content goes here. It will be added to the main.twig block named "bodybottom" -->
-{{ parent() }}
-{% endblock %}
-
