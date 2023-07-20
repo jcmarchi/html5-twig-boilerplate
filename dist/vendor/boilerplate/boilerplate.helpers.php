@@ -30,9 +30,15 @@ function renderPage($page, $vars = [])
     global $app, $twig;
 
     if (TWIG):
-        $twig_vars = array_merge(siteClass::$template['vars'], $vars);
+        /** Bring the contents of the Array siteClass::$config to $twig_vars['config'] */
+        $app_config['config'] = siteClass::$config;
+        /** Merge Dynamic Paths Array with Config Data Array and custom sent $vars Array/variable */
+        $twig_vars = array_merge(siteClass::$template['path'], $app_config, $vars);
+        /** Check if $page has been sent with an extension (I.e. 'page.twig') */
         $twig_fext = pathinfo($page, PATHINFO_EXTENSION);
+        /** If no extension is defined, add it to the filename */
         $twig_file = ($twig_fext == "" || $twig_fext == NULL) ? $page . ".twig" : $page;
+        /** Render requested page with merged variables added */
         print siteClass::$twig->render($twig_file, $twig_vars);
     endif;
 

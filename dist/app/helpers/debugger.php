@@ -17,7 +17,7 @@
  *
  * @since      July, 2023.
  * @category   Debugger
- * @version    1.0.0-beta 1
+ * @version    1.0.2-beta 1
  *
  * @author     Julio Marchi <contact@juliomarchi.com> | Twitter: @MrMarchi
  * @copyright  See Full Header Comment Blocks at "dist/index.php"
@@ -32,9 +32,10 @@
 if (DEBUG):
     echo "<div style='margin:15px'><hr>DEBUGGING EXAMPLE INITIATED!<hr>";
     if (defined('INSIGHT') && INSIGHT):
+        insight($_);
+        insight($_SERVER);
         insight($_SESSION);
-        insight($env);
-        insight($twig);
+
     else:
         echo "<pre>";
 
@@ -61,9 +62,8 @@ if (DEBUG):
             print_r($_SERVER);
         endif;
 
-        echo '<br>siteClass::$config = ';
-        print_r($env);
-        // print_r($twig);
+        echo '<br>$_BOILERPLATE ($_) = ';
+        print_r($_);
         echo "</pre>";
 
     endif;

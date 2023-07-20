@@ -35,11 +35,6 @@
  * @license    https://opensource.org/licenses/MIT
  */
 
-
-
-/** Set Initialization Variables */
-$DEBUG = true;
-
 /** Create Array of Allowed Locations */
 $locations = [
     'pages',

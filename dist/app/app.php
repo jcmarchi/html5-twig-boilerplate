@@ -43,4 +43,4 @@ endif;
 
 
 /** Quick Debug */
-if (DEBUG) require_once $env['path']['app'] . "helpers" . DS . "debugger.php";
+if (DEBUG) require_once $_['location']['app'] . "helpers" . DS . "debugger.php";

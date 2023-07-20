@@ -1,6 +1,9 @@
 {
-    "environment": "DEV",
-    "environment_simulated": "",
+    "environment": {
+        "types": ["DEV", "TEST", "STAGE", "PRODUCTION"],
+        "current": "DEV",
+        "simulated": ""
+    },
     "maintenance": false,
     "composer": true,
     "static": {
@@ -17,6 +20,7 @@
         "error": "error.php"
     },
     "debug": {
+        "error_reporting": 32767,
         "enabled": true,
         "output": "log"
     },

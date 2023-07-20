@@ -40,15 +40,15 @@ class siteClass {
     private static $mainClassInitialized = false;
 
     /** Public Datasets */
-    public static $drive    = null,
-                  $base     = null,
-                  $root     = null,
-                  $url      = null,
-                  $uri      = null,
-                  $env      = [],
-                  $config   = [],
-                  $template = [],
-                  $twig     = null;
+    public static $settings = [],
+                  $config      = [],
+                  $template    = [],
+                  $drive       = null,
+                  $base        = null,
+                  $root        = null,
+                  $url         = null,
+                  $uri         = null,
+                  $twig        = null;
 
 
     /**
@@ -74,7 +74,7 @@ class siteClass {
      */
     public static function startSite($root) {
 
-        global $env;
+        global $_BOILERPLATE;
 
         /**
          * If already Initialize, just quit (no double initialization allowed)
@@ -85,7 +85,7 @@ class siteClass {
          * Set mainClass as Initialized
          */
         self::$mainClassInitialized = true;
-        self::$env = $env;
+        self::$settings = $_BOILERPLATE;
 
         /**
          * Define $roo and $base for direct and relative calls
@@ -111,10 +111,24 @@ class siteClass {
          */
         $RDI = new \RegexIterator(
                  new \RecursiveIteratorIterator(
-                   new \RecursiveDirectoryIterator(self::$root . DS . CONFIG . DS)
+                   new \RecursiveDirectoryIterator(CONFIG)
                  ), '/^((.+?)(\.)(json))$/i'
                );
         foreach ($RDI as $CFG) self::$config = array_merge(self::$config, json_decode(file_get_contents($CFG), true));
+
+        // insight(self::$config);
+        // die;
+
+        // $RDI = new \RegexIterator(
+        //          new \RecursiveIteratorIterator(
+        //            new \RecursiveDirectoryIterator(CONFIG)
+        //          ), '/^((.+?)(\.)(json))$/i'
+        //       );
+        // $test = [];
+        // foreach ($RDI as $CFG) self::$config[pathinfo(basename($CFG), PATHINFO_FILENAME)] = json_decode(file_get_contents($CFG), true);
+
+        // insight(self::$config);
+        // die;
 
         /**
          * Identify parts of the URL/URI to compose reference links for the template
@@ -167,7 +181,7 @@ class siteClass {
          * Set reference variables for templates in regards to important resources
          */
         $path = self::$config['twig']['fullpath'] ? self::$url . "/" : self::$uri;
-        self::$template['vars'] = [
+        self::$template['path'] = [
             'url'       => &self::$url,
             'uri'       => &self::$uri,
             'vendor'    => $path . "vendor",
@@ -179,8 +193,7 @@ class siteClass {
             'audio'     => $path . "assets/" . 'audio',
             'video'     => $path . "assets/" . 'video',
             'plugins'   => $path . "assets/" . 'plugins',
-            'resources' => $path . "assets/" . 'resources',
-            'config'    => &self::$config
+            'resources' => $path . "assets/" . 'resources'
         ];
 
         /**
@@ -203,26 +216,26 @@ class siteClass {
         /**
          * Properly discover and set template physical path
          */
-        if ($templateName && file_exists(self::$env['path']['template'] . $templateName)):
-            $direct   = self::$env['path']['template'] . $templateName;
-            $relative = self::$env['path']['template_rel'] . $templateName;
+        if ($templateName && file_exists(self::$settings['location']['template'] . $templateName)):
+            $direct   = self::$settings['location']['template'] . $templateName;
+            $relative = self::$settings['location']['template_rel'] . $templateName;
         else:
-            $direct   = self::$env['path']['template'] . self::$config['twig']['template'] . DS;
-            $relative = self::$env['path']['template_rel'] . self::$config['twig']['template'] . DS;
+            $direct   = self::$settings['location']['template'] . self::$config['twig']['template'] . DS;
+            $relative = self::$settings['location']['template_rel'] . self::$config['twig']['template'] . DS;
         endif;
 
         /**
          * Save template path information
          */
-        self::$template['path'] = [
+        self::$template['access'] = [
             'local' => [
                 'direct'   => $direct,
                 'relative' => $relative
             ],
             'web' => [
-            'domain' => $_SERVER['SERVER_NAME'],
-            'url'    => &self::$url,
-            'uri'    => &self::$uri
+                'domain' => $_SERVER['SERVER_NAME'],
+                'url'    => &self::$url,
+                'uri'    => &self::$uri
             ]
         ];
 
@@ -230,14 +243,14 @@ class siteClass {
          * Check if Twig is physically installed.
          * Terminate and return FALSE if not.
          */
-        if (!is_dir(self::$env['path']['vendor'] . "twig")) return false;
+        if (!is_dir(self::$settings['location']['vendor'] . "twig")) return false;
 
         /**
          * Initialize (or override) Twig Template Core.
          * Based on NEW TWIG 3.0.
          */
         self::$twig = new \Twig\Environment(
-                      new \Twig\Loader\FilesystemLoader( self::$template['path']['local']['direct'] ), self::$template['environment']
+                      new \Twig\Loader\FilesystemLoader( self::$template['access']['local']['direct'] ), self::$template['environment']
                     );
 
         /**

@@ -1,0 +1,9 @@
+{
+    "main": {
+        "server"  : "67.149.231.27",
+        "database": "",
+        "username": "root",
+        "password": "Knopfler28",
+        "notes"   : ""
+    }
+}
