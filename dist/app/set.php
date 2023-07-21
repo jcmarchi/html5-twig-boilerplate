@@ -32,23 +32,6 @@
  */
 
 /**
- * Set Error Reporting
- */
-if (siteclass::$config['config']['debug']['enabled']) error_reporting( E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED );
-
-// /** Create Array of Allowed Locations */
-// $locations = [
-//     'pages',
-//     'pages/common',
-//     'pages/public',
-//     'pages/static'
-// ];
-// /** Define default service pages */
-// $welcome     = 'pages/public/welcome.php';
-// $maintenance = 'pages/common/maintenance.php';
-// $error       = 'pages/common/error.php';
-
-/**
  * Create an Array with the allowed paths and files.
  * This Array is just an example. Developers can design it as they
  * please, as the final resolution is all about how they decide to
@@ -56,9 +39,9 @@ if (siteclass::$config['config']['debug']['enabled']) error_reporting( E_ALL & ~
  */
 
 /**
- * Define my list of locatios I'd allow the system to look for files matching the request
+ * Define my list of locations I'd allow the system to look for files matching the request
  */
-$access['locations'] = ['pages', 'pages/common', 'pages/public', 'pages/static'];
+$access['locations'] = ['app/pages', 'app/pages/common', 'app/pages/public', 'app/pages/static'];
 
 /**
  * We are listing here the service pages we want the system to use in
@@ -66,16 +49,16 @@ $access['locations'] = ['pages', 'pages/common', 'pages/public', 'pages/static']
  * we don't even need to use an Array for it. This is just an example.
  * Once you understand the process, you can do it as you want.
  */
-$access['direct']['welcome'] = 'pages/public/welcome.php';
-$access['direct']['maintenance'] = 'pages/common/maintenance.php';
-$access['direct']['error'] = 'pages/common/error.php';
+$access['direct']['welcome']     = 'app/pages/public/welcome.php';
+$access['direct']['error']       = 'app/pages/common/error.php';
+$access['direct']['maintenance'] = 'app/pages/common/maintenance.php';
 
 /**
- * There are statci pages I can allow the system to fallback in case nothing
+ * There are static pages I can allow the system to fallback in case nothing
  * is set (COMPOSER, TWIG, etc.). It is just a convenience and it can be
  * entirely ignored.
  */
-$access['static']['welcome'] = 'app/pages/static/welcome.html';
+$access['static']['welcome']     = 'app/pages/static/welcome.html';
+$access['static']['error']       = 'app/pages/static/error.html';
 $access['static']['maintenance'] = 'app/pages/static/maintenance.html';
-$access['static']['error'] = 'app/pages/static/error.html';
 

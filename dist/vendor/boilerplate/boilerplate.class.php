@@ -208,7 +208,7 @@ class siteClass {
             $direct   = fixSlashes(self::$settings['location']['template'] . $templateName);
             $relative = fixSlashes(self::$settings['location']['templ_rel'] . $templateName);
         else:
-            $direct   = self::$settings['location']['template'] . self::$config['config']['twig']['template'] . DS;
+            $direct   = self::$settings['location']['template']  . self::$config['config']['twig']['template'] . DS;
             $relative = self::$settings['location']['templ_rel'] . self::$config['config']['twig']['template'] . DS;
         endif;
 

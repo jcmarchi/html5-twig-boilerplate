@@ -3,21 +3,21 @@
     "product": {
         "name": "html5-twig-boilerplate",
         "domain": "https://github.com/jcmarchi/html5-twig-boilerplate",
-        "version": "1.0.00a",
-        "release": "Beta",
-        "description": "www.site.com",
-        "license": "The license of the product.",
-        "notes": "Any notes relevant to the product.",
-        "copyright": "Copyright Notice",
-        "publisher": "www.website.com",
+        "version": "1.0.1-beta 18",
+        "release": "beta 18",
+        "description": "www.juliomarchi.com",
+        "license": "MIT.",
+        "notes": "It is a beta product, with many issues and bugs to be found, and many features partially implemented. Use at your own risk.",
+        "copyright": "Copyright © 2023 : All Rights Reserved.",
+        "publisher": "www.juliomarchi.com",
         "email": "contact@juliomarchi.com",
         "devteam": {
             "pmo": "Project Manager",
             "dev": [
                 {
-                    "name": "Developer's Name",
-                    "Position": "Lead Developer",
-                    "email": "contact@developer.com"
+                    "name": "Julio Marchi",
+                    "Position": "System Engineer, Software Architecture, and Lead Developer",
+                    "email": "contact@juliomarchi.com"
                 }
             ]
         }
@@ -25,13 +25,41 @@
 
     "disclaimer": [
         ":: LEGAL DISCLAIMER ::\n",
-        ":: The entire content of this website is property of the 'Company Name''.\n",
+        ":: The entire content of this Product & the Website it produces is property of 'Quantum Leap Innovations, LLC.'.\n",
         "::\n",
         ":: No portion of this product may be copied or reproduced in any form without permission from the publisher,\n",
         ":: exception to any existing open source products as per their individual regulations, policies and licenses,\n",
         ":: and/or whereas permitting is granted by U.S. Copyright Laws.\n",
-        "\n",
-        "  Designed, Developed and Published by: 'Project Owner's Name'\n"
+        ":: \n",
+        ":: Designed, Developed and Published by: 'Julio Marchi', after more than 35 years building custom systems worldwide.\n",
+        ":: \n",
+        ":: Built for PHP version 8+ (may work with PHP 7+ and 5.4+ versions. Warnings may be issued!).\n",
+        ":: \n",
+        ":: Created & Developed by Quantum Leap Innovations, LLC | QLi: qlitp.com\n",
+        ":: In association with Global COMPEL International, LLC | GCi: gcompel.com\n",
+        ":: Proudly Maintained by MSX Holding & Enterprises, LLC | MSX: msxholding.com\n",
+        ":: \n",
+        ":: @copyright Quantum Leap Innovations, LLC | QLi: quantumleap-innovations.com\n",
+        ":: @copyright Marchi & Associates, LLC      | M&A: marchiandassociates.com\n",
+        ":: \n",
+        ":: @see       MOODFIRED is the QLi Official Brand for Technology Products & Projects.\n",
+        ":: @link      moodfired.com | moodfired.net | moodfired.org\n",
+        ":: \n",
+        ":: @author    Julio Marchi   <contact@juliomarchi.com> | Twitter: @MrMarchi\n",
+        ":: @support   Ralph Wolfgang <mr.skanner@gmail.com>    | Twitter: @mrSkanner\n",
+        ":: @thanksto  Special Thanks to Eliazer Kosciuk [KLAX] | Twitter: @klaxmsx\n",
+        ":: \n",
+        ":: LICENSED UNDER THE MIT LICENSE.\n",
+        ":: Permission is hereby granted, free of charge, to any person obtaining a copy\n",
+        ":: of this software  and  associated  documentation  files (the \"Software\"), to\n",
+        ":: deal in the Software  without  restriction, including without limitation the\n",
+        ":: rights  to use, copy, modify, merge, publish, distribute, sublicense, and/or\n",
+        ":: sell  copies of the Software, and to permit  persons to whom the Software is\n",
+        ":: furnished to do so, subject to the following conditions:\n",
+        ":: \n",
+        ":: The above copyright notice and this permission notice shall be included\n",
+        ":: in all copies or substantial portions of the Software.\n",
+        ":: @license    https://opensource.org/licenses/MIT\n"
     ],
     "CopyrightScript": [
         "     <!-- Console Annotation: 'All your base are belong to us!' (https://en.wikipedia.org/wiki/All_your_base_are_belong_to_us) -->\n",

@@ -9,7 +9,7 @@
  *
  * @since      May, 2022.
  * @category   Supporting Functions
- * @version    2.1.2-beta 2
+ * @version    2.4.2-beta 2
  *
  * @author     Julio Marchi <contact@juliomarchi.com> | Twitter: @MrMarchi
  * @copyright  See Full Header Comment Blocks at "dist/index.php"

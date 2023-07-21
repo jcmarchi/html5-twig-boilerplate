@@ -37,8 +37,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . "boilerplate.db.php";
 /**
  * Set Default variables for customization
  */
-// $DEFAULT_ROOT_FOLDER = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
-// $DEFAULT_ROOT_FOLDER = fixSlashes( (is_dir($DEFAULT_ROOT_FOLDER)) ? $DEFAULT_ROOT_FOLDER: dirname(dirname(realpath(__DIR__))) . DIRECTORY_SEPARATOR );
+/** If the site structure change, this must be adjusted. */
 $DEFAULT_ROOT_FOLDER = fixSlashes(dirname(dirname(realpath(__DIR__))) . DIRECTORY_SEPARATOR);
 /** If ROOT FOLDER is not valid, fail and terminate! */
 if (!is_dir($DEFAULT_ROOT_FOLDER)) die('<b>ABORTING!</b> ROOT Folder is invalid or misconfigured. Please check Boilerplate documentation.');
@@ -112,6 +111,10 @@ define('ENVIRONMENT', in_array($possible_environment, siteClass::$config['config
                      ? $possible_environment
                      : 'TEST');
 
+/**
+ * Set Error Reporting based on Environment and respecting the Configuration File.
+ * For PRODUCTION environment, all error reporting gets fully disabled.
+ */
 error_reporting( ((ENVIRONMENT == 'PRODUCTION') ? 0 : siteClass::$config['config']['debug']['error_reporting']));
 ini_set("error_reporting", ((ENVIRONMENT == 'PRODUCTION') ? 0 : siteClass::$config['config']['debug']['error_reporting']));
 
@@ -175,13 +178,14 @@ define('BOILERPLATE', true);
  * Ultimately, if there is something relevant your code will need to function within the
  * Boilerplate, it can certainly be found in the $_BOILERPLATE Global Variable.
  *
- * P.S.: Sorry for some redundancy in few of the sub-arrays (yeah, we know about that!).
+ * P.S.: Sorry for some redundancies in few of the sub-arrays (yeah, we know about those!).
  */
 siteClass::$settings['environment']           = &siteClass::$config['config']['environment'];
 siteClass::$settings['template']              = &siteClass::$template;
 siteClass::$settings['access']                = &siteClass::$template['access'];
 siteClass::$settings['path']                  = &siteClass::$template['path'];
 siteClass::$settings['location']['root']      = &siteClass::$root;
+siteClass::$settings['location']['cache']     =  siteClass::$root . siteClass::$config['config']['cache']['folder'] . DS;
 siteClass::$settings['location']['drive']     = &siteClass::$drive;
 siteClass::$settings['databases']             = &siteClass::$config['databases'];
 siteClass::$settings['config']['maintenance'] = &siteClass::$config['config']['maintenance'];
@@ -205,22 +209,6 @@ siteClass::$settings['CONSTANTS']             = &get_defined_constants(true)['us
  * for the contents of the (Static) siteClass::$settings Array Data.
  */
 $_ = $_BOILERPLATE = &siteClass::$settings;
-
-/**
- * TODO: DEPRECATED references. To be removed: $app and $twig.
- * Create two additional Global Variables: '$app' and '$twig'.
- * Both variables are "aliases" and access the contents of
- * the $_APP and $_TWIG respectively via reference (pointer).
- */
-// $app = &$_APP;
-// $twig = &$_TWIG;
-
-// insight($_);
-// insight($_APP);
-// insight($_TWIG);
-// insight($_BOILERPLATE);
-// insight(siteClass::$settings);
-// die;
 
 /**
  * And, in the spirit of preserving RAM and keeping the software "clean', we

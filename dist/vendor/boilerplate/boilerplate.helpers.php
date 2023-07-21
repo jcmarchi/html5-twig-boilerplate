@@ -10,7 +10,7 @@
  *
  * @since      December, 2021.
  * @category   Helper
- * @version    1.0.0-beta 1
+ * @version    1.0.6-beta 1
  *
  * @author     Julio Marchi <contact@juliomarchi.com> | Twitter: @MrMarchi
  * @copyright  See Full Header Comment Blocks at "dist/index.php"
@@ -27,8 +27,6 @@
  */
 function renderPage($page, $vars = [])
 {
-    global $_APP, $_TWIG;
-
     if (TWIG):
         /** Bring the contents of the Array siteClass::$settings to $_TWIG_vars['boilerplate'] */
         $vars['boilerplate'] = siteClass::$settings;
@@ -101,11 +99,11 @@ function checkPage($loc = "")
     $theURL = pathinfo($request);
 
     if (!isset($theURL['extension'])):
-        // $theURL['index']   = empty($theURL['basename']) ? "index.php" : $theURL['basename'];
         $theURL['request'] = fixSlashes( $request . DS . siteClass::$template['access']['requested']['index'] );
+
     else:
-        // $theURL['index']   = empty($theURL['basename']) ? "index.php" : $theURL['basename'];
         $theURL['request'] = fixSlashes( $request );
+
     endif;
 
     return file_exists( $theURL['request'] );
@@ -181,7 +179,7 @@ function checkVirtualPage($loc, $ext = [])
             /** Check files based on $loc + $request + possible extensions */
             // $localFile = $_APP::$drive . $_APP::$uri . $path . '/' . $request . $extension;
             // $localFile = $_APP::$root . '/' . $path . '/' . $request . $extension;
-            $localFile = fixSlashes(siteClass::$settings['location']['app'] . '/' . $path . '/' . $request . $extension);
+            $localFile = fixSlashes(siteClass::$settings['location']['root'] . '/' . $path . '/' . $request . $extension);
             /** Check if file truly exists. Return the full file path plus file name and extension if it does */
             if (file_exists($localFile)) return $localFile;
         endforeach;
@@ -191,5 +189,44 @@ function checkVirtualPage($loc, $ext = [])
     return false;
 }
 
+/**
+ * Function to do the one thing this amazing template system (Twig) failed to implement: CLEAN THE CACHE!
+ *
+ * This function already know where the CACHE FOLDER is located at, unless you entirely remove it from the
+ * configuration file. In such case, I strongly recommend NEVER use this function because you can accidentally
+ * delete all the files from your own server or site, assuming you have a wrong folder noted. The same rule
+ * applies if you send the location as a parameter.
+ *
+ *           ************************************
+ *           ***    USE IT A YOUR OWN RISK    ***
+ *           ************************************
+ *
+ * You wil be safe if you maintain the structure of the Boilerplate pertaining to the CACHE FOLDER LOCATION.
+ * The function will delete ALL FILES and FOLDERS from inside the CACHING FOLDER, excluding the ones listed in
+ * the $keep_files Array AND also excluding the CACHING FOLDER folder itself.
+ *
+ * This function use PHP's internal Recursive Iterator, which is safe and highly efficient. It may clean a CACHING
+ * FOLDER with hundreds of thousands of files without adding not even a fraction of second in the page load.
+ *
+ * @param  String    $loc  The function won't check if the variable is a string, or if the path exists.
+ *                         If used, it should be the full location of the CACHE FOLDER (i.e: "D:/webroot/.cache/").
+ * @return nothing
+ */
+function clearTwigCache($loc = "") {
+
+    $cache_folder = empty($loc) ? siteClass::$settings['location']['cache'] : $loc;
+    $keep_files   = [ '.gitkeep', 'index.php' ];
+
+    /** Recursivelly remove files from sub-folders, then the folder, keeping the $keep_files */
+    foreach( new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator( $cache_folder, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS ),
+        RecursiveIteratorIterator::CHILD_FIRST ) as $item ) {
+            if ($item->isFile()) {
+               if ( !in_array(basename($item), $keep_files) ) unlink( $item );
+            } else {
+                rmdir( $item );
+            }
+    }
+}
 
 ?>
