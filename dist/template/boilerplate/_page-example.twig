@@ -3,6 +3,9 @@
 {# Don't forget to set the <title> of your page. #}
 {% block title %}{{boilerplate.settings.software.sitename}} | Page Example{% endblock %}
 
+{# If you need to add anything to the <body> Tag itself, this is the place to do it: #}
+{% block BODYTAG %}{{ parent() }}{% endblock %}
+
 {########################################################################################
  These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
  You can also 'include' files here and they will be added to the page in the right block.
