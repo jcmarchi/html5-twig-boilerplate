@@ -438,3 +438,9 @@ function terminateAjax($status = 0) {
 function fixSlashes($str) {
     return preg_replace('~/+~', '/', str_replace("\\", "/", $str) );
 }
+
+abstract class test {
+    static function fixSlashes($str) {
+        return preg_replace('~/+~', '/', str_replace("\\", "/", $str) );
+    }
+}

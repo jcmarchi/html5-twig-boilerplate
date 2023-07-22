@@ -42,10 +42,6 @@
  */
 
 
-/**
- * Capture execution time started
- */
-$s = microtime(true);
 
 
 /**
@@ -73,9 +69,3 @@ require "vendor/boilerplate/boilerplate.start.php";
  * If using this file for additional tasks, make sure the
  * execution will resume here. Otherwise, use the /app/app.php instead.
  */
-
- /**
- * Capture execution time ended and print complete execution time.
- */
-$e = microtime(true);
-printf("<span style='font-size:xx-small; color:#8a8a8a;'>Page loaded in %f seconds.</span>", $e-$s);

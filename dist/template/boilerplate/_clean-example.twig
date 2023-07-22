@@ -1,0 +1,69 @@
+{% extends "layout/clean.template.twig" %}
+
+{# Don't forget to set the <title> of your page. #}
+{% block title %}{{boilerplate.settings.software.sitename}} | The CLEAN Page{% endblock %}
+
+{########################################################################################
+ These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
+ You can also 'include' files here and they will be added to the page in the right block.
+
+ For most Web Applications and Sites - including online stores - the current template
+ model should suffice. All the elements are present and it is fairly easy to adjust the
+ look and feel of each block via CSS.
+
+ In few cases, you can simply make a copy of the Master Layout named 'page.twig' and
+ change it to your needs. Then, adjust the template {% extends %} of your page to load
+ your new file and you can have countless templates for all your needs.
+
+ The sessions below, if not used, can simply be left empy. You don't need to delete them.
+
+ Ther are a couple of "Special Blocks" in the 'page.twig' that are listed in the comments
+ at the end of this page. Use it wisely.
+-------------------------------------------------------------------------------------- #}
+
+{# Here is how to add a content inside the <body> tag #}
+{% block BODY %}
+{% include 'snippets/snippet-example.twig' ignore missing %}
+    <h3>This is a CLEAN HTML page</h3>
+    <h5>It has been rendered via HTML5—Twig Boilerplate System, but almost everything else was ignored!</h5>
+    <p>You are seeing this message because <b>Twig</b> and <b>Composer</b> are properly set and enabled in the <i>configuration file</i>.</p>
+    <p>This is the CLEAN PAGE (using <b>clean.example.twig</b>). There is no much to see here. Most of the configuration file has been
+    ignored and only jQuery and Boostrap have been loaded. This is the most <i>basic and plain vanila example</i> other than an entirely wiping out the template.</p>
+    <p>This example can be used for new pages requiring full template customization, entirely new website structures, and even for learning.</p>
+    <p>For more details and suggestions about coding practices and how to take advantage of this Boilerplate structure please refer to the documentation.</p>
+
+{{ parent() }}
+{% endblock %}
+
+{########################################################################################
+Assuming you need to add some important meta, script, or css inside the <head> tag
+of the template, you can use the tag below to inject content either BEFORE or AFTER
+the parent contens (just use the {{ parent() }} reference object).
+
+If you don't use the {{ parent() }} reference object, the entire contents of the <head>
+tag will be replaced by the new contents.
+-------------------------------------------------------------------------------------- #}
+{% block HEAD %}
+{{ parent() }}
+{% endblock %}
+
+{###################################################
+ Service Blocks
+ ---------------------------------------------------
+ If you don't use the {{ parent() }} reference,
+ the entire contents of the block will be replaced!
+ ------------------------------------------------ #}
+{# Add custom Styles here. It wiill be inserted at the top of the page, in the <head> section #}
+{% block styles %}
+{{ parent() }}
+<style>
+    body {
+        margin:20px 40px;
+    }
+</style>
+{% endblock %}
+
+{# Add custom Scripts and Javascript Snippets here. It wiill be inserted at the bottom of the page, at the end of the <body> tag #}
+{% block scripts %}
+{{ parent() }}
+{% endblock %}

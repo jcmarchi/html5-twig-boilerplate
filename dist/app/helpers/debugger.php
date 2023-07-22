@@ -31,6 +31,7 @@
  */
 if ($_['config']['debug']['enabled']):
     echo "<div style='margin:15px'><hr>DEBUGGING EXAMPLE INITIATED!<hr>";
+    printf("<p style='font-size:x-small;'>Page loaded in %f seconds.</p><br>", $_['execution'] );
     if (defined('INSIGHT') && INSIGHT):
         insight($_);
         if (isset($_SESSION)) insight($_SESSION);

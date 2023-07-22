@@ -27,6 +27,11 @@
  */
 
 /**
+ * Capture execution time started
+ */
+$_execution_started = microtime(true);
+
+/**
  * Load Core Modules
  */
 require_once __DIR__ . DIRECTORY_SEPARATOR . "boilerplate.class.php";
@@ -38,7 +43,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . "boilerplate.db.php";
  * Set Default variables for customization
  */
 /** If the site structure change, this must be adjusted. */
-$DEFAULT_ROOT_FOLDER = fixSlashes(dirname(dirname(realpath(__DIR__))) . DIRECTORY_SEPARATOR);
+$DEFAULT_ROOT_FOLDER = test::fixSlashes(dirname(dirname(realpath(__DIR__))) . DIRECTORY_SEPARATOR);
 /** If ROOT FOLDER is not valid, fail and terminate! */
 if (!is_dir($DEFAULT_ROOT_FOLDER)) die('<b>ABORTING!</b> ROOT Folder is invalid or misconfigured. Please check Boilerplate documentation.');
 
@@ -70,6 +75,14 @@ $setup_file = (!empty($SET_FILE) && file_exists($SET_FOLDER . $SET_FILE)) ? $SET
 $application_file = (!empty($APP_FILE) && file_exists($APP_FOLDER . $APP_FILE)) ? $APP_FILE : "app.php";
 // The Boilerplate vendor's folder
 $_BOILERPLATE['location']['boilerplate'] = fixSlashes( $_BOILERPLATE['location']['vendor'] . "boilerplate" . DIRECTORY_SEPARATOR );
+// The HTML5—Twig Boilerplate Signature
+$file = new SplFileObject( __DIR__ . DIRECTORY_SEPARATOR . ".boilerplate", "r" );
+$file->setFlags(SplFileObject::READ_CSV);
+foreach ($file as $row):
+    list($key, $value) = $row;
+    $_BOILERPLATE['_'][$key] = $value;
+endforeach;
+unset($file, $row, $key, $value);
 
 /**
  * Build Primary Constants.
@@ -235,3 +248,16 @@ if (file_exists(APPLICATION)) require_once APPLICATION;
  * Load AUTORENDER Object
  */
 if (defined('AUTORENDER') && AUTORENDER) require_once $_BOILERPLATE['location']['boilerplate'] . "boilerplate.autorender.php";
+
+/**
+ * Capture execution time ended and save it to $_.
+ */
+$_execution_concluded = microtime(true);
+$_['execution'] = $_execution_concluded-$_execution_started;
+
+// Unset Temporary Variables
+unset($_execution_concluded, $_execution_started);
+
+// Check if basic debugger is in place, and load it if it is
+if (is_file($_['location']['app'] . "helpers" . DS . "debugger.php"))
+   require_once $_['location']['app'] . "helpers" . DS . "debugger.php";

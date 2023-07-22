@@ -1,7 +1,7 @@
 {% extends "layout/page.template.twig" %}
 
 {# Don't forget to set the <title> of your page. #}
-{% block title %}Page Not Found | {{boilerplate.settings.software.sitename}}{% endblock %}
+{% block title %}{{boilerplate.settings.software.sitename}} | Page Example{% endblock %}
 
 {########################################################################################
  These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
@@ -23,15 +23,28 @@
 
 {# This is the BODY CONTENT of your page. #}
 {% block bodycontent %}
-    <!-- The body of the page goes here -->
-    <h2>Oh, no... Looks like you've tripped on something!</h2>
-    <h3>Status Code ({{ErrorCode}})</h3>
-    <p>But, don't worry! You didn't break anything... It is just a simple error page.</p>
+{#
+    Most of your page contents can be placed here.
+
+    For most common implementations, you can add all your HTML here. The rest of the blocks
+    are conevniently organized so you can either use them and style your page structure
+    with CSS, but also to allow most templates to be easily dismantled and reassembled using
+    the blocks below. Adjust can be made in this file (to add more blocks) and/or in the
+    'page.template.twig' file to acommodate specific fine tunes beyond the proposed
+    structure.
+
+    Simply copy this file from the /layout/ folder to the location you need it to be inside
+    your /template/ folder and full it up with your contents.
+
+    Adjust your {% extends %} statement to reflect your /template/ folder and, if you renamed
+    the 'page.template.twig', just make sure your page will extend the right layout.
+#}
+    <p>Hi, I am a plain page... Just check the 'Page Source'.</p>
 {% endblock %}
 
 {# If you need to add a content inside the <body>, between the HEADER and the BODY CONTENT #}
 {% block bodytop %}
-{% include 'snippets/snippet-example.twig' ignore missing %}
+{% include 'snippets/snippet-example.twig' ignore missing %} {# <- THIS IS JUST AN EXAMPLE! #}
 {% endblock %}
 
 {# If you need to add a content inside the <body>, between the BODY CONTENT and the FOOTER #}
@@ -101,7 +114,7 @@
 -------------------------------------------------------------------------------------- #}
 
 {########################################################################################
-Assuming you need to add some important meta, script, or css inside the <head> tag
+Assuming you need to add some important meta, script, or css inside the <body> tag
 of the template, you can use the tag below to inject content either BEFORE or AFTER
 the parent contens (just use the {{ parent() }} reference object).
 
@@ -109,7 +122,7 @@ If you don't use the {{ parent() }} reference object, the entire contents of the
 tag will be replaced by the new contents, and unless you know what you are doing,
 everything should break.
 -------------------------------------------------------------------------------------- #}
-{% block HEAD %}
+{% block head %}
 {{ parent() }}
 {% endblock %}
 
@@ -123,6 +136,6 @@ tag will be replaced by the new contents. Only a few scripts in the bottom of th
 shall remain as they are "head" elements placed in the "body" element to allow the DOM
 to finish loading before the scripts are parsed.
 -------------------------------------------------------------------------------------- #}
-{% block BODY %}
+{% block body %}
 {{ parent() }}
 {% endblock %}

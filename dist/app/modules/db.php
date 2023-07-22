@@ -15,7 +15,6 @@
  * @copyright  See Full Header Comment Blocks at "dist/index.php"
  * @license    https://opensource.org/licenses/MIT
  *
- *
  */
 
 //  insight($_BOILERPLATE);

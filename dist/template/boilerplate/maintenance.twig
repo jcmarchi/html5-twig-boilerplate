@@ -1,7 +1,25 @@
-{% extends "layout/page.twig" %}
+{% extends "layout/page.template.twig" %}
 
 {# Don't forget to set the <title> of your page. #}
-{% block title %}Maintenance Page{% endblock %}
+{% block title %}Site Under Maintenance | {{boilerplate.settings.software.sitename}}{% endblock %}
+
+{########################################################################################
+ These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
+ You can also 'include' files here and they will be added to the page in the right block.
+
+ For most Web Applications and Sites - including online stores - the current template
+ model should suffice. All the elements are present and it is fairly easy to adjust the
+ look and feel of each block via CSS.
+
+ In few cases, you can simply make a copy of the Master Layout named 'page.twig' and
+ change it to your needs. Then, adjust the template {% extends %} of your page to load
+ your new file and you can have countless templates for all your needs.
+
+ The sessions below, if not used, can simply be left empy. You don't need to delete them.
+
+ Ther are a couple of "Special Blocks" in the 'page.twig' that are listed in the comments
+ at the end of this page. Use it wisely.
+-------------------------------------------------------------------------------------- #}
 
 {# This is the BODY CONTENT of your page. #}
 {% block bodycontent %}
@@ -14,53 +32,100 @@
     <p>Feel free to modify this page as needed. However, it would be much better to adjust your <i>configuration file</i> to point your Maintenance Page to a different file, if needed.</p>
 {% endblock %}
 
-{########################################################################################
- These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
- You can also 'include' files here and they will be added to the page in the right block.
------------------------------------------------------------------------------------------
-#}
+{# If you need to add a content inside the <body>, between the HEADER and the BODY CONTENT #}
 {% block bodytop %}
-{# If you need to add a content inside the BODY, between the HEADER and the BODY CONTENT #}
-{{ parent() }}
-    {% include 'snippets/snippet-example.twig' ignore missing %}
+{% include 'snippets/snippet-example.twig' ignore missing %}
 {% endblock %}
 
+{# If you need to add a content inside the <body>, between the BODY CONTENT and the FOOTER #}
 {% block bodybottom %}
-{# If you need to add a content inside the BODY, between the BODY CONTENT and the FOOTER #}
-{{ parent() }}
 {% endblock %}
 
 {###################
  Additional Blocks
- -------------------
-#}
-{% block header %}
+ ---------------- #}
 {# The HEADER inside the BODY tag can go here #}
+{% block header %}
 {% endblock %}
 
-{% block nav %}
 {# The NAV tag or menu code can go here #}
+{% block nav %}
 {% endblock %}
 
-{# Here we have a couple of SIDEBARS #}
-{% block leftbar %}
+{# The BREADCRUMBS can go here #}
+{% block breadcrumbs %}
+{% endblock %}
+
+{# The code for the NAV AT THE BOTTOM can go here #}
+{% block navbottom %}
+{% endblock %}
+
+{# The FOOTER inside the BODY tag can go here #}
+{% block footer %}
+{% endblock %}
+
+{####################################
+ Here we have a couple of SIDEBARS
+ --------------------------------- #}
 {# The LEFT Sidebar Content can go here #}
+{% block leftbar %}
 {% endblock %}
 
-{% block rightbar %}
 {# The RIGHT  Sidebar Content can go here #}
+{% block rightbar %}
 {% endblock %}
 
-{###################
+{###################################################
  Service Blocks
- -------------------
-#}
+ ---------------------------------------------------
+ If you don't use the {{ parent() }} reference,
+ the entire contents of the block will be replaced!
+ ------------------------------------------------ #}
+{# Add custom Styles here. It wiill be inserted at the top of the page, in the <head> section #}
 {% block styles %}
 {{ parent() }}
-{# Add custom Styles here. It wiill be inserted at the top of the page, in the <HEAD> section #}
 {% endblock %}
 
+{# Add custom Scripts and Javascript Snippets here. It wiill be inserted at the bottom of the page, at the end of the <body> tag #}
 {% block scripts %}
 {{ parent() }}
-{# Add custom Scripts and Javascript Snippets here. It wiill be inserted at the bottom of the page, aftger the <BODY> tag #}
+{% endblock %}
+
+{# Add custom FONTS Snippets here. #}
+{% block fonts %}
+{{ parent() }}
+{% endblock %}
+
+
+{########################################################################################
+ These BLOCKS are considered "Special Blocks" in the 'page.twig' because they overwrite
+ entire block contents, and the results can be daring if yo don't know what yo are doing.
+ USE THEM WISELY!
+-------------------------------------------------------------------------------------- #}
+
+{########################################################################################
+Assuming you need to add some important meta, script, or css inside the <head> tag
+of the template, you can use the tag below to inject content either BEFORE or AFTER
+the parent contens (just use the {{ parent() }} reference object).
+
+If you don't use the {{ parent() }} reference object, the entire contents of the <head>
+tag will be replaced by the new contents, and unless you know what you are doing,
+everything should break.
+-------------------------------------------------------------------------------------- #}
+{% block HEAD %}
+{{ parent() }}
+{% endblock %}
+
+{########################################################################################
+Assuming you need to add some important content, script, or css inside the <body> tag
+of the template, you can use the tag below to inject content either BEFORE or AFTER
+the parent contens (just use the {{ parent() }} reference object).
+
+If you don't use the {{ parent() }} reference object, the entire contents of the <body>
+tag will be replaced by the new contents. Only a few scripts in the bottom of the tag
+shall remain as they are "head" elements placed in the "body" element to allow the DOM
+to finish loading before the scripts are parsed.
+-------------------------------------------------------------------------------------- #}
+{% block BODY %}
+{{ parent() }}
 {% endblock %}

@@ -97,6 +97,3 @@ if (TWIG) {
 
     print($html);
 }
-
-/** Quick Debug */
-require_once $_['location']['app'] . "helpers" . DS . "debugger.php";

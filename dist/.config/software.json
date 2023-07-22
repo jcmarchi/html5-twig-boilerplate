@@ -23,7 +23,7 @@
         }
     },
 
-    "disclaimer": [
+    "disclaimer": ["\n",
         ":: LEGAL DISCLAIMER ::\n",
         ":: The entire content of this Product & the Website it produces is property of 'Quantum Leap Innovations, LLC.'.\n",
         "::\n",
@@ -61,10 +61,10 @@
         ":: in all copies or substantial portions of the Software.\n",
         ":: @license    https://opensource.org/licenses/MIT\n"
     ],
-    "CopyrightScript": [
-        "     <!-- Console Annotation: 'All your base are belong to us!' (https://en.wikipedia.org/wiki/All_your_base_are_belong_to_us) -->\n",
-        "     <script>\n",
-        "        if (document.childNodes[1].nodeType === 8) console.warn(document.childNodes[1].nodeValue);\n",
-        "     </script>\n"
+    "CopyrightScript": ["\n",
+        "    <!-- Console Annotation: 'All your base are belong to us!' (https://en.wikipedia.org/wiki/All_your_base_are_belong_to_us) -->\n",
+        "    <script type=\"text/javascript\">\n",
+        "       if (document.childNodes[1].nodeType === 8) console.warn(document.childNodes[1].nodeValue);\n",
+        "    </script>\n"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "jquery": {
-        "install": true,
+        "install": false,
         "version": "3.7.0",
         "integrity": "sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
     },
@@ -23,8 +23,8 @@
     },
     "quirksmode": {
         "conditionals": false,
-        "mediaqueries": true,
-        "anscient": true
+        "mediaqueries": false,
+        "anscient": false
     },
     "http_equiv": {
         "X-UA-Compatible": "IE=edge, chrome=1",
