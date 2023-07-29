@@ -1,21 +1,29 @@
 {#
 Bootstrap Home: https://getbootstrap.com
-If can opt to use a local copy or the CDN version of Bootstrap. Check your configuration (extras.json) file.
-If you prefer to use the CDN version, remove the Bootstrap entry from the "composer.json" file.
+
+You can opt to use the CDN version of Bootstrap by setting your
+configuration (extensions.json) file to:
+
+    "install": true,   <--- Will enable Bootstrap
+    "local": false,    <--- Will look for Bootstrap on CDN
+
+If you prefer to use the CDN version, just you must remove the Bootstrap
+entry from the "composer.json" file.
+
+REQUIRED: If you don't already have it set in your META tags configuration,
+uncomment the two <meta> lines below:
 #}
-{% if boilerplate.settings.extras.bootstrap.cdn %}
-    {# REQUIRED: If you don't already have it set in your META tags configuration, uncomment the two <meta> lines below: #}
+{#   <meta charset="utf-8"> #}
+{#   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> #}
 
-    {# <meta charset="utf-8"> #}
-    {# <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> #}
-
-    <!-- Bootstrap's CSS file (via CDN) -->
-    <link
-        href="https://stackpath.bootstrapcdn.com/bootstrap/{{boilerplate.settings.extras.bootstrap.version}}/css/bootstrap.min.css"
-        integrity="{{boilerplate.settings.extras.bootstrap.css_integrity}}"
-        crossorigin="anonymous"
-        rel="stylesheet">
-{% else %}
+{% if boilerplate.settings.extensions.bootstrap.install %}
     <!-- Bootstrap Local (via COMPOSER) -->
     <link href="{{vendor}}/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+{% else %}
+    <!-- Bootstrap's CSS file (via CDN) -->
+    <link
+        href="https://stackpath.bootstrapcdn.com/bootstrap/{{boilerplate.settings.extensions.bootstrap.version}}/css/bootstrap.min.css"
+        integrity="{{boilerplate.settings.extensions.bootstrap.css_integrity}}"
+        crossorigin="anonymous"
+        rel="stylesheet">
 {% endif %}

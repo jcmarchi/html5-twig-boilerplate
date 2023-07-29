@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+{# -- START: Environment Tweaks ------------ #}
+{% if boilerplate.environment.simulated is not null and boilerplate.environment.simulated is not empty %}
+{%    set TheEnvironment = boilerplate.environment.simulated %}
+{% else %}
+{%    set TheEnvironment = boilerplate.environment.current %}
+{% endif %}
+
+{# ::::: Prints the COPYRIGHT DISCLAIMER if in "production" Environment ::::: #}
+{% if TheEnvironment == "PRODUCTION" %}
+<!--
+{{ boilerplate.settings.software.disclaimer|join|raw }}
+-->
+{% endif %}
+{# -- END: Environment Tweaks -------------- #}
+{# -- START: Quirks Mode (for IE) ---------- #}
+{% if boilerplate.settings.meta.quirksmode.conditionals == true %}
+<!-- Quirks Mode for IE browsers is active. See more at https://www.quirksmode.org/compatibility.html -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{boilerplate.config.language}}-{{boilerplate.config.country}}"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="{{boilerplate.config.language}}-{{boilerplate.config.country}}"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="{{boilerplate.config.language}}-{{boilerplate.config.country}}"> <![endif]-->
+<!--[if gt IE 8]> <html class="no-js" lang="{{boilerplate.config.language}}-{{boilerplate.config.country}}">  <![endif]-->
+<!-- HTML5 shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" type="text/javascript"></script>
+    <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js" type="text/javascript"></script>
+<![endif]-->
+{# -- END: Quirks Mode (for IE) ------------ #}
+
+<!--[if !IE]> -->
+{% endif %}
+<html
+    class="no-js"
+    lang="{{boilerplate.config.language}}-{{boilerplate.config.country}}"
+    itemscope="1"
+    itemref="{{boilerplate._.name}} Version {{boilerplate._.version}} - By: {{boilerplate._.author}}"
+    itemcopy="{{boilerplate._.copyright}}">
+{% if boilerplate.settings.meta.quirksmode.conditionals == true %}
+<![endif]-->
+{% endif %}
+
+{# ###########################################
+   BEGIN <HEAD> TAG
+########################################### #}
+{# -- START: BLOCK HEAD ---------------- #}
+{% block HEAD %}
+{# ------------------------------------- #}
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Microdata Reference - http://schema.org -->
+    <link rel="home" href="{{boilerplate.settings.software.product.domain}}" title="Home">
+    <link rel="canonical" href="{{boilerplate.settings.software.product.description}}/">
+    <link rel="publisher" href="{{boilerplate.settings.software.product.publisher}}">
+    <link rel="author" href="{{url}}/humans.txt" type="text/plain">
+
+{# ::::: Include FAVICONS code :::::
+   Check the file for instruvtions of how to create custom
+   designed icons for your site and generate the required code.
+#}
+{% include 'snippets/favicon.twig' ignore missing %}
+
+
+	<!-- META Tags -->
+{% for index, variable in boilerplate.settings.meta.items %}
+{%   if variable is iterable %}
+{%     for key, value in variable %}
+{%       if value is iterable %}
+{%         for group, content in value %}
+{%           if (not content == "" ) %}
+    <meta property="{{ key }}:{{ group }}" content="{{ content|e }}">
+{%           endif %}
+{%         endfor %}
+{%       else %}
+{%         if (not value == "" ) %}
+    <meta {{index}}="{{ key }}" content="{{ value|e }}">
+{%         endif %}
+{%       endif %}
+{%     endfor %}
+{%   else %}
+{%     if (not variable == "" ) %}
+    <meta {{index}}="{{variable}}">
+{%     endif %}
+{%   endif %}
+{% endfor %}
+
+    <!-- Directives that simulate HTTP response header - https://www.keycdn.com/support/http-equiv -->
+{% for key, value in boilerplate.settings.meta.http_equiv %}
+    <meta http-equiv="{{ key }}" content="{{ value|e }}">
+{% endfor %}
+
+	<!-- START: STYLES -->
+{% block styles %}
+
+{# ::::: INSTALL HTML5-Reset ::::: #}
+{%   if boilerplate.settings.extensions.html5reset.install %}
+    <!-- CSS Resetter:
+         Must be loaded before anyhting else
+         https://github.com/murtaugh/HTML5-Reset
+    -->
+{%     if boilerplate.settings.extensions.html5reset.local %}
+    <link href="{{vendor}}/murtaugh/html5-reset/assets/css/styles.css" rel="stylesheet">
+{%     else %}
+    <link href="https://cdn.jsdelivr.net/gh/murtaugh/HTML5-Reset@principal/assets/css/styles.css" rel="stylesheet">
+{%     endif %}
+{%   endif %}
+
+{# ::::: INSTALL NORMALIZE.CSS ::::: #}
+{%   if boilerplate.settings.extensions.normalize.install %}
+    <!-- CSS Normalizer:
+         Must be loaded immediatelly after HTML5-Reset and before anyhting else
+         https://github.com/necolas/normalize.css
+    -->
+{%     if boilerplate.settings.extensions.normalize.local %}
+    <link href="{{vendor}}/necolas/normalize.css/normalize.css" rel="stylesheet">
+{%     else %}
+    <link href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css" rel="stylesheet">
+{%     endif %}
+{%   endif %}
+
+{# ::::: INSTALL SANITIZE.CSS + TOOLS ::::: #}
+{%   if boilerplate.settings.extensions.sanitize.install %}
+    <!-- CSS Sanitize:
+         Must be loaded before anyhting else, immediatelly after HTML5-Reset and/or Normalize.css.
+         https://github.com/csstools/sanitize.css
+    -->
+{%     if boilerplate.settings.extensions.sanitize.local %}
+    <link href="{{vendor}}/csstools/sanitize.css/sanitize.css" rel="stylesheet">
+{%       if boilerplate.settings.extensions.sanitize.extras.assets %}
+    <link href="{{vendor}}/csstools/sanitize.css/assets.css" rel="stylesheet">
+{%       endif %}
+{%       if boilerplate.settings.extensions.sanitize.extras.forms %}
+    <link href="{{vendor}}/csstools/sanitize.css/forms.css" rel="stylesheet">
+{%       endif %}
+{%       if boilerplate.settings.extensions.sanitize.extras.typography %}
+    <link href="{{vendor}}/csstools/sanitize.css/typography.css" rel="stylesheet">
+{%       endif %}
+{%       if boilerplate.settings.extensions.sanitize.extras.system_ui %}
+    <link href="{{vendor}}/csstools/sanitize.css/system-ui.css" rel="stylesheet">
+{%       endif %}
+{%       if boilerplate.settings.extensions.sanitize.extras.ui_monospace %}
+    <link href="{{vendor}}/csstools/sanitize.css/ui-monospace.css" rel="stylesheet">
+{%       endif %}
+{%       if boilerplate.settings.extensions.sanitize.extras.reduce_motion %}
+    <link href="{{vendor}}/csstools/sanitize.css/reduce-motion.css" rel="stylesheet">
+{%       endif %}
+{%     else %}
+    <link href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css" rel="stylesheet">
+{%     endif %}
+{%   endif %}
+
+{# ::::: INSTALL BOOTSTRAP : https://github.com/twbs/bootstrap ::::: #}
+{%   if boilerplate.settings.extensions.bootstrap.install %}
+{%     include "snippets/bootstrap-css.twig" %}
+{%   endif %}
+
+{# ::::: INSTALL MOODFIRED Boilerplate default snippets (if any) ::::: #}
+{%   include "snippets/css.twig" ignore missing %}
+
+{# ::::: GENTELELLA : INSTALL requested plugins on-demand based on the contents of 'gentelella.plugins'   ::::: #}
+{# :::::              INSTALL MOODFIRED Boilerplate's updated version of Gentelella /build/css/custom.css ::::: #}
+{%   if gentelella is not empty %}
+{%     include 'gentelella/plugins.twig' with {'gentelella': gentelella, 'request': 'css'} %}
+{%     include "gentelella/css.twig" %}
+{%   endif %}
+
+{% endblock %}
+    <!-- END: STYLES -->
+
+    <!-- START: FONTS -->
+{# ::::: INSTALL FONT AWESOME ::::: #}
+{%   if boilerplate.settings.extensions.font_awesome.install %}
+    <!-- Font Awesome : The latest version suitable for Gentelella as it is designed is 4.7.0.
+         To change the version of the local Font Awesome you must edit the 'composer.json' file
+         and run: COMPOSER UPDATE. However, notice that not all version have the same icons!
+         Site: https://fontawesome.com | Github: https://github.com/components/font-awesome
+    -->
+{%     if boilerplate.settings.extensions.font_awesome.local %}
+    <!-- Font Awesome LOCAL -->
+    <link href="{{vendor}}/components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+{%     else %}
+    <!-- Font Awesome CDN version {{boilerplate.settings.extensions.font_awesome.remote_version}} -->
+    <link href="{{boilerplate.settings.extensions.font_awesome.remote_url}}" rel="stylesheet">
+{%     endif %}
+{%   endif %}
+{% block fonts %}
+    <!-- Web Fonts (as the title says, those are ALWAYS remote):
+         Use any links from https://fonts.google.com/, https://thomaspark.co/projects/fontcdn/, or https://fonts.adobe.com/?ref=tk.com
+         Also check new Google Fonts and Symbols at https://developers.google.com/fonts/docs/material_symbols
+    -->
+{% for font in boilerplate.settings.extensions.webfonts %}
+    <link href="{{font}}" rel="stylesheet">
+{% endfor %}
+{% endblock %}
+    <!-- END: FONTS -->
+
+{% if TheEnvironment == "PRODUCTION" %}
+{{ boilerplate.settings.software.CopyrightScript|join|raw }}
+{% endif %}
+{# -- END: BLOCK HEAD ------------------ #}
+{% endblock %}
+{# ------------------------------------- #}
+</head>
+{# ###########################################
+   END </HEAD> TAG
+########################################### #}
+
+{# ###########################################
+   BEGIN <BODY> TAG
+########################################### #}
+<body {% block BODYTAG %}{% endblock %} >
+{% if boilerplate.settings.meta.quirksmode.anscient %}
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Please, upgrade to a different browser</a>.</p><![endif]-->
+{% endif %}
+
+{# -- START: BLOCK BODY ---------------- #}
+{% block BODY %}
+{# ------------------------------------- #}
+
+<!-- START: BODY HEADER -->
+{% block header %}
+{% endblock %}
+<!-- END: BODY HEADER -->
+
+{# -------------------- #}
+{# START: block content #}
+{# -------------------- #}
+{% block content %}
+
+<!-- START: NAVIGATION MENU -->
+{% block nav %}
+{% endblock %}
+<!-- END: NAVIGATION MENU -->
+
+<!-- START: SIDEBARS -->
+{% block leftbar %}
+{% endblock %}
+{% block rightbar %}
+{% endblock %}
+<!-- END: SIDEBARS -->
+
+<!-- START: BREADCRUMBS -->
+{% block breadcrumbs %}
+{% endblock %}
+<!-- END: BREADCRUMBS -->
+
+<!-- START: BODY CONTENT -->
+<div id="bodytop">
+{% block bodytop %}
+{% endblock %}
+</div>
+
+<div id="bodycontent">
+{% block bodycontent %}
+{% endblock %}
+</div>
+
+<div id="bodybottom">
+{% block bodybottom %}
+{% endblock %}
+</div>
+<!-- END: BODY OF THE PAGE -->
+
+<!-- START: BOTTOM NAVIGATION MENU -->
+{% block navbottom %}
+{% endblock %}
+<!-- END: BOTTOM NAVIGATION MENU -->
+
+{% endblock %}
+{# ------------------ #}
+{# END: block content #}
+{# -------------------- #}
+
+<!-- START: FOOTER -->
+{% block footer %}
+{% endblock %}
+<!-- END: FOOTER -->
+
+{# -- END: BLOCK BODY ------------------ #}
+{% endblock %}
+{# ------------------------------------- #}
+
+{# ::::: INSTALL GOOGLE ANALYTICS Code ::::: #}
+{% if boilerplate.settings.extensions.analytics.install %}
+{{ include('snippets/google-analytics.twig') }}
+{% endif %}
+
+{# ::::: INSTALL JQUERY (from snippet) ::::: #}
+    <!-- START: JAVASCRIPT files -->
+{% if boilerplate.settings.extensions.jquery.install %}
+{{ include('snippets/jquery.twig') }}
+{% endif %}
+{# ::::: INSTALL BOOTSTRAP (from snippet) ::::: #}
+{% if boilerplate.settings.extensions.bootstrap.install %}
+{{ include('snippets/bootstrap-js.twig') }}
+{% endif %}
+
+{% block scripts %}
+{# ::::: INSTALL MOODFIRED Boilerplate default JS snippets (if any) ::::: #}
+<!-- jQuery Additional Features & Plugins -->
+{%   include 'snippets/js.twig' ignore missing %}
+
+{# ::::: GENTELELLA : INSTALL requested plugins on-demand based on the contents of 'gentelella.plugins'   ::::: #}
+{# :::::              INSTALL MOODFIRED Boilerplate's updated version of Gentelella /build/css/custom.js ::::: #}
+{%   if gentelella is not empty %}
+{%     include 'gentelella/plugins.twig' with {'gentelella': gentelella, 'request': 'js'} %}
+{%     include "gentelella/js.twig" %}
+{%   endif %}
+
+{% endblock %}
+
+{# ::::: DEV MODE DEBUG DATA FOR CONSOLE ::::: #}
+{% if boilerplate.environment.current == "DEV" %}
+    <!-- Log MOODFIRED Boilerplate's data into console for debugging purposes -->
+    <script>console.log('Boilerplate', {{ boilerplate|json_encode|raw }});</script>
+{# ::::: GENTELELLA : Sends GENTELELLA Debug Data to Browser's Console in "NON-production" Environmenta ::::: #}
+{%   if gentelella is not empty %}
+    <!-- Log Gentelella's Dashboard data into console for debugging purposes -->
+    <script>console.log("Gentella Location", "{{gentelella.location}}");</script>
+    <script>console.log("Gentella Settings", {{ gentelella_settings|json_encode|raw }});</script>
+    <script>console.log("Gentella Config", {{ gentelella|json_encode|raw }});</script>
+    <script>console.log("Gentella Logs", gentelella_console_log);</script>
+{%   endif %}
+{% endif %}
+
+    <!-- END: JAVASCRIPT files -->
+</body>
+{# ###########################################
+   END </BODY> TAG
+########################################### #}
+</html>
+
+{# -- START: Environment Tweaks ------------ #}
+{% if TheEnvironment == "PRODUCTION" %}
+<!--
+{{ boilerplate.settings.software.disclaimer|join|raw }}
+-->
+{% endif %}
+{# -- END: Environment Tweaks -------------- #}

@@ -2,7 +2,7 @@
     "environment": {
         "types": ["DEV", "TEST", "STAGE", "PRODUCTION"],
         "current": "DEV",
-        "simulated": "PRODUCTION"
+        "simulated": "PRODUCTION_2"
     },
     "maintenance": false,
     "composer": true,

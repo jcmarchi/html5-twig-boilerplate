@@ -1,0 +1,281 @@
+{% extends "default/page.template.twig" %}
+
+{###########################################################################################
+  This is the Gentelella Configuration Array. There are two main pieces:
+
+    location: the URI where the Gentelella has been downloaded (already
+              pre-set to [PATH]/asset/dashboard/gentelella/)
+    plugins : a list of exit=sting plugins to be enabled in the page. Valid plugins are:
+
+              'animate', 'autocomplete', 'autosize', 'calendar',
+              'chart', 'colorpicker', 'cropper', 'content_scroller',
+              'datatables', 'datejs', 'daterangepicker', 'datetimepicker', 'dropzone',
+              'easy_pie_chart', 'echarts', 'fastclick', 'flot', 'gauge',
+              'icheck', 'inputmask', 'ion_rangeslider',
+              'jqvmap', 'knob', 'moment', 'morris', 'nprogress',
+              'parsley', 'pnotify', 'progressbar',
+              'select2', 'skycons', 'smart_wizard', 'sparklines', 'starrr', 'switchery',
+              'tags_input', 'validator', 'wysiwyg'
+  ------------------------------------------------------------------------------------------
+#}
+{% set gentelella = {
+        'location': boilerplate.path.plugins ~ '/gentelella',
+        'fixed' : {
+            'header' : true,
+            'sidebar': true,
+            'footer' : true
+        },
+        'plugins': [
+            'content_scroller','nprogress'
+        ]
+    }
+%}
+
+{# Don't forget to set the <title> of your page. #}
+{% block title %}Pricing Tables | {{boilerplate.settings.software.sitename}}{% endblock %}
+
+{# If you need to add anything to the <body> Tag itself, this is the place to do it: #}
+{% block BODYTAG %}class="nav-md  {% if gentelella.fixed.footer %}footer_fixed{% endif %}" {{ parent() }}{% endblock %}
+
+{# This is the BODY CONTENT of your page. #}
+{% block BODY %}
+{# START: BODY STRUCTURE #}
+  <div class="container body">
+    <div class="main_container">
+
+      {% include 'gentelella/sidebar.twig'  %}
+      {% include 'gentelella/topnav.twig'   %}
+
+      <div id="bodycontent">
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Pricing Tables</h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel" style="height:600px;">
+                  <div class="x_title">
+                    <h2>Pricing Tables Design</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+                    <div class="row">
+
+                      <div class="col-md-12">
+
+                        <!-- price element -->
+                        <div class="col-md-3 col-sm-6  ">
+                          <div class="pricing">
+                            <div class="title">
+                              <h2>Tally Box Design</h2>
+                              <h1>free</h1>
+                            </div>
+                            <div class="x_content">
+                              <div class="">
+                                <div class="pricing_features">
+                                  <ul class="list-unstyled text-left">
+                                    <li><i class="fa fa-times text-danger"></i> 2 years access <strong> to all storage locations</strong></li>
+                                    <li><i class="fa fa-times text-danger"></i> <strong>Unlimited</strong> storage</li>
+                                    <li><i class="fa fa-check text-success"></i> Limited <strong> download quota</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> <strong>Cash on Delivery</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> All time <strong> updates</strong></li>
+                                    <li><i class="fa fa-times text-danger"></i> <strong>Unlimited</strong> access to all files</li>
+                                    <li><i class="fa fa-times text-danger"></i> <strong>Allowed</strong> to be exclusing per sale</li>
+                                  </ul>
+                                </div>
+                              </div>
+                              <div class="pricing_footer">
+                                <a href="javascript:void(0);" class="btn btn-success btn-block" role="button">Download <span> now!</span></a>
+                                <p>
+                                  <a href="javascript:void(0);">Sign up</a>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- price element -->
+
+                        <!-- price element -->
+                        <div class="col-md-3 col-sm-6  ">
+                          <div class="pricing ui-ribbon-container">
+                            <div class="ui-ribbon-wrapper">
+                              <div class="ui-ribbon">
+                                30% Off
+                              </div>
+                            </div>
+                            <div class="title">
+                              <h2>Tally Box Design</h2>
+                              <h1>$25</h1>
+                              <span>Monthly</span>
+                            </div>
+                            <div class="x_content">
+                              <div class="">
+                                <div class="pricing_features">
+                                  <ul class="list-unstyled text-left">
+                                    <li><i class="fa fa-check text-success"></i> 2 years access <strong> to all storage locations</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> <strong>Unlimited</strong> storage</li>
+                                    <li><i class="fa fa-check text-success"></i> Limited <strong> download quota</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> <strong>Cash on Delivery</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> All time <strong> updates</strong></li>
+                                    <li><i class="fa fa-times text-danger"></i> <strong>Unlimited</strong> access to all files</li>
+                                    <li><i class="fa fa-times text-danger"></i> <strong>Allowed</strong> to be exclusing per sale</li>
+                                  </ul>
+                                </div>
+                              </div>
+                              <div class="pricing_footer">
+                                <a href="javascript:void(0);" class="btn btn-primary btn-block" role="button">Download <span> now!</span></a>
+                                <p>
+                                  <a href="javascript:void(0);">Sign up</a>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- price element -->
+
+                        <!-- price element -->
+                        <div class="col-md-3 col-sm-6  ">
+                          <div class="pricing">
+                            <div class="title">
+                              <h2>Tally Box Design</h2>
+                              <h1>$25</h1>
+                              <span>Monthly</span>
+                            </div>
+                            <div class="x_content">
+                              <div class="">
+                                <div class="pricing_features">
+                                  <ul class="list-unstyled text-left">
+                                    <li><i class="fa fa-check text-success"></i> 2 years access <strong> to all storage locations</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> <strong>Unlimited</strong> storage</li>
+                                    <li><i class="fa fa-check text-success"></i> Limited <strong> download quota</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> <strong>Cash on Delivery</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> All time <strong> updates</strong></li>
+                                    <li><i class="fa fa-times text-danger"></i> <strong>Unlimited</strong> access to all files</li>
+                                    <li><i class="fa fa-times text-danger"></i> <strong>Allowed</strong> to be exclusing per sale</li>
+                                  </ul>
+                                </div>
+                              </div>
+                              <div class="pricing_footer">
+                                <a href="javascript:void(0);" class="btn btn-success btn-block" role="button">Download <span> now!</span></a>
+                                <p>
+                                  <a href="javascript:void(0);">Sign up</a>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- price element -->
+
+                        <!-- price element -->
+                        <div class="col-md-3 col-sm-6  ">
+                          <div class="pricing">
+                            <div class="title">
+                              <h2>Tally Box Design</h2>
+                              <h1>$25</h1>
+                              <span>Monthly</span>
+                            </div>
+                            <div class="x_content">
+                              <div class="">
+                                <div class="pricing_features">
+                                  <ul class="list-unstyled text-left">
+                                    <li><i class="fa fa-check text-success"></i> 2 years access <strong> to all storage locations</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> <strong>Unlimited</strong> storage</li>
+                                    <li><i class="fa fa-check text-success"></i> Limited <strong> download quota</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> <strong>Cash on Delivery</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> All time <strong> updates</strong></li>
+                                    <li><i class="fa fa-check text-success"></i> <strong>Unlimited</strong> access to all files</li>
+                                    <li><i class="fa fa-check text-success"></i> <strong>Allowed</strong> to be exclusing per sale</li>
+                                  </ul>
+                                </div>
+                              </div>
+                              <div class="pricing_footer">
+                                <a href="javascript:void(0);" class="btn btn-success btn-block" role="button">Download <span> now!</span></a>
+                                <p>
+                                  <a href="javascript:void(0);">Sign up</a>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- price element -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+
+      {% include 'gentelella/footer.twig'   %}
+
+    </div>
+  </div>
+{# END: BODY STRUCTURE #}
+{% endblock %}
+
+{########################################################################################
+ These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
+ You can also 'include' files here and they will be added to the page in the right block.
+-----------------------------------------------------------------------------------------
+#}
+{###################
+ Additional Blocks
+ -------------------
+#}
+{% block header %}
+{# The HEADER inside the BODY tag can go here #}
+{% endblock %}
+
+{% block footer %}
+{# The HEADER inside the BODY tag can go here #}
+{% endblock %}
+
+{###################
+ Service Blocks
+ -------------------
+#}
+{% block styles %}
+{# Add custom Styles here. It wiill be inserted at the top of the page, in the <HEAD> section #}
+    {{ parent() }}
+{% endblock %}
+
+{% block scripts %}
+{# Add custom Scripts and Javascript Snippets here. It wiill be inserted at the bottom of the page, aftger the <BODY> tag #}
+    {{ parent() }}
+{% endblock %}

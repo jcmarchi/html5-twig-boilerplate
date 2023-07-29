@@ -1,30 +1,34 @@
+{% if boilerplate.settings.extensions.bootstrap.install %}
 {#
 IMPORTANT:
 Bootstrap implementation requires jQuery to be loaded first, then Popper, then Bootstrap (in this order).
 If jQuery is not set to be loaded in the configuration file, it will be forcefully loaded here from its
 LOCAL Source.
 #}
-{% if (not boilerplate.settings.extras.jquery.install) %} {{ include('snippets/jquery.twig') }} {% endif %}
+{% if not boilerplate.settings.extensions.jquery.install %}
+    <!-- JQUERY IS DISABLED BUT IT IS BEING FORCEFULLY ADDED BY BOOTSTRAP AS IT IS REQUIRED -->
+{{ include('snippets/jquery.twig') }}
+{% endif %}
 {#
 Bootstrap Home: https://getbootstrap.com
 If can opt to use a local copy or the CDN version of Bootstrap. Check your configuration (extras.json) file.
 If you prefer to use the CDN version, remove the Bootstrap entry from the "composer.json" file.
 #}
-{% if boilerplate.settings.extras.bootstrap.cdn %}
-
+{% if boilerplate.settings.extensions.bootstrap.local %}
+    <!-- Bootstrap Local (via COMPOSER) -->
+    <script src="{{vendor}}/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+{% else %}
     <!-- Bootstrap's CSS file (via CDN) -->
     <!-- popper.js -->
     <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/{{boilerplate.settings.extras.bootstrap.popper_version}}/umd/popper.min.js"
-        integrity="{{boilerplate.settings.extras.bootstrap.popper_integrity}}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/{{boilerplate.settings.extensions.bootstrap.popper_version}}/umd/popper.min.js"
+        integrity="{{boilerplate.settings.extensions.bootstrap.popper_integrity}}"
         crossorigin="anonymous"></script>
 
     <!-- bootstrap.js -->
     <script
-        src="https://stackpath.bootstrapcdn.com/bootstrap/{{boilerplate.settings.extras.bootstrap.version}}/js/bootstrap.min.js"
-        integrity="{{boilerplate.settings.extras.bootstrap.integrity}}"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/{{boilerplate.settings.extensions.bootstrap.version}}/js/bootstrap.min.js"
+        integrity="{{boilerplate.settings.extensions.bootstrap.integrity}}"
         crossorigin="anonymous"></script>
-{% else %}
-    <!-- Bootstrap Local (via COMPOSER) -->
-    <script src="{{vendor}}/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+{% endif %}
 {% endif %}

@@ -1,0 +1,2 @@
+        "//fonts.googleapis.com/css?family=Raleway|Arsenal|Open+Sans+Condensed:300|Shadows+Into+Light|Slabo+27px",
+        "//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"

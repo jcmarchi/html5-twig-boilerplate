@@ -1,0 +1,52 @@
+{
+    "jquery": {
+        "install": true,
+        "local": true,
+        "version": "3.7.0",
+        "integrity": "sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+    },
+    "bootstrap": {
+        "install": true,
+        "local": true,
+        "version": "4.3.1",
+        "integrity": "sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM",
+        "css_integrity": "sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T",
+        "popper_install": true,
+        "popper_local": true,
+        "popper_version": "1.14.7",
+        "popper_integrity": "sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    },
+    "html5reset": {
+        "install": false,
+        "local": true
+    },
+    "normalize": {
+        "install": false,
+        "local": true
+    },
+    "sanitize": {
+        "install": false,
+        "local": true,
+        "extras": {
+            "assets": false,
+            "forms": false,
+            "typography": false,
+            "system_ui": false,
+            "ui_monospace": false,
+            "reduce_motion": false
+        }
+    },
+    "analytics": {
+        "install": false,
+        "siteid": "UA-XXXXX-Y"
+    },
+    "font_awesome": {
+        "install": true,
+        "local": true,
+        "remote_version": "4.7.0",
+        "remote_url": "//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+    },
+    "webfonts": [
+
+        ]
+}

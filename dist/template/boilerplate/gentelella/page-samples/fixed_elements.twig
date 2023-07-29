@@ -1,0 +1,162 @@
+{% extends "default/page.template.twig" %}
+
+{###########################################################################################
+  This is the Gentelella Configuration Array. There are two main pieces:
+
+    location: the URI where the Gentelella has been downloaded (already
+              pre-set to [PATH]/asset/dashboard/gentelella/)
+    plugins : a list of exit=sting plugins to be enabled in the page. Valid plugins are:
+
+              'animate', 'autocomplete', 'autosize', 'calendar',
+              'chart', 'colorpicker', 'cropper', 'content_scroller',
+              'datatables', 'datejs', 'daterangepicker', 'datetimepicker', 'dropzone',
+              'easy_pie_chart', 'echarts', 'fastclick', 'flot', 'gauge',
+              'icheck', 'inputmask', 'ion_rangeslider',
+              'jqvmap', 'knob', 'moment', 'morris', 'nprogress',
+              'parsley', 'pnotify', 'progressbar',
+              'select2', 'skycons', 'smart_wizard', 'sparklines', 'starrr', 'switchery',
+              'tags_input', 'validator', 'wysiwyg'
+  ------------------------------------------------------------------------------------------
+#}
+{% set gentelella = {
+        'location': boilerplate.path.plugins ~ '/gentelella',
+        'fixed' : {
+            'header' : true,
+            'sidebar': true,
+            'footer' : true
+        },
+        'plugins': [
+            'content_scroller','nprogress'
+        ]
+    }
+%}
+
+{# Don't forget to set the <title> of your page. #}
+{% block title %}Fixed Screen Elements [NEW] | {{boilerplate.settings.software.sitename}}{% endblock %}
+
+{# If you need to add anything to the <body> Tag itself, this is the place to do it: #}
+{% block BODYTAG %}class="nav-md  {% if gentelella.fixed.footer %}footer_fixed{% endif %}" {{ parent() }}{% endblock %}
+
+{# This is the BODY CONTENT of your page. #}
+{% block BODY %}
+{# START: BODY STRUCTURE #}
+  <div class="container body">
+    <div class="main_container">
+
+      {% include 'gentelella/sidebar.twig'  %}
+      {% include 'gentelella/topnav.twig'   %}
+
+      <div id="bodycontent">
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2><span class="badge badge-success">New</span></h2>
+                <h3>Fixed Screen Elements</h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>New Feature!</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <p>The Gentelella Dashboard offered the ability to make the <strong>Sidebar</strong>
+                    and the <strong>Footer</strong> static using classes. The author, however, forgot that
+                    the <strong>Header</strong> would also be a desirable element to be kept <em>static</em>.
+                    <p>While implementing a couple of projects using this dashboard design, we added such a
+                    feature and, when we moved it to the <strong>MOODFIRED HTML5-Twig-Boilerplate Model</strong>, we expanded
+                    it even further and made it native feature in the template itself, being controlable per page, or
+                    per site, via local variable settings.<p>
+                    <p>Every page that uses the <strong>Gentelella Dashboard Template</strong> are required to define a <em>TWIG Array</em>
+                    to specify the location of the <strong>Gentellela Dashboard</strong> itself (as the template use their
+                    "<em>vendor's folder</em>") plus other important settings. The same local settings Array can be used to
+                    specifiy which element should be fixed.<p>
+                    <p>Here is how the configuration works:</p>
+
+                    <img src="data:image/png;base64,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">
+
+                    <p></p>
+                    <p>Is should be simple enought to understand, but you can always check the pages source code and
+                    learn by modifying the values and testing the results.</p>
+                    <p>The following pages "<strong>Fixed Sidebar</strong>" and "<strong>Fixed Footer</strong>" have no function other than old reference.</p>
+                    <p>Good coding!</p>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+
+      {% include 'gentelella/footer.twig'   %}
+
+    </div>
+  </div>
+{# END: BODY STRUCTURE #}
+{% endblock %}
+
+{########################################################################################
+ These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
+ You can also 'include' files here and they will be added to the page in the right block.
+-----------------------------------------------------------------------------------------
+#}
+{###################
+ Additional Blocks
+ -------------------
+#}
+{% block header %}
+{# The HEADER inside the BODY tag can go here #}
+{% endblock %}
+
+{% block footer %}
+{# The HEADER inside the BODY tag can go here #}
+{% endblock %}
+
+{###################
+ Service Blocks
+ -------------------
+#}
+{% block styles %}
+{# Add custom Styles here. It wiill be inserted at the top of the page, in the <HEAD> section #}
+    {{ parent() }}
+{% endblock %}
+
+{% block scripts %}
+{# Add custom Scripts and Javascript Snippets here. It wiill be inserted at the bottom of the page, aftger the <BODY> tag #}
+    {{ parent() }}
+{% endblock %}

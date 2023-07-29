@@ -1,0 +1,155 @@
+        <!-- START: Sidebar -->
+        <div class="sidebar col-md-3 left_col {% if gentelella.fixed.sidebar %}menu_fixed{% endif %}">
+          <div class="left_col scroll-view">
+          <style>.correct_mouse_over_color:hover {background-color:transparent!important;}</style>
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="gentelella?page=index" class="site_title" style="margin-top: 7px;"><i class="fa fa-paw" style="margin-top: 10px; padding: 7px 8px; border-radius: 35%;"></i>
+              <span class="correct_mouse_over_color" style="position: absolute; top: 0px; left: 55px;">Gentelella Alela!</span>
+              <span class="correct_mouse_over_color" style="position: absolute; top: 20px; left: 57px; font-size:xx-small;">HTML5–TWIG–Boilerplate version</span>
+              </a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <div class="profile clearfix">
+              <div class="profile_pic">
+                <img src="{{gentelella.location}}/production/images/img.jpg" alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                <span>Welcome,</span>
+                <h2>John Doe</h2>
+              </div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>General</h3>
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="gentelella?page=index">Dashboard</a></li>
+                      <li><a href="gentelella?page=index2">Dashboard2</a></li>
+                      <li><a href="gentelella?page=index3">Dashboard3</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="gentelella?page=form">General Form</a></li>
+                      <li><a href="gentelella?page=form_advanced">Advanced Components</a></li>
+                      <li><a href="gentelella?page=form_validation">Form Validation</a></li>
+                      <li><a href="gentelella?page=form_wizards">Form Wizard</a></li>
+                      <li><a href="gentelella?page=form_upload">Form Upload</a></li>
+                      <li><a href="gentelella?page=form_buttons">Form Buttons</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="gentelella?page=general_elements">General Elements</a></li>
+                      <li><a href="gentelella?page=media_gallery">Media Gallery</a></li>
+                      <li><a href="gentelella?page=typography">Typography</a></li>
+                      <li><a href="gentelella?page=icons">Icons</a></li>
+                      <li><a href="gentelella?page=glyphicons">Glyphicons</a></li>
+                      <li><a href="gentelella?page=widgets">Widgets</a></li>
+                      <li><a href="gentelella?page=invoice">Invoice</a></li>
+                      <li><a href="gentelella?page=inbox">Inbox</a></li>
+                      <li><a href="gentelella?page=calendar">Calendar</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="gentelella?page=tables">Tables</a></li>
+                      <li><a href="gentelella?page=tables_dynamic">Table Dynamic</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="gentelella?page=chartjs">Chart JS</a></li>
+                      <li><a href="gentelella?page=chartjs2">Chart JS2</a></li>
+                      <li><a href="gentelella?page=morisjs">Moris JS</a></li>
+                      <li><a href="gentelella?page=echarts">ECharts</a></li>
+                      <li><a href="gentelella?page=other_charts">Other Charts</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-clone"></i>Layouts <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="gentelella?page=fixed_elements">Fixed Screen Elements <span class="badge pull-right badge-success">New</span></a></li>
+                      <li><a href="gentelella?page=fixed_sidebar">Fixed Sidebar <span class="badge pull-right badge-danger">Legacy</span></a></li>
+                      <li><a href="gentelella?page=fixed_footer">Fixed Footerv<span class="badge pull-right badge-danger">Legacy</span></a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <div class="menu_section">
+                <h3>Live On</h3>
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="gentelella?page=e_commerce">E-commerce</a></li>
+                      <li><a href="gentelella?page=projects">Projects</a></li>
+                      <li><a href="gentelella?page=project_detail">Project Detail</a></li>
+                      <li><a href="gentelella?page=contacts">Contacts</a></li>
+                      <li><a href="gentelella?page=profile">Profile</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="gentelella?page=page_403_inside">403 Error (internal) <span class="badge pull-right badge-success">New</span></a></li>
+                      <li><a href="gentelella?page=page_404_inside">404 Error (internal) <span class="badge pull-right badge-success">New</span></a></li>
+                      <li><a href="gentelella?page=page_500_inside">500 Error (internal) <span class="badge pull-right badge-success">New</span></a></li>
+                      <li><a href="gentelella?page=page_403">403 Error (full page)</a></li>
+                      <li><a href="gentelella?page=page_404">404 Error (full page)</a></li>
+                      <li><a href="gentelella?page=page_500">500 Error (full page)</a></li>
+                      <li><a href="gentelella?page=login">Login Page (full page)</a></li>
+                      <li><a href="gentelella?page=plain_page">Plain Page</a></li>
+                      <li><a href="gentelella?page=pricing_tables">Pricing Tables</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="#level1_1">Level One</a>
+                        <li><a>Level One<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                            <li class="sub_menu"><a href="gentelella?page=level2">Level Two</a>
+                            </li>
+                            <li><a href="#level2_1">Level Two</a>
+                            </li>
+                            <li><a href="#level2_2">Level Two</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li><a href="#level1_2">Level One</a>
+                        </li>
+                    </ul>
+                  </li>
+                  <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
+                </ul>
+              </div>
+
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="gentelella?page=login">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+<!-- END: Sidebar -->

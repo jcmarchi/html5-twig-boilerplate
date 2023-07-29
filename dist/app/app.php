@@ -71,6 +71,15 @@ $page = checkVirtualPage($access['locations']);
 
 if (TWIG) {
 
+    // clearTwigCache();
+    // insight($_TWIG);//->deleteAll();
+    // die;
+    // insight($_TWIG->getCache());
+    $_TWIG->setCache(false);
+    // insight($_TWIG->getCache());
+    // die;
+
+
     /** Find what to load based on request and config, then load it */
     if ($page===null):
         require $access['direct']['maintenance'];

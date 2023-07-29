@@ -11,6 +11,9 @@ dist/.log/*
 dist/vendor/*
 !dist/vendor/.gitkeep
 !dist/vendor/boilerplate/
+dist/assets/plugins/*
+!dist/assets/plugins/.gitkeep
+!dist/assets/plugins/index.php
 
 #============================
 # LINUX - FILES TO BE IGNORED

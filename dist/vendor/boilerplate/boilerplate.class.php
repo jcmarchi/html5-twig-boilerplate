@@ -173,16 +173,17 @@ class siteClass {
         self::$template['path'] = [
             'url'       => &self::$url,
             'uri'       => &self::$uri,
+            'template'  => fixSlashes($path . "template"),
             'vendor'    => fixSlashes($path . "vendor"),
             'assets'    => fixSlashes($path . "assets"),
-            'js'        => fixSlashes($path . "assets" . DS . 'js'),
-            'css'       => fixSlashes($path . "assets" . DS . 'css'),
-            'img'       => fixSlashes($path . "assets" . DS . 'img'),
-            'font'      => fixSlashes($path . "assets" . DS . 'font'),
-            'audio'     => fixSlashes($path . "assets" . DS . 'audio'),
-            'video'     => fixSlashes($path . "assets" . DS . 'video'),
-            'plugins'   => fixSlashes($path . "assets" . DS . 'plugins'),
-            'resources' => fixSlashes($path . "assets" . DS . 'resources')
+            'js'        => fixSlashes($path . "assets" . DS . "js"),
+            'css'       => fixSlashes($path . "assets" . DS . "css"),
+            'img'       => fixSlashes($path . "assets" . DS . "img"),
+            'font'      => fixSlashes($path . "assets" . DS . "font"),
+            'audio'     => fixSlashes($path . "assets" . DS . "audio"),
+            'video'     => fixSlashes($path . "assets" . DS . "video"),
+            'plugins'   => fixSlashes($path . "assets" . DS . "plugins"),
+            'resources' => fixSlashes($path . "assets" . DS . "resources")
         ];
 
         /**
@@ -252,7 +253,36 @@ class siteClass {
          */
         return true;
     }
-
 }
 
+// class StorageTwigExtension extends Twig_Extension
+// {
+//     protected $storage = [];
+
+//     public function getFunctions() {
+//         return [
+//             new \Twig\Twig_SimpleFunction('save', [$this, 'save'], ['needs_context' => true]),
+//             new \Twig\Twig_SimpleFunction('restore', [$this, 'restore'], ['needs_context' => true]),
+//         ];
+//     }
+
+//     public function save($context, $name) {
+//         $this->storage = array_merge($this->storage, $context);
+//     }
+
+//     public function restore(&$context, $name) {
+//         $context = array_merge($context, $this->storage);
+//     }
+
+//     public function getName() {
+//         return 'storage';
+//     }
+// }
+
+/* usage example */
+
+// $loader = new Twig_Loader_Filesystem(__DIR__.'/view');
+// $env = new Twig_Environment($loader);
+
+// $env->addExtension(new StorageTwigExtension());
 ?>

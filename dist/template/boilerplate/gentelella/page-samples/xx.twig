@@ -1,0 +1,197 @@
+{% extends "default/page.template.twig" %}
+
+{###########################################################################################
+  This is the Gentelella Configuration Array. There are two main pieces:
+
+    location: the URI where the Gentelella has been downloaded (already
+              pre-set to [PATH]/asset/dashboard/gentelella/)
+    plugins : a list of exit=sting plugins to be enabled in the page. Valid plugins are:
+
+              'animate', 'autocomplete', 'autosize', 'calendar',
+              'chart', 'colorpicker', 'cropper', 'content_scroller',
+              'datatables', 'datejs', 'daterangepicker', 'datetimepicker', 'dropzone',
+              'easy_pie_chart', 'echarts', 'fastclick', 'flot', 'gauge',
+              'icheck', 'inputmask', 'ion_rangeslider',
+              'jqvmap', 'knob', 'moment', 'morris', 'nprogress',
+              'parsley', 'pnotify', 'progressbar',
+              'select2', 'skycons', 'smart_wizard', 'sparklines', 'starrr', 'switchery',
+              'tags_input', 'validator', 'wysiwyg'
+  ------------------------------------------------------------------------------------------
+#}
+{% set gentelella = {
+        'location': boilerplate.path.plugins ~ '/gentelella',
+        'fixed' : {
+            'header' : true,
+            'sidebar': true,
+            'footer' : true
+        },
+        'plugins': [
+            'content_scroller','nprogress'
+        ]
+    }
+%}
+
+{# Don't forget to set the <title> of your page. #}
+{% block title %}XX | {{boilerplate.settings.software.sitename}}{% endblock %}
+
+{# If you need to add anything to the <body> Tag itself, this is the place to do it: #}
+{% block BODYTAG %}class="nav-md  {% if gentelella.fixed.footer %}footer_fixed{% endif %}" {{ parent() }}{% endblock %}
+
+{# This is the BODY CONTENT of your page. #}
+{% block BODY %}
+{# START: BODY STRUCTURE #}
+  <div class="container body">
+    <div class="main_container">
+
+      {% include 'gentelella/sidebar.twig'  %}
+      {% include 'gentelella/topnav.twig'   %}
+
+      <div id="bodycontent">
+
+ .xxs{ position: fixed; margin: 15px; right: 0; float: right; width: 400px; z-index: 4000; bottom: 0 } .dsp_none{ display: none; }
+
+
+<!-- flot -->
+<script type="text/javascript">
+  //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
+  var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
+
+  //generate random number for charts
+  randNum = function() {
+    return (Math.floor(Math.random() * (1 + 40 - 20))) + 20;
+  }
+
+  $(function() {
+    var d1 = [];
+    //var d2 = [];
+
+    //here we generate data for chart
+    for (var i = 0; i < 30; i++) {
+      d1.push([new Date(Date.today().add(i).days()).getTime(), randNum() + i + i + 10]);
+      //    d2.push([new Date(Date.today().add(i).days()).getTime(), randNum()]);
+    }
+
+    var chartMinDate = d1[0][0]; //first day
+    var chartMaxDate = d1[20][0]; //last day
+
+    var tickSize = [1, "day"];
+    var tformat = "%d/%m/%y";
+
+    //graph options
+    var options = {
+      grid: {
+        show: true,
+        aboveData: true,
+        color: "#3f3f3f",
+        labelMargin: 10,
+        axisMargin: 0,
+        borderWidth: 0,
+        borderColor: null,
+        minBorderMargin: 5,
+        clickable: true,
+        hoverable: true,
+        autoHighlight: true,
+        mouseActiveRadius: 100
+      },
+      series: {
+        lines: {
+          show: true,
+          fill: true,
+          lineWidth: 2,
+          steps: false
+        },
+        points: {
+          show: true,
+          radius: 4.5,
+          symbol: "circle",
+          lineWidth: 3.0
+        }
+      },
+      legend: {
+        position: "ne",
+        margin: [0, -25],
+        noColumns: 0,
+        labelBoxBorderColor: null,
+        labelFormatter: function(label, series) {
+          // just add some space to labes
+          return label + '&nbsp;&nbsp;';
+        },
+        width: 40,
+        height: 1
+      },
+      colors: chartColours,
+      shadowSize: 0,
+      tooltip: true, //activate tooltip
+      tooltipOpts: {
+        content: "%s: %y.0",
+        xDateFormat: "%d/%m",
+        shifts: {
+          x: -30,
+          y: -50
+        },
+        defaultTheme: false
+      },
+      yaxis: {
+        min: 0
+      },
+      xaxis: {
+        mode: "time",
+        minTickSize: tickSize,
+        timeformat: tformat,
+        min: chartMinDate,
+        max: chartMaxDate
+      }
+    };
+    var plot = $.plot($("#placeholder33x"), [{
+      label: "Email Sent",
+      data: d1,
+      lines: {
+        fillColor: "rgba(150, 202, 89, 0.12)"
+      }, //#96CA59 rgba(150, 202, 89, 0.42)
+      points: {
+        fillColor: "#fff"
+      }
+    }], options);
+  });
+</script>
+<!-- /flot -->
+
+      </div>
+
+      {% include 'gentelella/footer.twig'   %}
+
+    </div>
+  </div>
+{# END: BODY STRUCTURE #}
+{% endblock %}
+
+{########################################################################################
+ These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
+ You can also 'include' files here and they will be added to the page in the right block.
+-----------------------------------------------------------------------------------------
+#}
+{###################
+ Additional Blocks
+ -------------------
+#}
+{% block header %}
+{# The HEADER inside the BODY tag can go here #}
+{% endblock %}
+
+{% block footer %}
+{# The HEADER inside the BODY tag can go here #}
+{% endblock %}
+
+{###################
+ Service Blocks
+ -------------------
+#}
+{% block styles %}
+{# Add custom Styles here. It wiill be inserted at the top of the page, in the <HEAD> section #}
+    {{ parent() }}
+{% endblock %}
+
+{% block scripts %}
+{# Add custom Scripts and Javascript Snippets here. It wiill be inserted at the bottom of the page, aftger the <BODY> tag #}
+    {{ parent() }}
+{% endblock %}
