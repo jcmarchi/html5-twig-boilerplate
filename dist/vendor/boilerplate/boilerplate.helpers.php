@@ -209,15 +209,30 @@ function checkVirtualPage($loc, $ext = [])
  * FOLDER with hundreds of thousands of files without adding not even a fraction of second in the page load.
  *
  * @param  String    $loc  The function won't check if the variable is a string, or if the path exists.
- *                         If used, it should be the full location of the CACHE FOLDER (i.e: "D:/webroot/.cache/").
+ *                         If used, it should be the full location of the CACHE FOLDER (i.e: "/public_html/.cache/").
  * @return nothing
  */
-function clearTwigCache($loc = "") {
+function clearTwigCache($cache = null) {
+// TODO: A better and more comprehensive cache control.
+    if ($cache === null) return siteClass::$settings['config']['cache']['status'];
 
-    $cache_folder = empty($loc) ? siteClass::$settings['location']['cache'] : $loc;
+//     if (is_string($cache) && !empty($cache)):
+//         siteClass::$settings['config']['cache']['status'] = true;
+//         siteClass::$settings['location']['cache'] = $cache;
+//         siteClass::$twig->setCache($cache);
+//         // siteClass::$twig->setCache($cache);
+//         return true;
+//     endif;
+
+//     if (is_bool($cache) && $cache === true)
+
+// return;
+
+    $cache_folder = empty($cache) ? siteClass::$settings['location']['cache'] : $cache;
+    // TODO: It should keep ALL files and only delete folders.
     $keep_files   = [ '.gitkeep', 'index.php' ];
 
-    /** Recursivelly remove files from sub-folders, then the folder, keeping the $keep_files */
+    /** Recursively remove files from sub-folders, then the folder, keeping the $keep_files */
     foreach( new RecursiveIteratorIterator(
         new RecursiveDirectoryIterator( $cache_folder, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS ),
         RecursiveIteratorIterator::CHILD_FIRST ) as $item ) {

@@ -19,7 +19,7 @@
   ------------------------------------------------------------------------------------------
 #}
 {% set gentelella = {
-        'location': boilerplate.path.plugins ~ '/gentelella',
+        'location': boilerplate.path.plugins ~ '/gentelella/vendors',
         'fixed' : {
             'header' : true,
             'sidebar': true,
@@ -601,7 +601,7 @@
                   <div class="row">
                     <div class="col-md-9">
                       <div class="img-container">
-                        <img id="image" src="{{gentelella.location}}/production/images/cropper.jpg" alt="Picture">
+                        <img id="image" src="{{boilerplate.path.plugins}}/gentelella/production/images/cropper.jpg" alt="Picture">
                       </div>
                     </div>
                     <div class="col-md-3">
