@@ -317,7 +317,7 @@
     <!-- Log Gentelella's Dashboard data into console for debugging purposes -->
     <script>console.log("Gentella Location", "{{gentelella.location}}");</script>
     <script>console.log("Gentella Settings", {{ gentelella_settings|json_encode|raw }});</script>
-    <script>console.log("Gentella Config", {{ gentelella|json_encode|raw }});</script>
+    {# <script>console.log("Gentella Config", {{ gentelella|json_encode|raw }});</script> #}
     <script>console.log("Gentella Logs", gentelella_console_log);</script>
 {%   endif %}
 {% endif %}

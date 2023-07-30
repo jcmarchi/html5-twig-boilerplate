@@ -245,19 +245,17 @@ unset($possible_environment, $setup_file, $application_fie);
 if (file_exists(APPLICATION)) require_once APPLICATION;
 
 /**
+ * Unset no longer needed Temporary Variables
+ */
+unset($_execution_concluded, $_execution_started);
+
+/**
  * Load AUTORENDER Object
  */
 if (defined('AUTORENDER') && AUTORENDER) require_once $_BOILERPLATE['location']['boilerplate'] . "boilerplate.autorender.php";
 
 /**
- * Capture execution time ended and save it to $_.
+ * Check if basic debugger PHP file is still in its location and load it if it is.
  */
-$_execution_concluded = microtime(true);
-$_['execution'] = $_execution_concluded-$_execution_started;
-
-// Unset Temporary Variables
-unset($_execution_concluded, $_execution_started);
-
-// Check if basic debugger is in place, and load it if it is
 if (is_file($_['location']['app'] . "helpers" . DS . "debugger.php"))
    require_once $_['location']['app'] . "helpers" . DS . "debugger.php";

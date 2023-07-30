@@ -27,6 +27,14 @@
  */
 function renderPage($page, $vars = [])
 {
+    global $_execution_started;
+
+    /**
+     * Capture execution time ended and save it to $_.
+     */
+    $_execution_concluded = microtime(true);
+    siteClass::$settings['execution'] = $_execution_concluded-$_execution_started;
+
     if (TWIG):
         /** Bring the contents of the Array siteClass::$settings to $_TWIG_vars['boilerplate'] */
         $vars['boilerplate'] = siteClass::$settings;
