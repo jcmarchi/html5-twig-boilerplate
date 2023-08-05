@@ -28,6 +28,23 @@
  */
 
 /**
+ * APPLICATION LOGIC NOTES
+ * -----------------------
+ * As you can see, this file don't have the BOILERPLATE check and error handling
+ * as the other example files (welcome.php, error.php, maintenance.php, etc.).
+ * The reason is because this file acs as an intermediate between the BOILERPLATE
+ * initialization and the final file that will call the page renderings. Mainly
+ * this is the application code, the handler of the application logic, which is
+ * only executed after the BOILERPLATE is properly initialized, and before the
+ * final page is called to be rendered. Most like this file will call other files,
+ * that will call other files, until the logic is satisfied and the final
+ * rendering is requested.
+ */
+
+
+/**
+ * ROUTING OPTION A - SIMPLE PAGE REQUEST LOGIC
+ * --------------------------------------------
  * This is a simple check using the simplistic checkPage() function
  * to confirm the request exists.
  *
@@ -54,6 +71,8 @@
 
 
 /**
+ * ROUTING OPTION B - ADVANCED REQUEST LOGIC
+ * -----------------------------------------
  * This is a more complex function that checks the status of the request based
  * on a set of pre-analysis plus it can use an Array to narrow the valid locations.
  *
@@ -66,19 +85,15 @@
  *
  * Try to comment/uncomment one, or the other, or both and check the results.
  */
-/** Check if page requested is in the Allowed Locations Array */
-$page = checkVirtualPage($access['locations']);
 
+/** Check if page requested is in the Allowed Locations Array */
+$page = $site->checkVirtualPage($access['locations']);
+
+/** Check if TWIG is instantiated and operational */
 if (TWIG) {
 
-    // clearTwigCache();
-    // insight($_TWIG);//->deleteAll();
-    // die;
-    // insight($_TWIG->getCache());
-    $_TWIG->setCache(false);
-    // insight($_TWIG->getCache());
-    // die;
-
+    /** Disable Cache */
+    // $twig->setCache(false);
 
     /** Find what to load based on request and config, then load it */
     if ($page===null):
@@ -93,7 +108,9 @@ if (TWIG) {
 
 } else {
 
-    /** Find what to load based on request and config, then load it */
+    /**
+     * If TWIG is offline or not initialized, this can fall back to HTML Static Pages.
+     * If can be set in the config, or manually defined, then load it on-demand as needed. */
     if ($page===null):
         $html = file_get_contents(ROOT . $access['static']['maintenance']);
     elseif ($page===true):

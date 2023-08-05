@@ -57,7 +57,7 @@ define('SHERLOCK', true);
 /**
  * Initialize Boilerplate (REQUIRED)
  */
-require "vendor/boilerplate/boilerplate.start.php";
+require "vendor/boilerplate/start.php";
 
 /**
  * After initialized, the execution of the program will be

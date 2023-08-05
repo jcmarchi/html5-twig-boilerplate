@@ -31,6 +31,24 @@
  * @license    https://opensource.org/licenses/MIT
  */
 
+
+/**
+ * APPLICATION SETTINGS NOTES
+ * --------------------------
+ * As you can see, this file don't have the BOILERPLATE check and error handling
+ * as the other example files (welcome.php, error.php, maintenance.php, etc.).
+ * The reason is because this file acts as an initiator to be used BEFORE the
+ * app.php (or whatever "application file" developer specifies) that is called
+ * by the BOILERPLATE initialization process to allow custom initialization of
+ * Application variables and processes. Mainly this is the application settings
+ * code, the handler of the application configuration, which is only executed
+ * after the BOILERPLATE is properly initialized, and before the Application
+ * itself is called. This file can call other files, as far as the whole
+ * process flows allowing the BOILERPLATE to continue its process executing the
+ * Application and completing the process cycle.
+ */
+
+
 /**
  * Create an Array with the allowed paths and files.
  * This Array is just an example. Developers can design it as they

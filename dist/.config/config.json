@@ -32,6 +32,10 @@
         "enabled": true,
         "folder": ".log"
     },
+    "temp": {
+        "enabled": true,
+        "folder": ".temp"
+    },
     "timezone": "America/Detroit",
     "country": "US",
     "language": "en",

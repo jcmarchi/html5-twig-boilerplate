@@ -1,4 +1,7 @@
-version,1.0.1-beta 18
+version,1.0.2-beta 22
 name,HTML5—Twig Boilerplate
+url,https://github.com/jcmarchi/html5-twig-boilerplate
 author,Julio Marchi
 copyright,Copyright © Julio Marchi - All Rights Reserved.
+site,https://www.juliomarchi.com
+package,MOODFIRED

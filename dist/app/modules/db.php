@@ -19,11 +19,17 @@
 
 //  insight($_BOILERPLATE);
 
+/**
+ * All are the same Array:
+ *    boilerplate::$settings['databases']
+ *    $_BOILERPLATE['databases']
+ *    $_['databases']
+ */
 $db_Server   = $_BOILERPLATE['databases']['main']['server'];
 $db_database = $_BOILERPLATE['databases']['main']['database'];
 $db_username = $_BOILERPLATE['databases']['main']['username'];
 $db_password = $_BOILERPLATE['databases']['main']['password'];
 
-// Using the function from teh Boilerplate Database Helper (boilerplate.db.php) to connect with the DB via PDO:
-$dsn = buildDSN($db_Server, $db_database);
-$db = connectDB($dsn, $db_username, $db_password);
+// Using the function from the Boilerplate Database Helper (boilerplate.db.php) to connect with the DB via PDO:
+$dsn = $site->buildDSN($db_Server, $db_database);
+$db  = $site->connectDB($dsn, $db_username, $db_password);
