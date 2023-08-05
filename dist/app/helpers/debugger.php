@@ -26,11 +26,12 @@
 
 
 /**
- * Quick Debug
- * : Example :
+ * Quick Debug Sample
+ * : Example Only : NOT READY FOR PRODUCTION
  */
 if ($_['config']['debug']['enabled']):
     echo "<div style='margin:15px'><hr>DEBUGGING EXAMPLE INITIATED!<hr>";
+    $_['execution'] = $_BOILERPLATE['execution'] = \boilerplate\boilerplate::$settings['execution'] = microtime(true)-\boilerplate\installer::$APPLICATION['start'];
     printf("<p style='font-size:x-small;'>Page loaded in %f seconds.</p><br>", $_['execution'] );
     if (defined('INSIGHT') && INSIGHT):
         insight($_);

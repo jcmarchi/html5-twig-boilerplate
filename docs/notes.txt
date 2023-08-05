@@ -16,17 +16,26 @@ AUTORENDER
 
 Constant Overrides
 ----------------------
-$APP
-$ROOT
-$DEBUG
-$CONFIG
-$AUTORENDER
+$APP (NO MORE)
+$DEBUG (TO FIX)
 
+$ROOT
+$OBJECT
+$APP_FOLDER
+$SET_FOLDER
+$VENDOR
+$CONFIG
+$TEMPLATE
+$TEMPLATE_RELATIVE
+$SET_FILE
+$APP_FILE
+
+$AUTORENDER
 
 Quick Vars
 --------------
 $_set
-$_app
+$site
 
 
 

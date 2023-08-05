@@ -3,13 +3,13 @@
  * THE MULTI-PURPOSE WEBSITE BOILERPLATE WITH TWIG SUPPORT
  * Boilerplate Module :: MAIN CLASS
  *
- * This Static Class Object holds the Boilerplate Core.
+ * This Static Class Object holds the Boilerplate boilerplate.
  *
  * Requires custom initialization (see below) and must receive the address
  * referent to the "root location" (physical path) of the website root folder
  * in the server filesystem.
  *
- * This CLASS is auto-instantiated by "boilerplate.start.php" as "$_APP".
+ * This CLASS is auto-instantiated by "boilerplate.start.php" as "$site".
  *
  * @since      March, 2019.
  * @category   Class
@@ -20,27 +20,16 @@
  * @license    https://opensource.org/licenses/MIT
  */
 
+namespace boilerplate;
 
-/**
- * Initialize the system core object.
- * It holds all important System Variables and Methods
- * Can be used either as STATIC or INSTANTIATE.
- * Requires __DIR__ to be send as parameter. Examples:
- *
- * Static:
- *    siteClass::startSite(__DIR__);
- *
- * Instantiated:
- *    $_APP = new siteClass(__DIR__);
- *
- */
-class siteClass {
-    const BOILERPLATE = '1.0.1-beta 18';
+class boilerplate {
 
-    /** Private Datasets */
+    use validators, functions, database, helpers;
+
+    /** Private Dataset */
     private static $mainClassInitialized = false;
 
-    /** Public Datasets */
+    /** Public Static Datasets */
     public static $settings    = [],
                   $config      = [],
                   $template    = [],
@@ -49,53 +38,57 @@ class siteClass {
                   $root        = null,
                   $url         = null,
                   $uri         = null,
-                  $twig        = null;
+                  $twig        = false,
+                  $me          = false;
 
 
     /**
      * Default self initializer method for instantiated Classes
      *
-     * @param  String  $root  Expected to be the equivalent to __DIR__ from the
-     *                        index.php file located in the root of the site.
-     *
-     * @return void
+     * @param  string  $boilerplate  An Array with the initial data collection obtained by
+     *                               the Installer and the Start file. It is a reference to
+     *                               the public static \boilerplate\installer::$BOILERPLATE.
      */
-    public function __construct($root) {
-        self::startSite($root);
+    public function __construct($boilerplate)
+    {
+        /**
+         * The '$me' string should contain the name of the
+         * instantiable object. Of course we have other means
+         * to retrieve it but, why make it complicated? :P
+         */
+        self::$me = installer::$APPLICATION['object'];
+        self::initiateBoilerplate($boilerplate);
     }
 
 
     /**
      * This Method initializes the required SDA for the application to run
      *
-     * @param  String  $root  Expected to be the equivalent to __DIR__ from the
-     *                        index.php file located in the root of the site.
-     *
-     * @return void
+     * @param  string  $boilerplate  An Array with the initial data collection obtained by
+     *                               the Installer and the Start file. It is a reference to
+     *                               the public static \boilerplate\installer::$BOILERPLATE.
      */
-    public static function startSite($root) {
-
-        global $_BOILERPLATE;
-
+    private function initiateBoilerplate($boilerplate)
+    {
         /**
          * If already Initialize, just quit (no double initialization allowed)
          */
         if (self::$mainClassInitialized) return;
 
         /**
-         * Set mainClass as Initialized
+         * Set mainClass as Initialized and save received data
          */
         self::$mainClassInitialized = true;
-        self::$settings = $_BOILERPLATE;
+        self::$settings = $boilerplate;
 
         /**
-         * Define $roo and $base for direct and relative calls
+         * Define $root and $base for direct and relative calls,
          *
          * IMPORTANT:
          * The site ROOT must ALWAYS be based on the __DIR__
          * of the index.php file located in the root of the site.
          */
-        self::$root = $root;
+        self::$root = self::$settings['location']['root'];
         self::$base = str_replace(array('/', '\\'), DS, $_SERVER['DOCUMENT_ROOT']);
 
         /**
@@ -115,13 +108,11 @@ class siteClass {
                    new \RecursiveDirectoryIterator(CONFIG)
                  ), '/^((.+?)(\.)(json))$/i'
               );
-        $test = [];
         foreach ($RDI as $CFG) self::$config[pathinfo(basename($CFG), PATHINFO_FILENAME)] = json_decode(file_get_contents($CFG), true);
 
         /**
          * Identify parts of the URL/URI to compose reference links for the template
          */
-
         /** Exposes custom Server PORT */
         $serverport = ($_SERVER["SERVER_PORT"] == 80 || $_SERVER["SERVER_PORT"] == 443) ? "" : ":" . $_SERVER["SERVER_PORT"];
         /** Build relative based (URI) on website root location (not URL page location). Correct slashes and clean double slashes. */
@@ -145,19 +136,19 @@ class siteClass {
      * This Method initializes the Twig Template Environment System.
      * The Method automatically calls "setTemplate()" to complete the initialization.
      *
-     * @param  String   $templateName  A string with the name of the template.
-     *                                 The variable only passed on to "setTemplate()".
+     * @param   string   $templateName  A string with the name of the template.
+     *                                  The variable only passed on to "setTemplate()".
      *
-     * @return Boolean  true   if file Twig is installed and initialization is complete
-     *                  false  if file Twig is not exist installed ad initialization failed
+     * @return  boolean  TRUE   if file Twig is installed and initialization is complete,
+     *                   FALSE  if file Twig is not exist installed ad initialization failed.
      */
-    public static function initializeTemplate($templateName = false) {
-
+    public function initializeTemplate($templateName = false)
+    {
         /**
          * TWIG Environment Options defined in the site's configuration file.
          */
         self::$template['environment'] = array(
-          'cache'               => fixSlashes(self::$config['config']['cache']['enabled'] ? self::$root . DS . self::$config['config']['cache']['folder'] : false),
+          'cache'               => $this->fixSlashes(self::$config['config']['cache']['enabled'] ? self::$root . DS . self::$config['config']['cache']['folder'] : false),
           'debug'               => self::$config['config']['debug']['enabled'],
           'charset'             => (!empty(self::$config['config']['charset'])) ? self::$config['config']['charset'] : "UTF-8", // Default = 'UTF-8'
           'base_template_class' => 'Twig_Template',   // Default = 'Twig_Template'
@@ -173,41 +164,42 @@ class siteClass {
         self::$template['path'] = [
             'url'       => &self::$url,
             'uri'       => &self::$uri,
-            'template'  => fixSlashes($path . "template"),
-            'vendor'    => fixSlashes($path . "vendor"),
-            'assets'    => fixSlashes($path . "assets"),
-            'js'        => fixSlashes($path . "assets" . DS . "js"),
-            'css'       => fixSlashes($path . "assets" . DS . "css"),
-            'img'       => fixSlashes($path . "assets" . DS . "img"),
-            'font'      => fixSlashes($path . "assets" . DS . "font"),
-            'audio'     => fixSlashes($path . "assets" . DS . "audio"),
-            'video'     => fixSlashes($path . "assets" . DS . "video"),
-            'plugins'   => fixSlashes($path . "assets" . DS . "plugins"),
-            'resources' => fixSlashes($path . "assets" . DS . "resources")
+            'template'  => $this->fixSlashes($path . "template"),
+            'vendor'    => $this->fixSlashes($path . "vendor"),
+            'assets'    => $this->fixSlashes($path . "assets"),
+            'js'        => $this->fixSlashes($path . "assets" . DS . "js"),
+            'css'       => $this->fixSlashes($path . "assets" . DS . "css"),
+            'img'       => $this->fixSlashes($path . "assets" . DS . "img"),
+            'font'      => $this->fixSlashes($path . "assets" . DS . "font"),
+            'audio'     => $this->fixSlashes($path . "assets" . DS . "audio"),
+            'video'     => $this->fixSlashes($path . "assets" . DS . "video"),
+            'plugins'   => $this->fixSlashes($path . "assets" . DS . "plugins"),
+            'resources' => $this->fixSlashes($path . "assets" . DS . "resources")
         ];
 
         /**
          * Call function to complete Twig implementation
          */
-        return self::setTemplate($templateName);
+        return $this->setTemplate($templateName);
     }
 
 
     /**
      * This Method sets the template system based on Twig
      *
-     * @param  String   $templateName  A string with the name of the template.
+     * @param   string   $templateName  A string with the name of the template.
      *
-     * @return Boolean  true   if file Twig is installed and initalization is complete
-     *                  false  if file Twig is not exist installed ad initialization failed
+     * @return  boolean  TRUE   if file Twig is installed and initialization is complete,
+     *                   FALSE  if file Twig is not exist installed ad initialization failed.
      */
-    public static function setTemplate($templateName = false) {
+    public function setTemplate($templateName = false)
+    {
         /**
          * Properly discover and set template physical path
          */
         if ($templateName && file_exists(self::$settings['location']['template'] . $templateName)):
-            $direct   = fixSlashes(self::$settings['location']['template'] . $templateName);
-            $relative = fixSlashes(self::$settings['location']['templ_rel'] . $templateName);
+            $direct   = $this->fixSlashes(self::$settings['location']['template'] . $templateName);
+            $relative = $this->fixSlashes(self::$settings['location']['templ_rel'] . $templateName);
         else:
             $direct   = self::$settings['location']['template']  . self::$config['config']['twig']['template'] . DS;
             $relative = self::$settings['location']['templ_rel'] . self::$config['config']['twig']['template'] . DS;
@@ -227,7 +219,7 @@ class siteClass {
                 'uri'    => &self::$uri
             ],
             'requested' => [
-                'url'    => fixSlashes( str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'] ) ),
+                'url'    => $this->fixSlashes( str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'] ) ),
                 'index'  => &self::$config['config']['index']
             ]
         ];
@@ -239,8 +231,8 @@ class siteClass {
         if (!is_dir(self::$settings['location']['vendor'] . "twig")) return false;
 
         /**
-         * Initialize (or override) Twig Template Core.
-         * Based on NEW TWIG 3.0.
+         * Initialize (or override) Twig Template boilerplate.
+         * Based on NEW TWIG 3.0+.
          */
         self::$twig = new \Twig\Environment(
                         new \Twig\Loader\FilesystemLoader(
@@ -249,40 +241,8 @@ class siteClass {
                     );
 
         /**
-         * Return TRUE to indicate Twig is installed and set
+         * Return TRUE to indicate Twig is installed and set.
          */
         return true;
     }
 }
-
-// class StorageTwigExtension extends Twig_Extension
-// {
-//     protected $storage = [];
-
-//     public function getFunctions() {
-//         return [
-//             new \Twig\Twig_SimpleFunction('save', [$this, 'save'], ['needs_context' => true]),
-//             new \Twig\Twig_SimpleFunction('restore', [$this, 'restore'], ['needs_context' => true]),
-//         ];
-//     }
-
-//     public function save($context, $name) {
-//         $this->storage = array_merge($this->storage, $context);
-//     }
-
-//     public function restore(&$context, $name) {
-//         $context = array_merge($context, $this->storage);
-//     }
-
-//     public function getName() {
-//         return 'storage';
-//     }
-// }
-
-/* usage example */
-
-// $loader = new Twig_Loader_Filesystem(__DIR__.'/view');
-// $env = new Twig_Environment($loader);
-
-// $env->addExtension(new StorageTwigExtension());
-?>
