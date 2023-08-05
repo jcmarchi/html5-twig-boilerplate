@@ -1,0 +1,480 @@
+{% extends "default/page.template.twig" %}
+
+{###########################################################################################
+  This is the Gentelella Configuration Array. There are two main pieces:
+
+    location: the URI where the Gentelella has been downloaded (already
+              pre-set to [PATH]/asset/dashboard/gentelella/)
+    plugins : a list of exit=sting plugins to be enabled in the page. Valid plugins are:
+
+              'animate', 'autocomplete', 'autosize', 'calendar',
+              'chart', 'colorpicker', 'cropper', 'content_scroller',
+              'datatables', 'datejs', 'daterangepicker', 'datetimepicker', 'dropzone',
+              'easy_pie_chart', 'echarts', 'fastclick', 'flot', 'gauge',
+              'icheck', 'inputmask', 'ion_rangeslider',
+              'jqvmap', 'knob', 'moment', 'morris', 'nprogress',
+              'parsley', 'pnotify', 'progressbar',
+              'select2', 'skycons', 'smart_wizard', 'sparklines', 'starrr', 'switchery',
+              'tags_input', 'validator', 'wysiwyg'
+  ------------------------------------------------------------------------------------------
+#}
+{% set gentelella = {
+        'location': boilerplate.path.plugins ~ '/gentelella/vendors',
+        'fixed' : {
+            'header' : true,
+            'sidebar': true,
+            'footer' : true
+        },
+        'plugins': [
+            'content_scroller','nprogress','icheck','fastclick','progressbar'
+        ]
+    }
+%}
+
+{# Don't forget to set the <title> of your page. #}
+{% block title %}Projects | {{boilerplate.settings.software.sitename}}{% endblock %}
+
+{# If you need to add anything to the <body> Tag itself, this is the place to do it: #}
+{% block BODYTAG %}class="nav-md  {% if gentelella.fixed.footer %}footer_fixed{% endif %}" {{ parent() }}{% endblock %}
+
+{# This is the BODY CONTENT of your page. #}
+{% block BODY %}
+{# START: BODY STRUCTURE #}
+  <div class="container body">
+    <div class="main_container">
+
+      {% include 'gentelella/sidebar.twig'  %}
+      {% include 'gentelella/topnav.twig'   %}
+
+      <div id="bodycontent">
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Projects <small>Listing design</small></h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Projects</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <p>Simple table with project listing with progress and editing options</p>
+
+                    <!-- start project list -->
+                    <table class="table table-striped projects">
+                      <thead>
+                        <tr>
+                          <th style="width: 1%">#</th>
+                          <th style="width: 20%">Project Name</th>
+                          <th>Team Members</th>
+                          <th>Project Progress</th>
+                          <th>Status</th>
+                          <th style="width: 20%">#Edit</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>#</td>
+                          <td>
+                            <a>Pesamakini Backend UI</a>
+                            <br />
+                            <small>Created 01.01.2015</small>
+                          </td>
+                          <td>
+                            <ul class="list-inline">
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="project_progress">
+                            <div class="progress progress_sm">
+                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57"></div>
+                            </div>
+                            <small>57% Complete</small>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                          </td>
+                          <td>
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#</td>
+                          <td>
+                            <a>Pesamakini Backend UI</a>
+                            <br />
+                            <small>Created 01.01.2015</small>
+                          </td>
+                          <td>
+                            <ul class="list-inline">
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="project_progress">
+                            <div class="progress progress_sm">
+                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="47"></div>
+                            </div>
+                            <small>47% Complete</small>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                          </td>
+                          <td>
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#</td>
+                          <td>
+                            <a>Pesamakini Backend UI</a>
+                            <br />
+                            <small>Created 01.01.2015</small>
+                          </td>
+                          <td>
+                            <ul class="list-inline">
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="project_progress">
+                            <div class="progress progress_sm">
+                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="77"></div>
+                            </div>
+                            <small>77% Complete</small>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                          </td>
+                          <td>
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#</td>
+                          <td>
+                            <a>Pesamakini Backend UI</a>
+                            <br />
+                            <small>Created 01.01.2015</small>
+                          </td>
+                          <td>
+                            <ul class="list-inline">
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="project_progress">
+                            <div class="progress progress_sm">
+                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="60"></div>
+                            </div>
+                            <small>60% Complete</small>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                          </td>
+                          <td>
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#</td>
+                          <td>
+                            <a>Pesamakini Backend UI</a>
+                            <br />
+                            <small>Created 01.01.2015</small>
+                          </td>
+                          <td>
+                            <ul class="list-inline">
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="project_progress">
+                            <div class="progress progress_sm">
+                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="12"></div>
+                            </div>
+                            <small>12% Complete</small>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                          </td>
+                          <td>
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#</td>
+                          <td>
+                            <a>Pesamakini Backend UI</a>
+                            <br />
+                            <small>Created 01.01.2015</small>
+                          </td>
+                          <td>
+                            <ul class="list-inline">
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="project_progress">
+                            <div class="progress progress_sm">
+                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="35"></div>
+                            </div>
+                            <small>35% Complete</small>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                          </td>
+                          <td>
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#</td>
+                          <td>
+                            <a>Pesamakini Backend UI</a>
+                            <br />
+                            <small>Created 01.01.2015</small>
+                          </td>
+                          <td>
+                            <ul class="list-inline">
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="project_progress">
+                            <div class="progress progress_sm">
+                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="87"></div>
+                            </div>
+                            <small>87% Complete</small>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                          </td>
+                          <td>
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#</td>
+                          <td>
+                            <a>Pesamakini Backend UI</a>
+                            <br />
+                            <small>Created 01.01.2015</small>
+                          </td>
+                          <td>
+                            <ul class="list-inline">
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="project_progress">
+                            <div class="progress progress_sm">
+                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="77"></div>
+                            </div>
+                            <small>77% Complete</small>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                          </td>
+                          <td>
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#</td>
+                          <td>
+                            <a>Pesamakini Backend UI</a>
+                            <br />
+                            <small>Created 01.01.2015</small>
+                          </td>
+                          <td>
+                            <ul class="list-inline">
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                              <li>
+                                <img src="{{boilerplate.path.plugins}}/gentelella/production/images/user.png" class="avatar" alt="Avatar">
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="project_progress">
+                            <div class="progress progress_sm">
+                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="77"></div>
+                            </div>
+                            <small>77% Complete</small>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                          </td>
+                          <td>
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- end project list -->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+
+      {% include 'gentelella/footer.twig'   %}
+
+    </div>
+  </div>
+{# END: BODY STRUCTURE #}
+{% endblock %}
+
+{########################################################################################
+ These BLOCKS are available in the "page.twig" file so you can insert snippets from here.
+ You can also 'include' files here and they will be added to the page in the right block.
+-----------------------------------------------------------------------------------------
+#}
+{###################
+ Additional Blocks
+ -------------------
+#}
+{% block header %}
+{# The HEADER inside the BODY tag can go here #}
+{% endblock %}
+
+{% block footer %}
+{# The HEADER inside the BODY tag can go here #}
+{% endblock %}
+
+{###################
+ Service Blocks
+ -------------------
+#}
+{% block styles %}
+{# Add custom Styles here. It wiill be inserted at the top of the page, in the <HEAD> section #}
+    {{ parent() }}
+{% endblock %}
+
+{% block scripts %}
+{# Add custom Scripts and Javascript Snippets here. It wiill be inserted at the bottom of the page, aftger the <BODY> tag #}
+    {{ parent() }}
+{% endblock %}

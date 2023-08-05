@@ -1,0 +1,414 @@
+{###########################################################################################
+  This is the DataSet used by the template to compose the STYLE and SCRIPT inserts based
+  on developer's requirements, which is done by adjusting the 'gentelella' Array.
+
+  The composing loop (below) will analize the 'gentelella' Array and then use the data
+  below to compose snippets in two variables that are set to populate the template in the
+  correcpt place.
+
+  This is a "hack" to bypass Twig's limitiation importing extra fragments into a file that
+  already extends a template, and its incredibly limiting condition that make it almost
+  impossible to inset items in a "block" coming from different regions of the template
+  file.
+  ------------------------------------------------------------------------------------------
+#}
+{% set gentelella_settings = {
+    'animate': {
+        'label': 'Animate.css',
+        'js' : [],
+        'css': [
+            gentelella.location ~ '/animate.css/animate.min.css'
+        ]
+    },
+    'autocomplete': {
+        'label': 'jQuery autocomplete',
+        'js': [
+            gentelella.location ~ '/devbridge-autocomplete/dist/jquery.autocomplete.min.js'
+        ],
+        'css': []
+    },
+    'Autosize': {
+        'label': 'Autosize',
+        'js': [
+            gentelella.location ~ '/autosize/dist/autosize.min.js'
+        ],
+        'css': []
+    },
+    'calendar': {
+        'label': 'Calendar / FullCalendar',
+        'js': [
+            gentelella.location ~ '/fullcalendar/dist/fullcalendar.min.js'
+        ],
+        'css': [
+            gentelella.location ~ '/fullcalendar/dist/fullcalendar.min.css',
+            gentelella.location ~ '/fullcalendar/dist/fullcalendar.print.css" media="print'
+        ]
+    },
+    'chart': {
+        'label': 'Chart.js',
+        'js': [
+            gentelella.location ~ '/Chart.js/dist/Chart.min.js'
+        ],
+        'css': []
+    },
+    'colorpicker': {
+        'label': 'Bootstrap Colorpicker',
+        'js': [
+            gentelella.location ~ '/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'
+        ],
+        'css': [
+            gentelella.location ~ '/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css'
+        ]
+    },
+    'cropper': {
+        'label': 'Cropper',
+        'js': [
+            gentelella.location ~ '/cropper/dist/cropper.min.js'
+        ],
+        'css': [
+            gentelella.location ~ '/cropper/dist/cropper.min.css'
+        ]
+    },
+    'content_scroller': {
+        'label': 'jQuery custom content scroller',
+        'js': [
+            gentelella.location ~ '/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js'
+        ],
+        'css': [
+            gentelella.location ~ '/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css'
+        ]
+    },
+    'datatables': {
+        'label': 'Datatables',
+        'js': [
+            gentelella.location ~ '/datatables.net/js/jquery.dataTables.min.js',
+            gentelella.location ~ '/datatables.net-bs/js/dataTables.bootstrap.min.js',
+            gentelella.location ~ '/datatables.net-buttons/js/dataTables.buttons.min.js',
+            gentelella.location ~ '/datatables.net-buttons-bs/js/buttons.bootstrap.min.js',
+            gentelella.location ~ '/datatables.net-buttons/js/buttons.flash.min.js',
+            gentelella.location ~ '/datatables.net-buttons/js/buttons.html5.min.js',
+            gentelella.location ~ '/datatables.net-buttons/js/buttons.print.min.js',
+            gentelella.location ~ '/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js',
+            gentelella.location ~ '/datatables.net-keytable/js/dataTables.keyTable.min.js',
+            gentelella.location ~ '/datatables.net-responsive/js/dataTables.responsive.min.js',
+            gentelella.location ~ '/datatables.net-responsive-bs/js/responsive.bootstrap.js',
+            gentelella.location ~ '/datatables.net-scroller/js/dataTables.scroller.min.js',
+            gentelella.location ~ '/jszip/dist/jszip.min.js',
+            gentelella.location ~ '/pdfmake/build/pdfmake.min.js',
+            gentelella.location ~ '/pdfmake/build/vfs_fonts.js'
+        ],
+        'css': [
+            gentelella.location ~ '/datatables.net-bs/css/dataTables.bootstrap.min.css',
+            gentelella.location ~ '/datatables.net-buttons-bs/css/buttons.bootstrap.min.css',
+            gentelella.location ~ '/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css',
+            gentelella.location ~ '/datatables.net-responsive-bs/css/responsive.bootstrap.min.css',
+            gentelella.location ~ '/datatables.net-scroller-bs/css/scroller.bootstrap.min.css'
+        ]
+    },
+    'datejs': {
+        'label': 'DateJS',
+        'js': [
+            gentelella.location ~ '/DateJS/build/date.js'
+        ],
+        'css': []
+    },
+    'daterangepicker': {
+        'label': 'Bootstrap Daterange Picker',
+        'js': [
+            gentelella.location ~ '/bootstrap-daterangepicker/daterangepicker.js'
+        ],
+        'css': [
+            gentelella.location ~ '/bootstrap-daterangepicker/daterangepicker.css'
+        ]
+    },
+    'datetimepicker': {
+        'label': 'Bootstrap Datetime Picker',
+        'js': [
+            gentelella.location ~ '/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js'
+        ],
+        'css': [
+            gentelella.location ~ '/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css'
+        ]
+    },
+    'dropzone': {
+        'label': 'Dropzone.js',
+        'js': [
+            gentelella.location ~ '/dropzone/dist/min/dropzone.min.js'
+        ],
+        'css': [
+            gentelella.location ~ '/dropzone/dist/min/dropzone.min.css'
+        ]
+    },
+    'easy_pie_chart': {
+        'label': 'Easy Pie Chart',
+        'js': [
+            gentelella.location ~ '/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js'
+        ],
+        'css': []
+    },
+    'echarts': {
+        'label': 'ECharts',
+        'js': [
+            gentelella.location ~ '/echarts/dist/echarts.min.js',
+            gentelella.location ~ '/echarts/map/js/world.js'
+        ],
+        'css': []
+    },
+    'fastclick': {
+        'label': 'FastClick',
+        'js': [
+            gentelella.location ~ '/fastclick/lib/fastclick.js'
+        ],
+        'css': []
+    },
+    'flot': {
+        'label': 'Flot and Plugins',
+        'js': [
+            gentelella.location ~ '/Flot/jquery.flot.js',
+            gentelella.location ~ '/Flot/jquery.flot.pie.js',
+            gentelella.location ~ '/Flot/jquery.flot.time.js',
+            gentelella.location ~ '/Flot/jquery.flot.stack.js',
+            gentelella.location ~ '/Flot/jquery.flot.resize.js',
+            gentelella.location ~ '/flot.orderbars/js/jquery.flot.orderBars.js',
+            gentelella.location ~ '/flot-spline/js/jquery.flot.spline.min.js',
+            gentelella.location ~ '/flot.curvedlines/curvedLines.js'
+        ],
+        'css': []
+    },
+    'gauge': {
+        'label': 'gauge.js',
+        'js': [
+            gentelella.location ~ '/gauge.js/dist/gauge.min.js'
+        ],
+        'css': []
+    },
+    'icheck': {
+        'label': 'iCheck',
+        'js': [
+            gentelella.location ~ '/iCheck/icheck.min.js'
+        ],
+        'css': [
+            gentelella.location ~ '/iCheck/skins/flat/green.css'
+        ]
+    },
+    'inputmask': {
+        'label': 'jQuery InputMask',
+        'js': [
+            gentelella.location ~ '/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js'
+        ],
+        'css': []
+    },
+    'ion_rangeslider': {
+        'label': 'Ion.RangeSlider',
+        'js': [
+            gentelella.location ~ '/ion.rangeSlider/js/ion.rangeSlider.min.js'
+        ],
+        'css': [
+            gentelella.location ~ '/normalize-css/normalize.css',
+            gentelella.location ~ '/ion.rangeSlider/css/ion.rangeSlider.css',
+            gentelella.location ~ '/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css'
+        ]
+    },
+    'jqvmap': {
+        'label': 'JQVMap',
+        'js': [
+            gentelella.location ~ '/jqvmap/dist/jquery.vmap.js',
+            gentelella.location ~ '/jqvmap/examples/js/jquery.vmap.sampledata.js',
+            gentelella.location ~ '/jqvmap/dist/maps/jquery.vmap.world.js',
+            gentelella.location ~ '/jqvmap/dist/maps/jquery.vmap.usa.js'
+        ],
+        'css': [
+            gentelella.location ~ '/jqvmap/dist/jqvmap.min.css'
+        ]
+    },
+    'knob': {
+        'label': 'jQuery Knob',
+        'js': [
+            gentelella.location ~ '/jquery-knob/dist/jquery.knob.min.js'
+        ],
+        'css': []
+    },
+    'moment': {
+        'label': 'Moment JS',
+        'js': [
+            gentelella.location ~ '/moment/min/moment.min.js',
+            gentelella.location ~ '/moment/min/moment-with-locales.min.js'
+        ],
+        'css': []
+    },
+    'morris': {
+        'label': 'morris.js',
+        'js': [
+            gentelella.location ~ '/raphael/raphael.min.js',
+            gentelella.location ~ '/morris.js/morris.min.js'
+        ],
+        'css': []
+    },
+    'nprogress': {
+        'label': 'NProgress',
+        'js': [
+            gentelella.location ~ '/nprogress/nprogress.js'
+        ],
+        'css': [
+            gentelella.location ~ '/nprogress/nprogress.css'
+        ]
+    },
+    'parsley': {
+        'label': 'Parsley',
+        'js': [
+            gentelella.location ~ '/parsleyjs/dist/parsley.min.js'
+        ],
+        'css': []
+    },
+    'pnotify': {
+        'label': 'PNotify',
+        'js': [
+            gentelella.location ~ '/pnotify/dist/pnotify.js',
+            gentelella.location ~ '/pnotify/dist/pnotify.buttons.js',
+            gentelella.location ~ '/pnotify/dist/pnotify.nonblock.js'
+        ],
+        'css': [
+            gentelella.location ~ '/pnotify/dist/pnotify.css',
+            gentelella.location ~ '/pnotify/dist/pnotify.buttons.css',
+            gentelella.location ~ '/pnotify/dist/pnotify.nonblock.css'
+        ]
+    },
+    'progressbar': {
+        'label': 'Bootstrap ProgressBar',
+        'js': [
+            gentelella.location ~ '/bootstrap-progressbar/bootstrap-progressbar.min.js'
+        ],
+        'css': [
+            gentelella.location ~ '/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css'
+        ]
+    },
+    'select2': {
+        'label': 'Select2',
+        'js': [
+            gentelella.location ~ '/select2/dist/js/select2.full.min.js'
+        ],
+        'css': [
+            gentelella.location ~ '/select2/dist/css/select2.min.css'
+        ]
+    },
+    'skycons': {
+        'label': 'Skycons',
+        'js': [
+            gentelella.location ~ '/skycons/skycons.js'
+        ],
+        'css': []
+    },
+    'smart_wizard': {
+        'label': 'jQuery Smart Wizard',
+        'js': [
+            gentelella.location ~ '../jQuery-Smart-Wizard/js/jquery.smartWizard.js'
+        ],
+        'css': []
+    },
+    'sparklines': {
+        'label': 'jQuery Sparklines',
+        'js': [
+            gentelella.location ~ '/jquery-sparkline/dist/jquery.sparkline.min.js'
+        ],
+        'css': []
+    },
+    'starrr': {
+        'label': 'starrr',
+        'js': [
+            gentelella.location ~ '/starrr/dist/starrr.js'
+        ],
+        'css': [
+            gentelella.location ~ '/starrr/dist/starrr.css'
+        ]
+    },
+    'switchery': {
+        'label': 'Switchery',
+        'js': [
+            gentelella.location ~ '/switchery/dist/switchery.min.js'
+        ],
+        'css': [
+            gentelella.location ~ '/switchery/dist/switchery.min.css'
+        ]
+    },
+    'tags_input': {
+        'label': 'jQuery Tags Input',
+        'js': [
+            gentelella.location ~ '/jquery.tagsinput/src/jquery.tagsinput.js'
+        ],
+        'css': []
+    },
+    'validator': {
+        'label': 'Validators',
+        'js': [
+            gentelella.location ~ '/validator/multifield.js',
+            gentelella.location ~ '/validator/validator.js'
+        ],
+        'css': []
+    },
+    'wysiwyg': {
+        'label': 'Bootstrap WYSIWYG',
+        'js': [
+            gentelella.location ~ '/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js',
+            gentelella.location ~ '/jquery.hotkeys/jquery.hotkeys.js',
+            gentelella.location ~ '/google-code-prettify/src/prettify.js'
+        ],
+        'css': [
+            gentelella.location ~ '/google-code-prettify/bin/prettify.min.css'
+        ]
+    }
+}%}
+{###########################################################################################
+  Clean CONTROL Variables, which will be used to populate the template
+  By the end of this LOOP tehre will be TWO template variables:
+
+     gentelella_plugins_js  : The entire set of JS to be inserted in the {% block scripts %}
+     gentelella_plugins_css : The entire set to CSS be inserted in the JS {% block styles %}
+
+  Developers don't need to do anything other than select which plugin Gentelella Plugin(s)
+  will be used in the page, whihc can be done by adjusting the 'gentelella' Array.
+  ------------------------------------------------------------------------------------------
+#}
+{% set gentelella_plugins_js  = "" %}
+{% set gentelella_plugins_css = "" %}
+{# Loop through the user-defined 'gentelella' Array for enabled or disabled plugins #}
+{% for plugin in gentelella.plugins %}
+{#     For each plugin marked as active, find its setting in the system defined 'gentelella_settings' Array #}
+{%     for plugindata, object in gentelella_settings %}
+{%       if (plugindata == plugin) %}
+{#         Compose the JS (JavaScript) portion required for the plugins, if any #}
+{%         set gentelella_js = "" %}
+{%         for item in object.js %}
+{%           set gentelella_js = gentelella_js ~ "\t<script src=\"" ~ item ~ "\"></script>\n" %}
+{%         endfor %}
+{%         if (gentelella_js is not empty) %}
+{%           set gentelella_plugins_js = gentelella_plugins_js ~ "\n\t<!-- " ~ gentelella_settings[plugin].label ~ " -->\n" ~ gentelella_js %}
+{%         endif %}
+{#         Compose the CSS (Cascade Style Sheets) portion required for the plugins, if any #}
+{%         set gentelella_css = "" %}
+{%         for item in object.css %}
+{%           set gentelella_css = gentelella_css ~ "\t<link href=\"" ~ item ~ "\" rel=\"stylesheet\">\n" %}
+{%         endfor %}
+{%         if (gentelella_css is not empty) %}
+{%           set gentelella_plugins_css = gentelella_plugins_css ~ "\n\t<!-- " ~ gentelella_settings[plugin].label ~ " -->\n" ~ gentelella_css %}
+{%         endif %}
+{%       endif %}
+{%     endfor %}
+{% endfor %}
+
+{###########################################################################################
+  Generate the output based on 'request' from "include" statement in page.template.twig.
+
+  I.e.: include 'gentelella/plugins.twig' with {'gentelella': gentelella, 'request': 'css'}
+  ------------------------------------------------------------------------------------------
+#}
+{% if request == 'js' %}
+    <!-- INCLUDE AND LOAD JAVASCRIPT FILES FOR GENTELELLA'S ENABLED PLUGINS -->
+    <!-- ------------------------------------------------------------------ -->
+    <!-- Moment is required for more than one Gentelella's Plugin -->
+    <!-- <script src="{{gentelella.location}}/moment/min/moment-with-locales.min.js"></script> -->
+    {{gentelella_plugins_js|raw}}
+{% else %}
+    <!-- INCLUDE AND LOAD CSS STYLES FOR GENTELELLA'S ENABLED PLUGINS -->
+    <!-- ------------------------------------------------------------ -->
+    {{gentelella_plugins_css|raw}}
+{% endif %}
