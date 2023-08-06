@@ -2,7 +2,7 @@
     "environment": {
         "types": ["DEV", "TEST", "STAGE", "PRODUCTION"],
         "current": "DEV",
-        "simulated": "PRODUCTION_2"
+        "simulated": "STAGE"
     },
     "maintenance": false,
     "composer": true,
@@ -25,7 +25,7 @@
         "output": "log"
     },
     "cache": {
-        "enabled": true,
+        "enabled": false,
         "folder": ".cache"
     },
     "log": {

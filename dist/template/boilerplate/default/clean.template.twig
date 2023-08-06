@@ -19,7 +19,7 @@
 
 	<!-- START: STYLES -->
 {% block styles %}
-{% if boilerplate.settings.extensions.bootstrap.install %}
+{% if boilerplate.extensions.bootstrap.install %}
 {{ include("snippets/bootstrap-css.twig") }}
 {% endif %}
 {% endblock %}
@@ -42,10 +42,10 @@
 {# ------------------------------------- #}
 
     <!-- START: JAVASCRIPT files -->
-{% if boilerplate.settings.extensions.jquery.install %}
+{% if boilerplate.extensions.jquery.install %}
 {{ include('snippets/jquery.twig') }}
 {% endif %}
-{% if boilerplate.settings.extensions.bootstrap.install %}
+{% if boilerplate.extensions.bootstrap.install %}
 {{ include('snippets/bootstrap-js.twig') }}
 {% endif %}
 

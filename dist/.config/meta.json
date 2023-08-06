@@ -8,8 +8,7 @@
         "X-UA-Compatible": "IE=edge, chrome=1",
         "content-language": "en-us",
         "content-type": "text/html; charset=utf-8",
-        "expires": "43200",
-        "Permissions-Policy": "interest-cohort=()"
+        "expires": "43200"
     },
     "items": {
         "charset": "utf-8",

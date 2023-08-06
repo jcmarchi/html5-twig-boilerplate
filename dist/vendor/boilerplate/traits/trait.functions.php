@@ -290,7 +290,7 @@ trait functions {
 
         // NOTE & TODO: Must be retrofit for multiple files (loop needed)
 
-        $fileLocation = !$fileLocation ? self::$root . DS . self::$settings['config']['temp']['folder']  : $fileLocation ;
+        $fileLocation = !$fileLocation ? self::$root . DS . self::$core['settings']['temp']['folder']  : $fileLocation ;
         $fileName = $fileLocation . $fileName;
 
         return move_uploaded_file($_FILES['upload']['tmp_name'][0], $fileName);
@@ -312,7 +312,7 @@ trait functions {
 
         // NOTE & TODO: Must be retrofit to delete multiple files when $fileName is an array (loop needed)
 
-        $fileLocation = !$fileLocation ? self::$root . DS . self::$settings['config']['temp']['folder']  : $fileLocation ;
+        $fileLocation = !$fileLocation ? self::$root . DS . self::$core['settings']['temp']['folder']  : $fileLocation ;
 
         gc_collect_cycles(); // Required to free the resource and allow file to be "deletable"
         return unlink($fileLocation . $fileName);
@@ -333,7 +333,7 @@ trait functions {
     {
         if (empty($oldFileName) || empty($newFileName)) return false;
 
-        $fileLocation = !$fileLocation ? self::$root . DS . self::$settings['config']['temp']['folder'] : $fileLocation ;
+        $fileLocation = !$fileLocation ? self::$root . DS . self::$core['settings']['temp']['folder'] : $fileLocation ;
 
         gc_collect_cycles(); // Required to free the resources and allow file to be "renameable"
         return rename($fileLocation . $oldFileName , $fileLocation . $newFileName);
@@ -346,31 +346,36 @@ trait functions {
      * @param  string  $string  The value to be Encrypted or previously Encrypted Hash Decrypted
      * @param  string  $action  The action of encrypt or decrypt. Default = encrypt
      *
-     * @return string  Encrypted or Decrypted Hash depending on call
+     * @return mixed  Encrypted or Decrypted Hash depending on call
+     *                FALSE if failed or if operation is not defined.
      */
     public function hashfy($string, $action = 'encrypt')
     {
         /** Default Values */
-        $encrypt_method = isset(self::$settings['encryption']['method']) ? self::$settings['encryption']['method'] : "AES-256-CBC";
-        $secret_key = isset(self::$settings['encryption']['key']) ? self::$settings['encryption']['key'] : "AA74CDCC2BBRT935136HH7B63C27";
-        $secret_iv = isset(self::$settings['encryption']['secret']) ? self::$settings['encryption']['secret'] : "5fgf5HJ5g27";
-        $sha = isset(self::$settings['encryption']['sha']) ? self::$settings['encryption']['sha'] : "sha256";
-        // /** Default: "AES-256-CBC" */
-        // $encrypt_method = self::$settings['config']['hashfy']['method'];
-        // /** Default: "AA74CDCC2BBRT935136HH7B63C27" <- user defined private key */
-        // $secret_key = self::$settings['config']['hashfy']['key'];
-        // /** Default: "5fgf5HJ5g27" <- user defined secret key */
-        // $secret_iv = self::$settings['config']['hashfy']['secret'];
-        // $sha = self::$settings['config']['hashfy']['sha'];
+        $encrypt_mt = isset(self::$core['encryption']['method']) ? self::$core['encryption']['method'] : "AES-256-CBC";
+        $secret_usr = isset(self::$core['encryption']['secret']) ? self::$core['encryption']['secret'] : "5fgf5HJ5g27";
+        $secret_key = isset(self::$core['encryption']['key'])    ? self::$core['encryption']['key']    : "AA74CDCC2BBRT935136HH7B63C27";
+        $sha = isset(self::$core['encryption']['sha']) ? self::$core['encryption']['sha'] : "sha256";
+        $usr = substr(hash($sha, $secret_usr), 0, 16);
         $key = hash($sha, $secret_key);
-        /** sha256 is hash_hmac_algo */
-        $iv = substr(hash($sha, $secret_iv), 0, 16);
-        if ($action == 'encrypt') {
-            $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
-            $output = base64_encode($output);
-        } else if ($action == 'decrypt') {
-            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
-        }
+
+        /** Process Request */
+        switch ($action):
+            case 'encrypt':
+                $output = openssl_encrypt($string, $encrypt_mt, $key, 0, $usr);
+                $output = base64_encode($output);
+                break;
+
+            case 'decrypt':
+                $output = openssl_decrypt(base64_decode($string), $encrypt_mt, $key, 0, $usr);
+                break;
+
+            default:
+                $output = false;
+
+        endswitch;
+
+        /** Return Result */
         return $output;
     }
 

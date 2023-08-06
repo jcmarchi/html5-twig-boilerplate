@@ -30,16 +30,16 @@ class boilerplate {
     private static $mainClassInitialized = false;
 
     /** Public Static Datasets */
-    public static $settings    = [],
-                  $config      = [],
-                  $template    = [],
-                  $drive       = null,
-                  $base        = null,
-                  $root        = null,
-                  $url         = null,
-                  $uri         = null,
-                  $twig        = false,
-                  $me          = false;
+    public static $core     = [],
+                  $config   = [],
+                  $template = [],
+                  $drive    = null,
+                  $base     = null,
+                  $root     = null,
+                  $url      = null,
+                  $uri      = null,
+                  $twig     = false,
+                  $me       = false;
 
 
     /**
@@ -79,7 +79,7 @@ class boilerplate {
          * Set mainClass as Initialized and save received data
          */
         self::$mainClassInitialized = true;
-        self::$settings = $boilerplate;
+        self::$core = $boilerplate;
 
         /**
          * Define $root and $base for direct and relative calls,
@@ -88,8 +88,8 @@ class boilerplate {
          * The site ROOT must ALWAYS be based on the __DIR__
          * of the index.php file located in the root of the site.
          */
-        self::$root = self::$settings['location']['root'];
-        self::$base = str_replace(array('/', '\\'), DS, $_SERVER['DOCUMENT_ROOT']);
+        self::$root = self::$core['location']['root'];
+        self::$base = $this->fixSlashes( $_SERVER['DOCUMENT_ROOT'] );
 
         /**
          * Windows Protection for Drive Letters
@@ -97,8 +97,14 @@ class boilerplate {
         if (defined('PHP_WINDOWS_VERSION_MAJOR')):
             self::$drive = explode(":", self::$root)[0] . ":";
             self::$root  = explode(":", self::$root)[1];
-            self::$base  = rtrim(explode(":", self::$base)[1],'\\');
+            self::$base  = rtrim(explode(":", self::$base)[1], DS);
         endif;
+
+        /**
+         * Save URL/URI parts
+         */
+        self::$core['location']['_root'] = self::$root;
+        self::$core['location']['_base'] = self::$base;
 
         /**
          * Recursively loads all .json files from the /.config folder
@@ -113,17 +119,17 @@ class boilerplate {
         /**
          * Identify parts of the URL/URI to compose reference links for the template
          */
+
         /** Exposes custom Server PORT */
         $serverport = ($_SERVER["SERVER_PORT"] == 80 || $_SERVER["SERVER_PORT"] == 443) ? "" : ":" . $_SERVER["SERVER_PORT"];
         /** Build relative based (URI) on website root location (not URL page location). Correct slashes and clean double slashes. */
-        // $pathinside = str_replace('\\', "/", str_replace(self::$base, "", self::$root)) . "/";
         $pathinside = self::$root;
-        self::$uri  = ($_SERVER["SERVER_PORT"] == 80 || $_SERVER["SERVER_PORT"] == 443) ? "/" . $pathinside : str_replace('//', '/', $pathinside);
+        self::$uri  = ($_SERVER["SERVER_PORT"] == 80 || $_SERVER["SERVER_PORT"] == 443) ? "/" . $pathinside : $this->fixSlashes($pathinside);
         self::$uri  = self::$uri == "" ? '/' : self::$uri;
         /** Windows protection for empty base URI that result in "double-slashes". */
-        self::$uri  = str_replace('//', '/', self::$uri);
+        self::$uri  = $this->fixSlashes(self::$uri);
         /** Build the full Web Location (URL) for site resources based on website root location (not URL page location). */
-        self::$url  = rtrim("//" . str_replace('//', '/', $_SERVER['SERVER_NAME'] . $serverport . "/" . self::$uri), "/");
+        self::$url  = DS . DS . rtrim( $this->fixSlashes($_SERVER['SERVER_NAME'] . $serverport . "/" . self::$uri), DS );
         /** In Windows, we must put back the drive in self::$root and self::$base. */
         if (defined('PHP_WINDOWS_VERSION_MAJOR')):
             self::$root = self::$drive . self::$root;
@@ -144,13 +150,22 @@ class boilerplate {
      */
     public function initializeTemplate($templateName = false)
     {
+        /** Check for cache configuration and folder location of the Cache Folder */
+        $cache_folder = $this->fixSlashes(self::$root . DS . self::$config['settings']['cache']['folder']);
+        /** Check if Cache Folder is a real folder */
+        if (!is_dir($cache_folder)) $cache_folder = false;
+        /** If Cache is set as active, set Cache Folder location (or false if not) */
+        $cache  = self::$config['settings']['cache']['enabled']
+                ? $cache_folder
+                : false;
+
         /**
          * TWIG Environment Options defined in the site's configuration file.
          */
         self::$template['environment'] = array(
-          'cache'               => $this->fixSlashes(self::$config['config']['cache']['enabled'] ? self::$root . DS . self::$config['config']['cache']['folder'] : false),
-          'debug'               => self::$config['config']['debug']['enabled'],
-          'charset'             => (!empty(self::$config['config']['charset'])) ? self::$config['config']['charset'] : "UTF-8", // Default = 'UTF-8'
+          'cache'               => $cache,
+          'debug'               => self::$config['settings']['debug']['enabled'],
+          'charset'             => (!empty(self::$config['settings']['charset'])) ? self::$config['settings']['charset'] : "UTF-8", // Default = 'UTF-8'
           'base_template_class' => 'Twig_Template',   // Default = 'Twig_Template'
           'strict_variables'    => false,             // Default = false
           'autoescape'          => 'html',            // Default = 'html'
@@ -160,10 +175,10 @@ class boilerplate {
         /**
          * Set reference variables for templates in regards to important resources
          */
-        $path = self::$config['config']['twig']['fullpath'] ? self::$url . "/" : self::$uri;
+        $path = self::$config['settings']['twig']['fullpath'] ? self::$url . "/" : self::$uri;
         self::$template['path'] = [
-            'url'       => &self::$url,
-            'uri'       => &self::$uri,
+            'url'       => self::$url,
+            'uri'       => rtrim(self::$uri,DS),
             'template'  => $this->fixSlashes($path . "template"),
             'vendor'    => $this->fixSlashes($path . "vendor"),
             'assets'    => $this->fixSlashes($path . "assets"),
@@ -197,12 +212,12 @@ class boilerplate {
         /**
          * Properly discover and set template physical path
          */
-        if ($templateName && file_exists(self::$settings['location']['template'] . $templateName)):
-            $direct   = $this->fixSlashes(self::$settings['location']['template'] . $templateName);
-            $relative = $this->fixSlashes(self::$settings['location']['templ_rel'] . $templateName);
+        if ($templateName && file_exists(self::$core['location']['template'] . $templateName)):
+            $direct   = $this->fixSlashes(self::$core['location']['template'] . $templateName);
+            $relative = $this->fixSlashes(self::$core['location']['templ_rel'] . $templateName);
         else:
-            $direct   = self::$settings['location']['template']  . self::$config['config']['twig']['template'] . DS;
-            $relative = self::$settings['location']['templ_rel'] . self::$config['config']['twig']['template'] . DS;
+            $direct   = self::$core['location']['template']  . self::$config['settings']['twig']['template'] . DS;
+            $relative = self::$core['location']['templ_rel'] . self::$config['settings']['twig']['template'] . DS;
         endif;
 
         /**
@@ -220,7 +235,7 @@ class boilerplate {
             ],
             'requested' => [
                 'url'    => $this->fixSlashes( str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'] ) ),
-                'index'  => &self::$config['config']['index']
+                'index'  => &self::$config['settings']['index']
             ]
         ];
 
@@ -228,7 +243,7 @@ class boilerplate {
          * Check if Twig is physically installed.
          * Terminate and return FALSE if not.
          */
-        if (!is_dir(self::$settings['location']['vendor'] . "twig")) return false;
+        if (!is_dir(self::$core['location']['vendor'] . "twig")) return false;
 
         /**
          * Initialize (or override) Twig Template boilerplate.

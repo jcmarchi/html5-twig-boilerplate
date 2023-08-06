@@ -1,11 +1,11 @@
-{% if boilerplate.settings.extensions.jquery.local == true %}
+{% if boilerplate.extensions.jquery.local %}
     <!-- jQuery, local copy -->
     <script src="{{vendor}}/components/jquery/jquery.min.js"></script>
 {% else %}
     <!-- jQuery, via CDN + fallback to local copy if CDN fail -->
     <script
-        src="https://code.jquery.com/jquery-{{boilerplate.settings.extensions.jquery.version}}.min.js"
-        integrity="{{boilerplate.settings.extensions.jquery.integrity}}"
+        src="https://code.jquery.com/jquery-{{boilerplate.extensions.jquery.version}}.min.js"
+        integrity="{{boilerplate.extensions.jquery.integrity}}"
         crossorigin="anonymous"></script>
 
     <!-- Failsafe jQuery Loader - Local copy -->

@@ -46,19 +46,19 @@ LimitRequestBody 10240000
     # You can protect individual folder and/or files from being directly
     # accessed via URL using those rules. You may want to disable it
     # if you decide to use "Enrouter Enforcer" (see below).
-    RewriteRule ^pages/.+$ index.php [L,NE,QSA]
+    RewriteRule ^pages/.+$ dist/index.php [L,NE,QSA]
     # RewriteRule ^pages/boilerplate/.+$ index.php [L,NE,QSA]
-    RewriteRule ^pages/(common|private|public)/.+$ index.php [L,NE,QSA]
-    # RewriteRule ^pages/common/.+$ index.php [L,NE,QSA]
-    RewriteRule ^template/.+$ index.php [L,NE,QSA]
-    # RewriteRule ^vendor/.+$ index.php [L,NE,QSA]
-    RewriteRule ^app/.+$ index.php [L,NE,QSA]
-    RewriteRule ^\.accessible/.+$ index.php [L,NE,QSA]
-    RewriteRule ^\.config/.+$ index.php [L,NE,QSA]
-    RewriteRule ^\.cache/.+$ index.php [L,NE,QSA]
-    RewriteRule ^\.temp/.+$ index.php [L,NE,QSA]
-    RewriteRule ^\.log/.+$ index.php [L,NE,QSA]
-    RewriteRule ^\.sql/.+$ index.php [L,NE,QSA]
+    RewriteRule ^pages/(common|private|public)/.+$ dist/index.php [L,NE,QSA]
+    # RewriteRule ^pages/common/.+$ dist/index.php [L,NE,QSA]
+    RewriteRule ^template/.+$ dist/index.php [L,NE,QSA]
+    # RewriteRule ^vendor/.+$ dist/index.php [L,NE,QSA]
+    RewriteRule ^app/.+$ dist/index.php [L,NE,QSA]
+    RewriteRule ^\.accessible/.+$ dist/index.php [L,NE,QSA]
+    RewriteRule ^\.config/.+$ dist/index.php [L,NE,QSA]
+    RewriteRule ^\.cache/.+$ dist/index.php [L,NE,QSA]
+    RewriteRule ^\.temp/.+$ dist/index.php [L,NE,QSA]
+    RewriteRule ^\.log/.+$ dist/index.php [L,NE,QSA]
+    RewriteRule ^\.sql/.+$ dist/index.php [L,NE,QSA]
 
     # Conditional Redirect Rules:
     # ---------------------------
@@ -78,7 +78,7 @@ LimitRequestBody 10240000
     # the above "Conditional" and "Specific" Redirect Rules and
     # enables only the line below. It will force ALL requests
     # to be sent to the index.php on the root of your site.
-    RewriteRule ^.+$ %{base_folder} [L,NE,QSA]
+    RewriteRule ^.+$ dist/%{base_folder} [L,NE,QSA]
 
 </IfModule>
 

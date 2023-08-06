@@ -33,11 +33,11 @@ trait helpers {
         /**
          * Capture execution time ended and save it to $_.
          */
-        self::$settings['execution'] = microtime(true)-installer::$APPLICATION['start'];
+        self::$core['execution'] = microtime(true)-installer::$APPLICATION['start'];
 
         if (self::$twig):
-            /** Bring the contents of the Array self::$settings to $twig_vars['boilerplate'] */
-            $vars['boilerplate'] = self::$settings;
+            /** Bring the contents of the Array self::$core to $twig_vars['boilerplate'] */
+            $vars['boilerplate'] = self::$core;
             /** Bring the contents of the Array $_SERVER to $twig_vars['server'] */
             $vars['boilerplate']['server'] = !empty($_SERVER) ? $_SERVER : [];
             /** Bring the contents of the Array $_SESSION (if it exists) to $twig_vars['session'] */
@@ -145,10 +145,10 @@ trait helpers {
         if (empty($loc)) return false;
 
         /** Merge provided $ext Array with default verifiable extensions. */
-        $cnf_e = self::$config['config']['extensions']['allowed']; // Allowed extensions
-        $emp_e = self::$config['config']['extensions']['empty'] ? [''] : []; // Can we accept empty extension for files? :/
+        $cnf_e = self::$config['settings']['extensions']['allowed']; // Allowed extensions
+        $emp_e = self::$config['settings']['extensions']['empty'] ? [''] : []; // Can we accept empty extension for files? :/
         $ext_f = array_merge($cnf_e, $ext, $emp_e); // Merge everything
-        $def_n = self::$config['config']['extensions']['default']; // Set default extension in case no extension exists in the request
+        $def_n = self::$config['settings']['extensions']['default']; // Set default extension in case no extension exists in the request
 
         /** Breakdown requested URI to find $request */
         $request = $unqueried = explode('?', $_SERVER['REQUEST_URI'])[0]; // Remove Query String from URL
@@ -159,11 +159,16 @@ trait helpers {
         $isExtension = in_array($requestType, $ext_f);
         $request = pathinfo($request, PATHINFO_FILENAME);  // Get value of $request without the extension
 
-        /** SubPaths are NOT allowed ( why not? :/ ) */
-        // array_shift($middle);
-        // array_pop($middle);
-        // $middle = implode('/', $middle);
-        // if (!empty($middle)) return false;
+        /**
+         * SUB-FOLDERS ARE NOT ALLOWED!
+         * This code will force the analysis of the REQUEST to consider the URI location only (which is
+         * basically the root of teh site). It is done purposefully because sub-paths must be defined
+         * in the Array $loc, which can have a mix of different locations to be validated. This makes
+         * this function smaller, faster, and much more flexible. */
+        array_pop($middle);
+        $middle = strtolower( DS . implode('/', $middle) . DS );
+        $requri = strtolower( self::$uri );
+        if (strlen($middle) > strlen($requri)) return false;
 
         /**
          * Safeguard to identify the index file in the root folder.
@@ -189,7 +194,7 @@ trait helpers {
                 /** Check files based on $loc + $request + possible extensions */
                 // $localFile = $site::$drive . $site::$uri . $path . '/' . $request . $extension;
                 // $localFile = $site::$root . '/' . $path . '/' . $request . $extension;
-                $localFile = $this->fixSlashes(self::$settings['location']['root'] . '/' . $path . '/' . $request . $extension);
+                $localFile = $this->fixSlashes(self::$core['location']['root'] . '/' . $path . '/' . $request . $extension);
                 /** Check if file truly exists. Return the full file path plus file name and extension if it does */
                 if (file_exists($localFile)) return $localFile;
             endforeach;
@@ -228,7 +233,7 @@ trait helpers {
          * If $folder is empty, simply return the current Cache Folder
          * listed in the Boilerplate Configuration.
          */
-        if (empty($folder)) return self::$settings['config']['cache']['folder'];
+        if (empty($folder)) return self::$core['settings']['cache']['folder'];
 
         /**
          * If $folder is a non-empty string, check if it is a valid local folder.
@@ -241,9 +246,9 @@ trait helpers {
          * and enable the TWIG Cache functionality to use the new folder then
          * terminate returning true to flag operation success.
          */
-        self::$settings['config']['cache']['folder']  = $folder;
-        self::$settings['config']['cache']['enabled'] = true;
-        self::$settings['location']['cache'] = self::$root . $folder;
+        self::$core['settings']['cache']['folder']  = $folder;
+        self::$core['settings']['cache']['enabled'] = true;
+        self::$core['location']['cache'] = self::$root . $folder;
         self::$twig->setCache(self::$root . $folder);
         return true;
     }
@@ -255,7 +260,7 @@ trait helpers {
      * This function will respond with the current status of the TWIG Cache
      * function, or will try to enable/disable the TWIG Cache function.
      *
-     * Will check if self::$settings['config']['cache']['folder'] is valid
+     * Will check if self::$core['settings']['cache']['folder'] is valid
      * before enabling the Cache.
      *
      * @param   mixed  $status  NULL (default) will respond with the current
@@ -269,13 +274,13 @@ trait helpers {
     public function cacheStatus($status = null)
     {
         /** Is $status is not present (or NULL) simply return the current Cache Status */
-        if ($status === null) return self::$settings['config']['cache']['enabled'];
+        if ($status === null) return self::$core['settings']['cache']['enabled'];
 
         /**
          * If $status is TRUE, get current Cache Folder from Boilerplate configuration
          * and try to enable Caching functionality. Return result to caller.
          */
-        $current_cache_folder = self::$settings['config']['cache']['folder'];
+        $current_cache_folder = self::$core['settings']['cache']['folder'];
         if ($status === true) return $this->cacheFolder($current_cache_folder);
 
         /**
@@ -284,7 +289,7 @@ trait helpers {
          * configuration untouched. Return TRUE.
          */
         if ($status === false):
-            self::$settings['config']['cache']['enabled'] = $status;
+            self::$core['settings']['cache']['enabled'] = $status;
             self::$twig->setCache($status);
             return true;
         endif;
@@ -323,7 +328,7 @@ trait helpers {
     public function emptyCache($status = null)
     {
         /** Get current Cache Folder from Boilerplate configuration */
-        $cache_folder = self::$settings['location']['cache'];
+        $cache_folder = self::$core['location']['cache'];
 
         /** If Cache Folder is not a valid local folder, terminate and flag error */
         if (!is_dir($cache_folder)) return false;

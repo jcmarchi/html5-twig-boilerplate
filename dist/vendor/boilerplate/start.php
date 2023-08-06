@@ -37,9 +37,9 @@ $installer = new installer;
 /**
  * Execute Installer first steps
  */
-$installer::$APPLICATION['start']   = microtime(true);
-$installer::$APPLICATION['basedir'] = __DIR__;
-$installer::$APPLICATION['root']    = $installer::fixSlashes(dirname(dirname(realpath(__DIR__))) . DIRECTORY_SEPARATOR);
+$installer::$APPLICATION['start'] = microtime(true);
+$installer::$APPLICATION['mbvfl'] = __DIR__; // "mbvfl" stands for "MOODFIRED Boilerplate VENDOR Folder Location" :P
+$installer::$APPLICATION['root']  = $installer::fixSlashes(dirname(dirname(realpath(__DIR__))) . DIRECTORY_SEPARATOR);
 if ( ! $installer->initializeDefaults()  ) $installer::error(0);
 if ( ! $installer->initializeVariables() ) $installer::error(1);
 
@@ -60,6 +60,8 @@ define('APP'        , $installer::$BOILERPLATE['location']['app']);
 define('SET'        , $installer::$BOILERPLATE['location']['set']);
 define('ROOT'       , $installer::$BOILERPLATE['location']['root']);
 define('CONFIG'     , $installer::$BOILERPLATE['location']['config']);
+define('VENDOR'     , $installer::$BOILERPLATE['location']['vendor']);
+define('TEMPLATE'   , $installer::$BOILERPLATE['location']['template']);
 define('SETUP'      , $installer::$BOILERPLATE['location']['set'] . $installer::$APPLICATION['set']);
 define('APPLICATION', $installer::$BOILERPLATE['location']['app'] . $installer::$APPLICATION['app']);
 define('AUTORENDER' , isset($AUTORENDER) ?? $DEFAULT_AUTORENDER);
@@ -96,10 +98,10 @@ if (file_exists(SETUP)) require_once SETUP;
  * Confused about our "code indentation"? Look closer and notice how easier
  * to interpret it whe when you understand how the logic is applied. :)
  */
-$possible_environment = (isset(boilerplate::$config['config']['environment']['current']) && !empty(boilerplate::$config['config']['environment']['current']))
-                      ? strtoupper(boilerplate::$config['config']['environment']['current'])
+$possible_environment = (isset(boilerplate::$config['settings']['environment']['current']) && !empty(boilerplate::$config['settings']['environment']['current']))
+                      ? strtoupper(boilerplate::$config['settings']['environment']['current'])
                       : 'TEST';
-define('ENVIRONMENT', in_array($possible_environment, boilerplate::$config['config']['environment']['types'])
+define('ENVIRONMENT', in_array($possible_environment, boilerplate::$config['settings']['environment']['types'])
                       ? $possible_environment
                       : 'TEST');
 
@@ -107,8 +109,8 @@ define('ENVIRONMENT', in_array($possible_environment, boilerplate::$config['conf
  * Set Error Reporting based on Environment and respecting the Configuration File.
  * For PRODUCTION environment, all error reporting gets fully disabled.
  */
-error_reporting( ((ENVIRONMENT == 'PRODUCTION') ? 0 : boilerplate::$config['config']['debug']['error_reporting']));
-ini_set("error_reporting", ((ENVIRONMENT == 'PRODUCTION') ? 0 : boilerplate::$config['config']['debug']['error_reporting']));
+error_reporting( ((ENVIRONMENT == 'PRODUCTION') ? 0 : boilerplate::$config['settings']['debug']['error_reporting']));
+ini_set("error_reporting", ((ENVIRONMENT == 'PRODUCTION') ? 0 : boilerplate::$config['settings']['debug']['error_reporting']));
 
 /**
  * Define Default DEBUG Status based on pre-defined $DEBUG variable.
@@ -117,27 +119,27 @@ ini_set("error_reporting", ((ENVIRONMENT == 'PRODUCTION') ? 0 : boilerplate::$co
  * and the default value.
  */
 if (ENVIRONMENT == 'PRODUCTION'):
-    boilerplate::$config['config']['debug']['enabled'] = $DEBUG = false;
+    boilerplate::$config['settings']['debug']['enabled'] = $DEBUG = false;
 
 else:
     /**
      * First check if debug has been set in the configuration file.
      * If YES, remember it. Otherwise, remember the value of the $installer->DEFAULT_DEBUG
      */
-    $DEBUG_SYS = isset(boilerplate::$config['config']['debug']['enabled'])
-               ? boilerplate::$config['config']['debug']['enabled']
+    $DEBUG_SYS = isset(boilerplate::$config['settings']['debug']['enabled'])
+               ? boilerplate::$config['settings']['debug']['enabled']
                : $installer->DEFAULT_DEBUG;
     /**
      * Then, check if the variable $DEBUG has been set.
      * If NOT, use it the previous identified DEBUG flag, otherwise, override it.
      */
-    boilerplate::$config['config']['debug']['enabled'] = isset($DEBUG) ? $DEBUG : $DEBUG_SYS;
+    boilerplate::$config['settings']['debug']['enabled'] = isset($DEBUG) ? $DEBUG : $DEBUG_SYS;
 endif;
 
 /**
  * Initialize and load COMPOSER Objects
  */
-if (isset(boilerplate::$config['config']['composer']) && boilerplate::$config['config']['composer']):
+if (isset(boilerplate::$config['settings']['composer']) && boilerplate::$config['settings']['composer']):
     /**
      * It is "crazy" but PHP has a BUG in its language model related to
      * "Alternative Syntax for control structures" where a nested if:->else:->endif;
@@ -164,7 +166,7 @@ If (!defined('COMPOSER')) define('COMPOSER', false);
  * Will set the constant TWIG to TRUE if Twig is installed, or as FALSE otherwise.
  * If Twig is present and successfully initialized, also point $twig to the Twig Object.
  */
-if (isset(boilerplate::$config['config']['twig']['install']) && boilerplate::$config['config']['twig']['install'] && COMPOSER):
+if (isset(boilerplate::$config['settings']['twig']['install']) && boilerplate::$config['settings']['twig']['install'] && COMPOSER):
     /** Set initialize Twig and set status as a result of the initialization */
     define('TWIG', ${boilerplate::$me}->initializeTemplate() );
     /** Point $twig to the Twig Object (pure convenience) */
@@ -179,8 +181,8 @@ endif;
 /**
  * Define Maintenance Mode
  */
-if (isset(boilerplate::$config['config']['maintenance'])):
-    define('MAINTENANCE', boilerplate::$config['config']['maintenance']);
+if (isset(boilerplate::$config['settings']['maintenance'])):
+    define('MAINTENANCE', boilerplate::$config['settings']['maintenance']);
 
 else:
     define('MAINTENANCE', false);
@@ -201,16 +203,16 @@ $installer->completeInstallation();
 /**
  * Create two Global Variables: '$_' and '$_BOILERPLATE'.
  * Both are set to as "aliases", via reference (pointer),
- * for the contents of the (Static) boilerplate::$settings Array Data.
+ * for the contents of the (Static) boilerplate::$core Array Data.
  */
-$_ = $_BOILERPLATE = &boilerplate::$settings;
+$_ = $_BOILERPLATE = &boilerplate::$core;
 
 /**
  * And, in the spirit of preserving RAM and keeping the software "clean', we
  * disposable some of the variables we certainly don't need beyond this point.
  * Welcome to the most basic concept of "Garbage Collection".
  */
-unset($installer, $ROOT, $OBJECT, $VENDOR, $CONFIG, $DEBUG, $TEMPLATE, $TEMPLATE_RELATIVE, $APP_FILE, $APP_FOLDER, $SET_FILE, $SET_FOLDER);
+unset($installer, $ROOT, $OBJECT, $VENDOR, $CONFIG, $DEBUG, $DEBUG_SYS, $TEMPLATE, $TEMPLATE_RELATIVE, $APP_FILE, $APP_FOLDER, $SET_FILE, $SET_FOLDER);
 
 /**
  * Time to load the APP. The path is defined in $DEFAULT_SET_FOLDER and the

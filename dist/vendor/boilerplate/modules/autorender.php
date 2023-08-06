@@ -90,7 +90,7 @@ endif;
 * message below should NEVER be displayed. It only exists as a safeguard.
 */
 if (defined('TWIG') && TWIG):
-    require_once(boilerplate::$BOILERPLATE['location']['app'] . "pages". DS . $folder . DS . boilerplate::$config['config']['twig'][$index]);
+    require_once(boilerplate::$BOILERPLATE['location']['app'] . "pages". DS . $folder . DS . boilerplate::$config['settings']['twig'][$index]);
 
 elseif (isset(boilerplate::$config['static'][$index]) && file_exists(boilerplate::$BOILERPLATE['location']['app'] . "pages" .  DS . "static" . DS . boilerplate::$config['static'][$index])):
     echo file_get_contents(boilerplate::$BOILERPLATE['location']['app'] . "pages" . DS . "static" . DS . boilerplate::$config['static'][$index]);

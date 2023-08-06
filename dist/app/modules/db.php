@@ -21,7 +21,7 @@
 
 /**
  * All are the same Array:
- *    boilerplate::$settings['databases']
+ *    boilerplate::$core['databases']
  *    $_BOILERPLATE['databases']
  *    $_['databases']
  */

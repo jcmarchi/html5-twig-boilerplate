@@ -1,0 +1,32 @@
+Project Notes
+================
+
+PROBLEM A:
+-------------
+The Plugin "jquery.mCustomScrollbar.js" located at "/gentelella/vendors/malihu-custom-scrollbar-plugin/"
+has a problem in the line 2400, requiring it to be changed from:
+
+    $(window).load(function(){
+
+to:
+
+    $(window).on("load",function() {
+
+
+PROBLEM B:
+-------------
+The provided "JQVMap" has a problem in the "jquery.vmap.js" file, located at "/gentelella/vendors/jqvmap/dist/".
+If you encounter an error saying "TypeError: this.countries[d].setFill is not a function" and some of the
+page charts fail to display in the page as a result of it, you may need to modify the unminified version
+and replace the line 938 where it reads:
+
+    if (this.countries[code]) {
+
+with the following:
+
+    if (this.countries.hasOwnProperty(code)) {
+
+Notice this plugin (the JQVMap) is a heavily modified version of jVectorMap, from 2012.
+
+The version currently in this demo is 1.5.1, which is still the same active version in the official repository,
+and the same problem is still present in the current version, just in the line 946.

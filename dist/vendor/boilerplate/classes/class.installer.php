@@ -96,7 +96,7 @@ class installer {
         /** The Boilerplate vendor's folder */
         self::$BOILERPLATE['location']['boilerplate'] = self::fixSlashes( self::$BOILERPLATE['location']['vendor'] . "boilerplate" . DIRECTORY_SEPARATOR );
         /** Load the HTML5—Twig Boilerplate Signature */
-        $file = new \SplFileObject( self::$APPLICATION['basedir'] . DIRECTORY_SEPARATOR . ".boilerplate", "r" );
+        $file = new \SplFileObject( self::$APPLICATION['mbvfl'] . DIRECTORY_SEPARATOR . ".boilerplate", "r" );
         $file->setFlags(\SplFileObject::READ_CSV);
         foreach ($file as $row):
             list($key, $value) = $row;
@@ -118,14 +118,14 @@ class installer {
      * in perfect order and harmony.
      *
      * There is why we have this "extra step" (yeah, you can call it hack, or lazy coding)
-     * that combines all relevant data in a single Array, the 'boilerplate::$settings'.
+     * that combines all relevant data in a single Array, the 'boilerplate::$core'.
      *
      * The we link it by reference (the PHP pointer using "&") to make it accessible to
      * the global scope requiring less writing and absolutely no additional RAM.
      *
      * Ultimately, if there is something relevant a code based on BOILERPLATE needs, it
      * will certainly be found in the $_ or $_BOILERPLATE Global Variables, onr in the
-     * boilerplate::$settings Static Array.
+     * boilerplate::$core Static Array.
      *
      * P.S.: Yeah, sorry for a few redundancies in some of the sub-arrays (we are aware
      *       of it, but we strongly believe you and your application can survive it!).
@@ -139,28 +139,16 @@ class installer {
          * set to Production, which will be invaluable for your day-to-day
          * coding needs. You are welcome!
          */
-        boilerplate::$settings['environment']           = &boilerplate::$config['config']['environment'];
-        boilerplate::$settings['template']              = &boilerplate::$template;
-        boilerplate::$settings['access']                = &boilerplate::$template['access'];
-        boilerplate::$settings['path']                  = &boilerplate::$template['path'];
-        boilerplate::$settings['location']['root']      = &boilerplate::$root;
-        boilerplate::$settings['location']['cache']     =  boilerplate::$root . boilerplate::$config['config']['cache']['folder'] . DS;
-        boilerplate::$settings['location']['drive']     = &boilerplate::$drive;
-        boilerplate::$settings['databases']             = &boilerplate::$config['databases'];
-        boilerplate::$settings['config']['maintenance'] = &boilerplate::$config['config']['maintenance'];
-        boilerplate::$settings['config']['composer']    = &boilerplate::$config['config']['composer'];
-        boilerplate::$settings['config']['twig']        = &boilerplate::$config['config']['twig'];
-        boilerplate::$settings['config']['debug']       = &boilerplate::$config['config']['debug'];
-        boilerplate::$settings['config']['cache']       = &boilerplate::$config['config']['cache'];
-        boilerplate::$settings['config']['log']         = &boilerplate::$config['config']['log'];
-        boilerplate::$settings['config']['timezone']    = &boilerplate::$config['config']['timezone'];
-        boilerplate::$settings['config']['country']     = &boilerplate::$config['config']['country'];
-        boilerplate::$settings['config']['language']    = &boilerplate::$config['config']['language'];
-        boilerplate::$settings['config']['charset']     = &boilerplate::$config['config']['charset'];
-        boilerplate::$settings['config']['index']       = &boilerplate::$config['config']['index'];
-        boilerplate::$settings['config']['extensions']  = &boilerplate::$config['config']['extensions'];
-        boilerplate::$settings['settings']              = &boilerplate::$config;
-        boilerplate::$settings['CONSTANTS']             = &get_defined_constants(true)['user'];
+        boilerplate::$core = array_merge(boilerplate::$core, boilerplate::$config);
+        boilerplate::$core['settings']['twig']['environment'] = &boilerplate::$template['environment'];
+        boilerplate::$core['environment']       = &boilerplate::$config['settings']['environment'];
+        boilerplate::$core['environment']       = &boilerplate::$config['settings']['environment'];
+        boilerplate::$core['access']            = &boilerplate::$template['access'];
+        boilerplate::$core['path']              = &boilerplate::$template['path'];
+        boilerplate::$core['location']['root']  = &boilerplate::$root;
+        boilerplate::$core['location']['cache'] =  boilerplate::$root . boilerplate::$config['settings']['cache']['folder'] . DS;
+        boilerplate::$core['location']['drive'] = &boilerplate::$drive;
+        boilerplate::$core['CONSTANTS']         = &get_defined_constants(true)['user'];
 
         /** Return true for convention only */
         return true;

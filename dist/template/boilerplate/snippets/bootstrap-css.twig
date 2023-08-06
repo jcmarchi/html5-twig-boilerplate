@@ -16,14 +16,14 @@ uncomment the two <meta> lines below:
 {#   <meta charset="utf-8"> #}
 {#   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> #}
 
-{% if boilerplate.settings.extensions.bootstrap.install %}
+{% if boilerplate.extensions.bootstrap.install %}
     <!-- Bootstrap Local (via COMPOSER) -->
     <link href="{{vendor}}/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 {% else %}
     <!-- Bootstrap's CSS file (via CDN) -->
     <link
-        href="https://stackpath.bootstrapcdn.com/bootstrap/{{boilerplate.settings.extensions.bootstrap.version}}/css/bootstrap.min.css"
-        integrity="{{boilerplate.settings.extensions.bootstrap.css_integrity}}"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/{{boilerplate.extensions.bootstrap.version}}/css/bootstrap.min.css"
+        integrity="{{boilerplate.extensions.bootstrap.css_integrity}}"
         crossorigin="anonymous"
         rel="stylesheet">
 {% endif %}

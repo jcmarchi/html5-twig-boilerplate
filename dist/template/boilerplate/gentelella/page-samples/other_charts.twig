@@ -32,7 +32,7 @@
 %}
 
 {# Don't forget to set the <title> of your page. #}
-{% block title %}Other Charts | {{boilerplate.settings.software.sitename}}{% endblock %}
+{% block title %}Other Charts | {{boilerplate.software.sitename}}{% endblock %}
 
 {# If you need to add anything to the <body> Tag itself, this is the place to do it: #}
 {% block BODYTAG %}class="nav-md  {% if gentelella.fixed.footer %}footer_fixed{% endif %}" {{ parent() }}{% endblock %}
@@ -135,9 +135,9 @@
                           <div style="border: 1px solid #d4e5ed; border-radius: 7px; padding: 15px 15px; margin-top: 30px;}">
                             <h4><b style="color:red; text-decoration:underline;">IMPORTANT:</b></h4>
                             <p>The provided <strong>JQVMap</strong> has a problem in the <kbd>jquery.vmap.js</kbd> file, located at <code>/gentelella/vendors/jqvmap/dist/</code>.
-                            If you ecounter an error saying "<code><b>TypeError: this.countries[d].setFill is not a function</b></code>" and some
+                            If you encounter an error saying "<code><b>TypeError: this.countries[d].setFill is not a function</b></code>" and some
                             of the page charts fail to display in the page as a result of it, you may need to modify the
-                            unminified version and replace the line <b>938</b> where it reads:</p>
+                            <i>unminified</i> version and replace the line <b>938</b> where it reads:</p>
                             <div style="font-family: monospace; color: #187f8b; margin: 0 0 15px 30px;">
                                 if (this.countries[code]) {
                             </div>

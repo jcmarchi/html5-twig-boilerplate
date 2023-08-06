@@ -63,4 +63,4 @@ $result = ${\boilerplate\boilerplate::$me}->renderPage('maintenance');
  * to another page, handling it as an error, or anything else your software requires in terms
  * of operational flow. This file is not overwritten in cases of BOILERPLATE Updates.
  */
-if (!$result) echo "Welcome to the Boilerplate Website.";
+if (!$result) echo "Welcome to the Boilerplate Website. This website is in maintenance.";
